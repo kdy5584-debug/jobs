@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>나의 가치관 이상형 월드컵 - 6학년 진로 프로젝트</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    :root {
+      --blue: #2563eb;
+      --blue-light: #dbeafe;
+      --blue-dark: #1e40af;
+      --purple: #7c3aed;
+      --purple-light: #ede9fe;
+      --purple-dark: #5b21b6;
+      --teal: #0d9488;
+      --amber: #f59e0b;
+      --rose: #e11d48;
+      --bg: #f1f5f9;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Pretendard', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+      background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 50%, #f0fdfa 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 상단 네비게이션 헤더 */
+    .app-header {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #e2e8f0;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      font-size: 1.2rem;
+      color: #0f172a;
+      cursor: pointer;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: white;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-sm {
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn-sm:hover:not(:disabled) {
+      background: #e2e8f0;
+    }
+
+    .btn-sm:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    /* 메인 컨테이너 */
+    .container {
+      flex: 1;
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .screen {
+      display: none;
+      animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 홈 화면 */
+    .hero-box {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .hero-box h1 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+      color: #0f172a;
+    }
+
+    .hero-box p {
+      font-size: 1.15rem;
+      color: var(--text-sub);
+      font-weight: 500;
+    }
+
+    .mode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .mode-card {
+      background: white;
+      border-radius: 24px;
+      padding: 28px;
+      border: 3px solid #e2e8f0;
+      box-shadow: 0 12px 24px -6px rgba(15, 23, 42, 0.06);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mode-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .mode-card.job-card { border-color: #93c5fd; }
+    .mode-card.life-card { border-color: #c4b5fd; }
+    .mode-card.combine-card { border-color: #6ee7b7; background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%); }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      width: fit-content;
+      margin-bottom: 14px;
+    }
+
+    .pill-blue { background: var(--blue-light); color: var(--blue-dark); }
+    .pill-purple { background: var(--purple-light); color: var(--purple-dark); }
+    .pill-teal { background: #d1fae5; color: #065f46; }
+
+    .mode-title {
+      font-size: 1.6rem;
+      font-weight: 900;
+      margin-bottom: 8px;
+      color: #0f172a;
+    }
+
+    .mode-desc {
+      font-size: 1rem;
+      color: #475569;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .saved-preview {
+      background: #f8fafc;
+      border: 1.5px dashed #cbd5e1;
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      font-size: 0.92rem;
+      color: #334155;
+    }
+
+    .btn-main {
+      width: 100%;
+      padding: 15px 20px;
+      border-radius: 16px;
+      border: none;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-blue { background: var(--blue); box-shadow: 0 8px 16px -4px rgba(37, 99, 235, 0.35); }
+    .btn-blue:hover { background: var(--blue-dark); }
+
+    .btn-purple { background: var(--purple); box-shadow: 0 8px 16px -4px rgba(124, 58, 237, 0.35); }
+    .btn-purple:hover { background: var(--purple-dark); }
+
+    .btn-teal { background: var(--teal); box-shadow: 0 8px 16px -4px rgba(13, 148, 136, 0.35); }
+    .btn-teal:hover { background: #0f766e; }
+
+    /* 대결(배틀) 화면 */
+    .battle-top {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .round-badge {
+      display: inline-block;
+      background: #0f172a;
+      color: #fbbf24;
+      font-weight: 900;
+      font-size: 1.05rem;
+      padding: 7px 20px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .battle-question {
+      font-size: 1.65rem;
+      font-weight: 900;
+      color: #0f172a;
+      margin-bottom: 12px;
+    }
+
+    .progress-bar-wrap {
+      max-width: 500px;
+      margin: 0 auto;
+      background: #e2e8f0;
+      height: 10px;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--purple));
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .arena {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 20px;
+      align-items: stretch;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 760px) {
+      .arena {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .vs-circle {
+        margin: -6px auto !important;
+        width: 48px !important;
+        height: 48px !important;
+        font-size: 1.2rem !important;
+      }
+    }
+
+    .fighter-card {
+      background: white;
+      border: 3.5px solid #cbd5e1;
+      border-radius: 26px;
+      padding: 30px 26px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      justify-content: space-between;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 15px 30px -10px rgba(15, 23, 42, 0.08);
+      position: relative;
+    }
+
+    .fighter-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      border-color: var(--blue);
+      box-shadow: 0 22px 35px -10px rgba(37, 99, 235, 0.2);
+    }
+
+    .fighter-card:active {
+      transform: scale(0.98);
+    }
+
+    .fighter-card.choosing {
+      border-color: #f59e0b;
+      background: #fffbeb;
+      transform: scale(1.03);
+    }
+
+    .side-tag {
+      font-size: 0.9rem;
+      font-weight: 800;
+      padding: 5px 14px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+
+    .tag-left { background: #dbeafe; color: #1d4ed8; }
+    .tag-right { background: #fce7f3; color: #be185d; }
+
+    .fighter-emoji {
+      font-size: 4.2rem;
+      margin-bottom: 10px;
+      line-height: 1.1;
+    }
+
+    .fighter-name {
+      font-size: 1.85rem;
+      font-weight: 900;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .fighter-short {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #475569;
+      margin-bottom: 18px;
+    }
+
+    .situation-box {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 18px;
+      padding: 16px 18px;
+      width: 100%;
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .situation-label {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #64748b;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .situation-text {
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: #1e293b;
+      line-height: 1.48;
+      word-break: keep-all;
+    }
+
+    .phrase-preview {
+      background: #eff6ff;
+      color: #1e40af;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      width: 100%;
+    }
+
+    .vs-circle {
+      align-self: center;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #0f172a;
+      color: #fbbf24;
+      font-weight: 900;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+      z-index: 2;
+    }
+
+    /* 결과 화면 */
+    .result-card {
+      background: white;
+      border-radius: 28px;
+      border: 3px solid #e2e8f0;
+      padding: 32px;
+      box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.1);
+    }
+
+    .winner-banner {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: white;
+      border-radius: 22px;
+      padding: 28px;
+      text-align: center;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .rank-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .rank-box {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .rank-box.rank-1 {
+      background: #fefce8;
+      border-color: #fde047;
+    }
+
+    .rank-box.rank-2 {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    /* 입력 폼 스타일 */
+    .form-section {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 640px) {
+      .form-grid { grid-template-columns: 1fr; }
+    }
+
+    .field-label {
+      display: block;
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+
+    .field-input, .field-textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0f172a;
+      background: white;
+    }
+
+    .field-input:focus, .field-textarea:focus {
+      outline: none;
+      border-color: var(--blue);
+    }
+
+    .dream-preview-banner {
+      background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%);
+      border: 2.5px solid #a78bfa;
+      border-radius: 18px;
+      padding: 20px;
+      text-align: center;
+      margin-top: 14px;
+    }
+
+    /* 예시 문장 3개 추천 박스 */
+    .example-box {
+      background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%);
+      border: 2px dashed #8b5cf6;
+      border-radius: 18px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+    }
+
+    .example-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .example-title {
+      font-size: 0.96rem;
+      font-weight: 800;
+      color: #4c1d95;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-refresh-examples {
+      background: #6d28d9;
+      color: #ffffff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 10px rgba(109, 40, 217, 0.2);
+    }
+
+    .btn-refresh-examples:hover {
+      background: #5b21b6;
+      transform: translateY(-1px);
+    }
+
+    .btn-refresh-examples:active {
+      transform: scale(0.97);
+    }
+
+    .example-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .example-item {
+      background: #ffffff;
+      border: 2px solid #ddd6fe;
+      border-radius: 13px;
+      padding: 12px 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: all 0.18s;
+      text-align: left;
+    }
+
+    .example-item:hover {
+      border-color: #7c3aed;
+      background: #faf5ff;
+      transform: translateX(3px);
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.12);
+    }
+
+    .example-item.selected {
+      border-color: #6d28d9;
+      background: #f3e8ff;
+    }
+
+    .example-text {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1e293b;
+      line-height: 1.45;
+      word-break: keep-all;
+    }
+
+    .example-pick-badge {
+      flex-shrink: 0;
+      background: #ede9fe;
+      color: #6d28d9;
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .example-item:hover .example-pick-badge {
+      background: #6d28d9;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 상단 바 -->
+  <header class="app-header">
+    <div class="brand" onclick="goHome()">
+      <span class="brand-badge">6학년 진로 프로젝트</span>
+      <span>🏆 나의 가치관 이상형 월드컵</span>
+    </div>
+    <div class="header-actions">
+      <button id="undoBattleBtn" class="btn-sm" onclick="undoLastChoice()" style="display:none;" disabled>
+        ↩ 방금 선택 되돌리기
+      </button>
+      <button class="btn-sm" onclick="goHome()">🏠 처음으로</button>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ==========================================
+         화면 1: 홈 화면 (1부 직업가치관 / 2부 인생가치관 / 3부 합체 카드)
+         ========================================== -->
+    <section id="screenHome" class="screen active">
+      <div class="hero-box">
+        <h1>💎 나의 가치관 이상형 월드컵</h1>
+        <p>둘 중 내 마음이 더 끌리는 카드를 골라, 내가 가장 추구하는 가치관과 꿈 수식어를 찾아보세요!</p>
+      </div>
+
+      <div class="mode-grid">
+        <!-- 1부: 직업가치관 월드컵 -->
+        <div class="mode-card job-card">
+          <div>
+            <span class="status-pill pill-blue">STEP 1 · 2단계 수업 활동</span>
+            <h2 class="mode-title">💙 직업가치관 월드컵</h2>
+            <p class="mode-desc">
+              "나는 <strong>어떤 조건과 방식</strong>으로 일할 때 가장 즐겁고 빛날까?"<br>
+              일할 때 중요하게 생각하는 나의 기준 Top 4를 찾아요!
+            </p>
+            <div id="homeJobStatus" class="saved-preview">
+              아직 진행하지 않았어요. (16강 토너먼트 · 15번 선택)
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <button class="btn-main btn-blue" onclick="startTournament('job', 16)">
+              🚀 직업가치관 16강 시작하기
+            </button>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-sm" style="flex:1; justify-content:center;" onclick="startTournament('job', 8)">⚡ 빠른 8강으로 하기</button>
+              <button id="btnViewJobRes" class="btn-sm" style="flex:1; justify-content:center; display:none;" onclick="showSingleResult('job')">📊 내 결과 다시 보기</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2부: 인생가치관 월드컵 -->
+        <div class="mode-card life-card">
+          <div>
+            <span class="status-pill pill-purple">STEP 2 · 3단계 수업 활동</span>
+            <h2 class="mode-title">💜 인생가치관 월드컵</h2>
+            <p class="mode-desc">
+              "나는 내 삶과 직업을 통해 <strong>세상에 어떤 가치</strong>를 선물하고 싶을까?"<br>
+              내 삶의 나침반이 되어줄 인생가치관 Top 4를 찾아요!
+            </p>
+            <div id="homeLifeStatus" class="saved-preview">
+              아직 진행하지 않았어요. (16강 토너먼트 · 15번 선택)
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <button class="btn-main btn-purple" onclick="startTournament('life', 16)">
+              🌟 인생가치관 16강 시작하기
+            </button>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-sm" style="flex:1; justify-content:center;" onclick="startTournament('life', 8)">⚡ 빠른 8강으로 하기</button>
+              <button id="btnViewLifeRes" class="btn-sm" style="flex:1; justify-content:center; display:none;" onclick="showSingleResult('life')">📊 내 결과 다시 보기</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3부: 두 가치관 합체 & 결과 카드 만들기 -->
+        <div class="mode-card combine-card">
+          <div>
+            <span class="status-pill pill-teal">STEP 3 · 최종 꿈 문장 & 이미지 저장</span>
+            <h2 class="mode-title">✨ 가치관 합체 & 꿈 선언 카드</h2>
+            <p class="mode-desc">
+              <strong>[직업가치관] + [인생가치관]</strong> 결과를 하나로 합쳐서<br>
+              나만의 멋진 꿈 수식어를 완성하고 패드에 이미지로 저장해요!
+            </p>
+            <div id="homeCombineStatus" class="saved-preview">
+              직업가치관과 인생가치관 월드컵을 마친 뒤 열어보세요! (바로 열어서 직접 고를 수도 있어요)
+            </div>
+          </div>
+          <button class="btn-main btn-teal" onclick="openCombinedScreen()">
+            🎨 나의 가치관 & 꿈 결과 카드 만들기
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         화면 2: 1:1 월드컵 대결 화면
+         ========================================== -->
+    <section id="screenBattle" class="screen">
+      <div class="battle-top">
+        <div id="roundBadge" class="round-badge">🏆 16강 (1 / 8)</div>
+        <h2 id="battleQuestion" class="battle-question">두 가지 모습 중 내 마음이 더 끌리는 쪽을 터치하세요!</h2>
+        <div class="progress-bar-wrap">
+          <div id="battleProgress" class="progress-bar-fill"></div>
+        </div>
+      </div>
+
+      <div class="arena">
+        <!-- 왼쪽 후보 A -->
+        <div id="cardLeft" class="fighter-card" onclick="pickFighter(0)">
+          <div style="width:100%;">
+            <span class="side-tag tag-left">선택 A</span>
+            <div id="leftEmoji" class="fighter-emoji">🦋</div>
+            <div id="leftName" class="fighter-name">자율성</div>
+            <div id="leftShort" class="fighter-short">내 생각과 방식대로 자유롭게 일하는 것</div>
+            <div class="situation-box" style="margin-bottom:0;">
+              <span class="situation-label">💭 이런 상황을 상상해 보세요!</span>
+              <p id="leftSituation" class="situation-text"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="vs-circle">VS</div>
+
+        <!-- 오른쪽 후보 B -->
+        <div id="cardRight" class="fighter-card" onclick="pickFighter(1)">
+          <div style="width:100%;">
+            <span class="side-tag tag-right">선택 B</span>
+            <div id="rightEmoji" class="fighter-emoji">🛡️</div>
+            <div id="rightName" class="fighter-name">안정성</div>
+            <div id="rightShort" class="fighter-short">걱정 없이 오랫동안 꾸준히 일하는 것</div>
+            <div class="situation-box" style="margin-bottom:0;">
+              <span class="situation-label">💭 이런 상황을 상상해 보세요!</span>
+              <p id="rightSituation" class="situation-text"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         화면 3: 단일 월드컵 완료 결과 화면 (Top 4 표시)
+         ========================================== -->
+    <section id="screenSingleResult" class="screen">
+      <div class="result-card">
+        <div id="singleWinnerBanner" class="winner-banner">
+          <div style="font-size:0.95rem; color:#fbbf24; font-weight:800; margin-bottom:6px;" id="singleResTypeLabel">🏆 나의 직업가치관 월드컵 최종 우승!</div>
+          <div style="font-size:3.8rem; margin-bottom:6px;" id="singleWinnerEmoji">🦋</div>
+          <h2 style="font-size:2.3rem; font-weight:900; margin-bottom:8px;" id="singleWinnerName">자율성</h2>
+          <p style="font-size:1.15rem; color:#e2e8f0; margin-bottom:0;" id="singleWinnerDesc"></p>
+        </div>
+
+        <h3 style="font-size:1.3rem; font-weight:900; margin-bottom:12px; color:#0f172a;">
+          📋 활동지에 바로 적을 수 있는 나의 가치관 Top 4
+        </h3>
+        <div id="singleRankGrid" class="rank-grid"></div>
+
+        <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:20px;">
+          <button class="btn-main btn-teal" style="max-width:360px;" onclick="openCombinedScreen()">
+            ✨ 가치관 합체 & 결과 카드 만들러 가기
+          </button>
+          <button class="btn-main btn-blue" style="max-width:260px; background:#475569;" onclick="goHome()">
+            🏠 홈 화면으로 돌아가기
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         화면 4: 최종 가치관 합체 & 나만의 결과 카드 만들기 (이미지 저장)
+         ========================================== -->
+    <section id="screenCombined" class="screen">
+      <div class="result-card">
+        <div style="text-align:center; margin-bottom:22px;">
+          <span class="status-pill pill-teal">🌟 최종 완성 단계</span>
+          <h2 style="font-size:2rem; font-weight:900; color:#0f172a;">나의 가치관 보석함 & 꿈 선언 카드 만들기</h2>
+          <p style="color:#475569; font-size:1rem;">월드컵에서 찾은 두 가치관을 확인하고, 예시 문장을 참고해 나만의 꿈 선언 카드를 완성하세요!</p>
+        </div>
+
+        <div class="grid-2" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:16px; margin-bottom:20px;">
+          <!-- 직업가치관 요약 박스 -->
+          <div style="background:#eff6ff; border:2px solid #93c5fd; border-radius:18px; padding:18px;">
+            <div style="font-weight:900; color:#1d4ed8; font-size:1.1rem; margin-bottom:8px;">💙 나의 직업가치관 (일하는 방식)</div>
+            <div id="combJobSummary" style="font-size:0.98rem; color:#1e3a8a; line-height:1.5; margin-bottom:10px;"></div>
+            <label class="field-label" style="color:#1e40af;">꿈 문장에 반영할 나의 직업가치관 선택</label>
+            <select id="selCombJob" class="field-input" onchange="onValueSelectionChange()"></select>
+          </div>
+
+          <!-- 인생가치관 요약 박스 -->
+          <div style="background:#f5f3ff; border:2px solid #c4b5fd; border-radius:18px; padding:18px;">
+            <div style="font-weight:900; color:#6d28d9; font-size:1.1rem; margin-bottom:8px;">💜 나의 인생가치관 (삶의 방향)</div>
+            <div id="combLifeSummary" style="font-size:0.98rem; color:#4c1d95; line-height:1.5; margin-bottom:10px;"></div>
+            <label class="field-label" style="color:#5b21b6;">꿈 문장에 반영할 나의 인생가치관 선택</label>
+            <select id="selCombLife" class="field-input" onchange="onValueSelectionChange()"></select>
+          </div>
+        </div>
+
+        <!-- 학생 입력 폼 -->
+        <div class="form-section">
+          <div class="form-grid">
+            <div>
+              <label class="field-label">👤 학번 / 이름</label>
+              <input type="text" id="studentName" class="field-input" placeholder="예: 6학년 1반 김민수" oninput="saveStudentInputs()">
+            </div>
+            <div>
+              <label class="field-label">🎯 내가 관심 있는 직업 (먼저 적어보세요!)</label>
+              <input type="text" id="studentJob" class="field-input" placeholder="예: 과학자, 요리사, 선생님, 웹툰작가" oninput="renderExampleSentences(); saveStudentInputs();">
+            </div>
+          </div>
+
+          <div style="margin-bottom:16px;">
+            <label class="field-label">✍️ 내가 이 가치관들을 소중하게 생각한 이유 (나의 경험이나 생각)</label>
+            <textarea id="studentReason" class="field-textarea" rows="2" placeholder="내가 왜 이 직업가치관과 인생가치관을 골랐는지 나의 경험이나 생각을 적어보세요." oninput="saveStudentInputs()"></textarea>
+          </div>
+
+          <!-- 3개씩 나오는 다양한 예시 문장 추천 박스 -->
+          <div class="example-box">
+            <div class="example-header">
+              <div class="example-title">
+                <span>💡 선택한 두 가치관 예시 문장 3가지</span>
+                <span style="font-size:0.84rem; font-weight:700; color:#6d28d9;">(마음에 드는 문장을 눌러 불러온 뒤 나만의 표현으로 고쳐보세요!)</span>
+              </div>
+              <button type="button" class="btn-refresh-examples" onclick="nextExampleBatch()">
+                🔄 다른 예시 3개 보기
+              </button>
+            </div>
+            <div id="exampleSentenceList" class="example-list"></div>
+          </div>
+
+          <div>
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:6px; margin-bottom:6px;">
+              <label class="field-label" style="margin-bottom:0;">✨ 두 가치관이 합쳐진 '내가 꿈꾸는 나' 최종 문장 (불러온 문장을 내 말로 다듬어 완성해요!)</label>
+              <span id="dreamEditHint" style="font-size:0.84rem; font-weight:800; color:#7c3aed; display:none;">✨ 예시를 불러왔어요! 단어를 나만의 표현으로 조금 고쳐볼까요?</span>
+            </div>
+            <input type="text" id="finalDreamSentence" class="field-input" placeholder="위의 예시 문장 중 하나를 눌러 불러온 뒤 나만의 문장으로 고치거나, 직접 적어보세요!" style="border-color:#7c3aed; background:#faf5ff; font-size:1.1rem; font-weight:800;" oninput="saveStudentInputs()">
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+          <button class="btn-main btn-teal" style="max-width:380px;" onclick="downloadResultCardImage()">
+            📸 나만의 가치관 결과 카드 이미지 저장 (PNG)
+          </button>
+          <button class="btn-main" style="max-width:220px; background:#475569;" onclick="goHome()">
+            🏠 처음으로
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    /* ==========================================
+       1. 데이터 정의: 직업가치관 16개 & 인생가치관 16개
+          (각 가치관마다 다양한 흐름의 표현 6가지씩 수록)
+       ========================================== */
+    const JOB_VALUES = [
+      {
+        id: 'j1', emoji: '🦋', name: '자율성', core: true,
+        short: '내 생각과 방식대로 자유롭게 일하는 것',
+        situation: '누가 시키는 대로만 하기보다, 내 아이디어와 계획대로 일할 시간과 방법을 스스로 정할 때 신이 나요!',
+        phrases: [
+          '나만의 아이디어를 자유롭게 펼치며',
+          '스스로 세운 계획대로 주도적으로 일하며',
+          '내 생각과 방식대로 당당하게 일하며',
+          '일할 방법과 계획을 스스로 결정하며',
+          '자유로운 분위기에서 나만의 길을 개척하며',
+          '정해진 틀을 넘어 자율적으로 일하며'
+        ]
+      },
+      {
+        id: 'j2', emoji: '💰', name: '경제적 보상 (보수)', core: true,
+        short: '열심히 일한 만큼 높은 소득을 얻는 것',
+        situation: '힘들게 노력한 만큼 월급이나 보상을 확실하게 많이 받아서 풍요롭게 생활하는 것이 중요해요!',
+        phrases: [
+          '열심히 노력한 만큼 높은 보상을 얻으며',
+          '최고의 성과로 멋진 경제적 가치를 만들며',
+          '땀 흘려 일한 만큼 풍요로운 결실을 거두며',
+          '뛰어난 실력으로 당당히 가치를 인정받으며',
+          '성실한 노력으로 경제적 여유를 일구며',
+          '최선을 다해 일하고 확실한 보상을 성취하며'
+        ]
+      },
+      {
+        id: 'j3', emoji: '🛡️', name: '안정성', core: true,
+        short: '걱정 없이 오랫동안 꾸준히 일하는 것',
+        situation: '일자리를 잃을 걱정 없이 정해진 규칙 속에서 오랫동안 편안하고 꾸준하게 일하고 싶어요!',
+        phrases: [
+          '언제나 한결같고 성실하게 일하며',
+          '안정된 환경에서 오랫동안 꾸준히 일하며',
+          '차분하고 성실한 걸음으로 내 자리를 지키며',
+          '흔들림 없이 편안하고 꾸준하게 실력을 쌓으며',
+          '매일 규칙적이고 성실한 태도로 책임을 다하며',
+          '오랜 시간 변치 않는 성실함으로 일하며'
+        ]
+      },
+      {
+        id: 'j4', emoji: '🏆', name: '성취감', core: true,
+        short: '어려운 목표를 해냈을 때 큰 뿌듯함을 느끼는 것',
+        situation: '남들이 어렵다고 하는 문제나 높은 목표에 도전해서 마침내 성공했을 때 가장 짜릿해요!',
+        phrases: [
+          '어려운 목표에 끝까지 도전해 성취하며',
+          '힘든 과제도 포기하지 않고 끈기 있게 해내며',
+          '높은 목표를 향해 날마다 한 단계씩 나아가며',
+          '어려운 문제를 내 힘으로 멋지게 해결하며',
+          '포기하지 않는 열정으로 값진 성취를 이루며',
+          '큰 목표를 마침내 해내는 기쁨으로 일하며'
+        ]
+      },
+      {
+        id: 'j5', emoji: '🌱', name: '사회 봉사 (기여)', core: true,
+        short: '나의 일로 다른 사람과 세상에 도움을 주는 것',
+        situation: '내가 한 일 덕분에 누군가가 도움을 받고 세상이 더 따뜻해지는 모습을 볼 때 가장 보람차요!',
+        phrases: [
+          '이웃과 세상에 따뜻한 도움을 주며',
+          '나의 일로 더 살기 좋은 사회를 만들며',
+          '도움이 필요한 곳에 기꺼이 손을 내밀며',
+          '모두를 위한 따뜻한 나눔과 봉사를 실천하며',
+          '누군가의 삶을 더 나아지게 돕고 기여하며',
+          '세상 곳곳에 선한 영향력을 따뜻하게 전하며'
+        ]
+      },
+      {
+        id: 'j6', emoji: '👑', name: '인정과 존경', core: true,
+        short: '나의 실력을 인정받고 사람들에게 존경받는 것',
+        situation: '사람들에게 "역시 최고야!"라고 실력을 인정받고 박수와 존경을 받을 때 힘이 솟아요!',
+        phrases: [
+          '모두에게 신뢰받는 뛰어난 전문성을 펼치며',
+          '훌륭한 실력으로 사람들의 존경을 받으며',
+          '내 분야에서 으뜸가는 전문가로 활약하며',
+          '모두가 믿고 맡기는 든든한 실력으로 일하며',
+          '사람들이 본받고 싶은 멋진 모습을 보여주며',
+          '정성을 다한 결과물로 깊은 신뢰를 얻으며'
+        ]
+      },
+      {
+        id: 'j7', emoji: '🔍', name: '지식 추구', core: true,
+        short: '끊임없이 새로운 지식을 배우고 깊이 연구하는 것',
+        situation: '궁금한 원리를 끝까지 파고들어 알아내고 매일 새로운 지식을 배우며 똑똑해지는 게 즐거워요!',
+        phrases: [
+          '새로운 지식과 원리를 깊이 탐구하며',
+          '궁금한 문제를 끝까지 파고들어 해답을 찾으며',
+          '날마다 새로운 지식을 배우고 깊이 연구하며',
+          '꾸준한 공부와 탐구로 남다른 지혜를 쌓으며',
+          '세상의 다양한 원리를 호기심 있게 연구하며',
+          '배움을 멈추지 않는 자세로 전문 지식을 넓히며'
+        ]
+      },
+      {
+        id: 'j8', emoji: '☕', name: '몸과 마음의 여유', core: true,
+        short: '충분한 휴식과 내 취미·여가 시간을 즐기는 것',
+        situation: '일하는 시간만큼이나 퇴근 후 가족과 쉬거나 내 취미 생활을 즐기는 여유 시간이 꼭 필요해요!',
+        phrases: [
+          '즐겁고 여유로운 마음의 균형을 지키며',
+          '일과 휴식의 건강한 조화 속에서 일하며',
+          '몸과 마음을 재충전하는 여유를 소중히 여기며',
+          '바쁜 일상 속에서도 마음의 여유를 잃지 않으며',
+          '일과 여가를 함께 가꾸는 밝은 에너지로 일하며',
+          '편안하고 여유 있는 마음가짐으로 즐겁게 일하며'
+        ]
+      },
+      {
+        id: 'j9', emoji: '🎢', name: '변화 지향', core: false,
+        short: '매일 똑같은 일보다 늘 새롭고 다양한 일을 경험하는 것',
+        situation: '매일 똑같이 반복되는 일보다는 날마다 새로운 장소, 새로운 일을 경험하는 게 훨씬 재미있어요!',
+        phrases: [
+          '늘 새롭고 다양한 변화를 주도하며',
+          '매일 색다른 경험과 새로운 현장을 누비며',
+          '익숙한 것에 머물지 않고 새로운 일에 도전하며',
+          '다채롭고 활기찬 변화 속에서 신나게 일하며',
+          '지루할 틈 없이 새롭고 특별한 경험을 즐기며',
+          '빠르게 변하는 세상 속에서 유연하게 앞장서며'
+        ]
+      },
+      {
+        id: 'j10', emoji: '🤝', name: '좋은 동료 (공동체)', core: false,
+        short: '마음이 잘 맞는 동료들과 힘을 합쳐 일하는 것',
+        situation: '혼자 외롭게 일하기보다 서로 응원하고 도와주는 좋은 팀원들과 함께 으쌰으쌰 일하고 싶어요!',
+        phrases: [
+          '좋은 동료들과 즐겁게 호흡을 맞추며',
+          '마음이 잘 통하는 팀원들과 힘을 합쳐 일하며',
+          '든든한 동료들과 서로 믿고 응원하며',
+          '혼자보다 함께하는 따뜻한 팀워크를 발휘하며',
+          '좋은 사람들과 기쁘게 소통하고 협력하며',
+          '멋진 동료들과 서로 돕고 어울려 일하며'
+        ]
+      },
+      {
+        id: 'j11', emoji: '🏢', name: '쾌적한 근무환경', core: false,
+        short: '안전하고 깨끗하며 편리한 장소에서 일하는 것',
+        situation: '위험하거나 불편한 곳보다는 깨끗하고 안전하며 시설이 잘 갖춰진 공간에서 일하는 게 중요해요!',
+        phrases: [
+          '안전하고 쾌적한 일터 환경을 가꾸며',
+          '깨끗하고 잘 정돈된 공간에서 기분 좋게 일하며',
+          '모두가 안심하고 집중할 수 있는 환경을 만들며',
+          '건강하고 밝은 분위기의 일터에서 실력을 펼치며',
+          '안전이 잘 지켜지는 믿음직한 환경에서 일하며',
+          '몸과 마음이 편안한 쾌적한 공간에서 일하며'
+        ]
+      },
+      {
+        id: 'j12', emoji: '🎨', name: '창의성 발휘', core: false,
+        short: '세상에 없던 독창적인 아이디어를 만들어내는 것',
+        situation: '남들과 똑같은 방법 말고, 나만의 기발한 상상력과 예술적 감각을 마음껏 뽐내는 일이 좋아요!',
+        phrases: [
+          '남다른 상상력과 창의력을 마음껏 발휘하며',
+          '세상에 없던 기발하고 독창적인 생각을 펼치며',
+          '남들과 다른 새로운 시선으로 아이디어를 내며',
+          '풍부한 상상력과 반짝이는 예술적 감각을 살리며',
+          '틀을 깨는 신선한 생각으로 새로움을 만들며',
+          '나만의 독특한 개성과 창의적인 감각을 발휘하며'
+        ]
+      },
+      {
+        id: 'j13', emoji: '🧭', name: '리더십 (영향력)', core: false,
+        short: '팀을 이끌고 중요한 결정을 내리는 역할을 하는 것',
+        situation: '모둠이나 단체의 리더가 되어 방향을 정하고 친구들을 멋지게 이끄는 역할이 잘 맞아요!',
+        phrases: [
+          '든든한 리더십으로 사람들을 멋지게 이끌며',
+          '팀의 중심에서 올바른 방향을 제시하고 이끌며',
+          '동료들의 장점을 살려주고 마음을 하나로 모으며',
+          '책임감 있는 모습으로 중요한 결정을 내리며',
+          '좋은 영향력으로 사람들과 함께 목표를 이루며',
+          '모두의 의견을 경청하고 지혜롭게 팀을 이끌며'
+        ]
+      },
+      {
+        id: 'j14', emoji: '⚡', name: '실력 발휘 (전문성)', core: false,
+        short: '내가 가장 잘하는 특기와 재능을 마음껏 쓰는 것',
+        situation: '내가 제일 좋아하고 잘하는 특기를 직업에서 100% 발휘해 나만의 기술을 갈고닦고 싶어요!',
+        phrases: [
+          '나만의 뛰어난 특기와 재능을 마음껏 발휘하며',
+          '내가 가장 잘하는 분야에서 멋지게 실력을 뽐내며',
+          '꾸준히 갈고닦은 나만의 전문 기술로 일하며',
+          '내 안의 숨은 잠재력과 강점을 아낌없이 펼치며',
+          '누구보다 자신 있는 나만의 탄탄한 특기를 살리며',
+          '내가 가진 최고의 재능을 날마다 더 발전시키며'
+        ]
+      },
+      {
+        id: 'j15', emoji: '🎈', name: '일의 즐거움 (흥미)', core: false,
+        short: '일 자체가 놀이처럼 재미있고 신나는 것',
+        situation: '조금 힘들더라도 내가 하는 일 자체가 너무 재미있어서 시간 가는 줄 모르고 빠져들고 싶어요!',
+        phrases: [
+          '누구보다 즐겁고 신나는 열정으로 일하며',
+          '하는 일 자체를 놀이처럼 재미있게 즐기며',
+          '시간 가는 줄 모를 만큼 좋아하는 일에 몰입하며',
+          '매일 설레고 즐거운 마음으로 신나게 일하며',
+          '내가 좋아하는 일에서 밝은 에너지를 뿜어내며',
+          '늘 미소를 잃지 않는 즐거움과 호기심으로 일하며'
+        ]
+      },
+      {
+        id: 'j16', emoji: '🚀', name: '글로벌·무대 확장', core: false,
+        short: '한국을 넘어 넓은 세계를 무대로 활동하는 것',
+        situation: '우리 동네에만 머물지 않고 세계 여러 나라 사람들과 소통하며 넓은 무대에서 일해보고 싶어요!',
+        phrases: [
+          '넓은 세계를 무대로 당당히 소통하며',
+          '세계 여러 나라 사람들과 활발히 교류하며',
+          '더 크고 넓은 세상에서 나만의 멋진 꿈을 펼치며',
+          '다양한 문화를 존중하며 넓은 세계를 누비며',
+          '한국을 넘어 세계 사람들과 호흡하고 협력하며',
+          '세계를 향한 열린 시선과 글로벌 감각으로 일하며'
+        ]
+      }
+    ];
+
+    const LIFE_VALUES = [
+      {
+        id: 'l1', emoji: '🩺', name: '사랑과 돌봄', core: true,
+        short: '아픈 몸과 상처받은 마음을 따뜻하게 보살피는 삶',
+        situation: '몸이 아프거나 마음이 외로운 사람들을 그냥 지나치지 않고 따뜻하게 돌봐줄 때 가장 행복해요!',
+        phrases: [
+          '아픈 몸과 마음을 따뜻하게 보살피는',
+          '상처받고 지친 사람들을 다정하게 돌봐주는',
+          '도움이 필요한 사람들의 곁을 따뜻하게 지키는',
+          '세심한 배려와 돌봄으로 아픔을 치유하는',
+          '외롭고 힘든 사람들을 따뜻한 사랑으로 감싸주는',
+          '소중한 생명을 사랑과 정성으로 돌보는'
+        ]
+      },
+      {
+        id: 'l2', emoji: '🌍', name: '생명과 환경', core: true,
+        short: '아름다운 자연과 동식물, 지구를 지키는 삶',
+        situation: '기후위기로 아파하는 지구와 소중한 동식물 생명을 안전하게 지켜내는 사람이 되고 싶어요!',
+        phrases: [
+          '아름다운 지구 환경과 소중한 생명을 지키는',
+          '사람과 동식물이 함께 숨 쉬는 자연을 가꾸는',
+          '푸른 지구와 깨끗한 자연환경을 보호하는',
+          '작은 생명도 소중히 여기며 생태계를 지키는',
+          '기후위기에서 지구를 구하고 푸른 자연을 살리는',
+          '자연과 사람이 조화롭게 살아가는 지구를 만드는'
+        ]
+      },
+      {
+        id: 'l3', emoji: '🎵', name: '감동과 위로', core: true,
+        short: '사람들의 마음을 울리고 따뜻한 위로를 전하는 삶',
+        situation: '내가 만든 작품이나 이야기로 지친 사람들의 마음을 뭉클하게 울리고 큰 위로를 주고 싶어요!',
+        phrases: [
+          '사람들의 마음에 깊은 감동과 위로를 주는',
+          '지친 사람들의 마음을 따뜻한 감동으로 울리는',
+          '따뜻한 이야기로 슬프고 지친 마음을 달래주는',
+          '힘든 하루 끝에 포근한 위로와 평안을 선물하는',
+          '진심 어린 감동으로 사람들의 마음을 어루만지는',
+          '외로운 사람들에게 다정한 위로와 온기를 건네는'
+        ]
+      },
+      {
+        id: 'l4', emoji: '🎉', name: '기쁨과 행복', core: true,
+        short: '세상에 즐거운 웃음과 신나는 활력을 선물하는 삶',
+        situation: '나도 매일 즐겁게 웃고, 내 주변 사람들에게도 신나는 웃음과 행복한 에너지를 선물하고 싶어요!',
+        phrases: [
+          '세상에 즐거운 웃음과 행복을 선물하는',
+          '주변 사람들에게 매일 신나는 미소를 전하는',
+          '나도 행복하고 모든 사람도 즐겁게 만드는',
+          '일상 속에 유쾌한 기쁨과 밝은 활력을 불어넣는',
+          '사람들의 하루에 기분 좋은 웃음꽃을 피워주는',
+          '밝고 긍정적인 마음으로 행복한 에너지를 나누는'
+        ]
+      },
+      {
+        id: 'l5', emoji: '💡', name: '창의와 혁신', core: true,
+        short: '새로운 기술과 아이디어로 세상을 편리하게 바꾸는 삶',
+        situation: '사람들이 일상에서 겪는 불편함을 새로운 발명과 똑똑한 기술로 시원하게 해결해 주고 싶어요!',
+        phrases: [
+          '세상을 더 편리하고 스마트하게 바꾸는',
+          '새로운 기술과 아이디어로 불편함을 해결하는',
+          '더 나은 내일을 여는 똑똑한 혁신을 이끄는',
+          '창의적인 생각으로 사람들의 삶을 편리하게 돕는',
+          '미래 사회에 꼭 필요한 새로운 해답을 만드는',
+          '일상의 불편함을 찾아 더 좋은 세상으로 바꾸는'
+        ]
+      },
+      {
+        id: 'l6', emoji: '⚖️', name: '정의와 안전', core: true,
+        short: '억울한 사람 없이 공정하고 안전한 세상을 만드는 삶',
+        situation: '규칙이 공정하게 지켜지고 약한 사람도 안심하고 살 수 있는 정의롭고 안전한 사회를 만들고 싶어요!',
+        phrases: [
+          '모두가 안심하고 사는 정의로운 세상을 만드는',
+          '억울한 사람 없이 공정하고 안전한 사회를 지키는',
+          '약한 사람도 두려움 없이 살아가도록 지켜주는',
+          '올바른 규칙과 정의가 살아 있는 세상을 가꾸는',
+          '위험으로부터 사람들의 소중한 안전을 보호하는',
+          '차별 없이 모두가 존중받는 공정한 사회를 만드는'
+        ]
+      },
+      {
+        id: 'l7', emoji: '🤲', name: '나눔과 희망', core: true,
+        short: '어려운 이웃에게 먼저 손 내밀어 희망을 나누는 삶',
+        situation: '내가 가진 것을 이웃과 아낌없이 나누며, 힘들어하는 사람들에게 다시 일어설 희망을 주고 싶어요!',
+        phrases: [
+          '어려운 이웃에게 따뜻한 희망을 나누는',
+          '힘들어하는 사람들에게 다시 일어설 힘을 주는',
+          '내가 가진 것을 기꺼이 나누며 희망을 전하는',
+          '소외된 이웃의 손을 잡고 따뜻한 내일을 선물하는',
+          '나눔의 기쁨으로 모두가 함께 웃는 세상을 만드는',
+          '어려운 순간에 따뜻한 도움과 희망을 건네는'
+        ]
+      },
+      {
+        id: 'l8', emoji: '🔭', name: '진리와 발견', core: true,
+        short: '세상의 숨겨진 비밀과 새로운 지식을 밝혀내는 삶',
+        situation: '우주, 과학, 역사 등 아직 인류가 풀지 못한 세상의 신비한 비밀을 밝혀내어 알려주고 싶어요!',
+        phrases: [
+          '세상의 숨겨진 비밀과 진리를 밝혀내는',
+          '아직 풀리지 않은 신비한 원리를 찾아 알려주는',
+          '깊은 탐구심으로 인류에게 필요한 답을 발견하는',
+          '미지의 세계를 탐구해 세상의 지혜를 넓혀주는',
+          '끊임없는 질문으로 새로운 지식과 진실을 밝히는',
+          '사람들이 몰랐던 놀라운 원리와 가치를 찾아내는'
+        ]
+      },
+      {
+        id: 'l9', emoji: '🌱', name: '배움과 성장', core: false,
+        short: '어제보다 더 나은 나를 만들며 지혜를 나누는 삶',
+        situation: '평생 멈추지 않고 배우며 성장하고, 내가 배운 지혜를 다른 사람들에게도 친절히 알려주고 싶어요!',
+        phrases: [
+          '끊임없이 성장하며 사람들에게 지혜를 나누는',
+          '어제보다 더 나은 나를 가꾸며 함께 성장하는',
+          '평생 배우는 자세로 사람들의 성장을 도와주는',
+          '내가 배운 지식과 경험을 친절하게 나누어 주는',
+          '꾸준한 자기계발로 주변에 좋은 본보기가 되는',
+          '사람들이 자신의 잠재력을 꽃피우도록 응원하는'
+        ]
+      },
+      {
+        id: 'l10', emoji: '🔥', name: '도전과 용기', core: false,
+        short: '실패를 두려워하지 않고 도전해 용기를 주는 삶',
+        situation: '남들이 포기할 때도 용감하게 도전하는 모습을 보여주어 사람들에게 "나도 할 수 있다!"는 용기를 주고 싶어요!',
+        phrases: [
+          '용감한 도전으로 사람들에게 용기를 주는',
+          '실패를 두려워하지 않는 도전으로 희망을 전하는',
+          '어려움 앞에서도 끝까지 도전해 영감을 주는',
+          '사람들에게 해낼 수 있다는 자신감을 심어주는',
+          '새로운 길을 개척하는 열정으로 용기를 북돋는',
+          '넘어져도 다시 일어서는 모습으로 힘을 주는'
+        ]
+      },
+      {
+        id: 'l11', emoji: '🕊️', name: '자유와 평화', core: false,
+        short: '갈등과 다툼 없이 평화롭고 자유로운 세상을 가꾸는 삶',
+        situation: '서로 싸우거나 미워하지 않고 모두가 평화롭게 어울려 살아가는 다정한 세상을 만들고 싶어요!',
+        phrases: [
+          '다툼 없이 평화롭고 자유로운 세상을 가꾸는',
+          '갈등을 화해로 바꾸고 조화로운 사회를 만드는',
+          '서로의 다름을 존중하며 평화로운 세상을 여는',
+          '미움과 다툼 대신 평화와 화합을 전하는',
+          '누구나 자유롭게 꿈꾸는 평화로운 세상을 만드는',
+          '따뜻한 포용력으로 갈등을 풀고 평화를 지키는'
+        ]
+      },
+      {
+        id: 'l12', emoji: '🤝', name: '정직과 신뢰', core: false,
+        short: '거짓 없이 당당하고 누구에게나 믿음을 주는 삶',
+        situation: '어떤 순간에도 거짓말하지 않고 약속을 지켜서, 이름만 들어도 모두가 믿고 의지하는 사람이 되고 싶어요!',
+        phrases: [
+          '정직함과 믿음으로 든든한 신뢰를 주는',
+          '거짓 없이 바르고 투명한 모습으로 믿음을 얻는',
+          '언제나 약속을 지키며 진실한 마음을 전하는',
+          '누구나 안심하고 의지할 수 있는 믿음을 주는',
+          '흔들리지 않는 정직함으로 믿음직한 사회를 만드는',
+          '진심과 성실함으로 사람들의 깊은 신뢰를 얻는'
+        ]
+      },
+      {
+        id: 'l13', emoji: '🏡', name: '가족과 화목', core: false,
+        short: '사랑하는 가족·소중한 사람들과 다정하게 지내는 삶',
+        situation: '사랑하는 가족, 친구들과 매일 따뜻한 대화를 나누며 화목하고 다정한 가정을 가꾸는 것이 최고예요!',
+        phrases: [
+          '가족처럼 다정한 마음으로 행복을 가꾸는',
+          '소중한 사람들의 화목과 따뜻한 웃음을 지켜주는',
+          '사람들에게 가족 같은 포근함과 사랑을 전하는',
+          '사랑하는 사람들과 다정하고 화목한 삶을 가꾸는',
+          '누구에게나 가족처럼 따뜻한 정과 기쁨을 나누는',
+          '화목하고 웃음꽃 피는 가정과 이웃을 만들어가는'
+        ]
+      },
+      {
+        id: 'l14', emoji: '💪', name: '건강과 활력', core: false,
+        short: '몸과 마음을 튼튼하게 가꾸고 건강한 에너지를 전하는 삶',
+        situation: '나와 사람들의 몸과 마음이 늘 튼튼하고 활기차게 유지되도록 건강한 에너지를 전하고 싶어요!',
+        phrases: [
+          '사람들에게 건강한 에너지와 활력을 전하는',
+          '몸과 마음이 모두 튼튼하고 활기찬 세상을 만드는',
+          '지친 사람들에게 생생한 활기와 건강을 선물하는',
+          '매일 씩씩하고 건강한 모습으로 밝은 기운을 주는',
+          '사람들이 오래도록 건강하고 힘차게 살도록 돕는',
+          '생기 넘치는 에너지로 사람들의 건강을 지켜주는'
+        ]
+      },
+      {
+        id: 'l15', emoji: '🌈', name: '아름다움과 예술', core: false,
+        short: '세상을 더 아름답고 감각적인 공간으로 꾸미는 삶',
+        situation: '멋진 디자인, 그림, 음악, 건축 등으로 삭막한 세상을 눈과 귀가 즐거운 아름다운 곳으로 바꾸고 싶어요!',
+        phrases: [
+          '세상을 더 아름답고 빛나게 디자인하는',
+          '일상을 눈과 귀가 즐거운 예술로 물들이는',
+          '아름다운 감각과 표현으로 마음을 풍요롭게 하는',
+          '우리가 살아가는 공간과 문화를 아름답게 가꾸는',
+          '빛나는 예술적 감성으로 세상에 아름다움을 전하는',
+          '일상 곳곳에 아름다움과 설렘을 선물하는'
+        ]
+      },
+      {
+        id: 'l16', emoji: '💬', name: '소통과 공감', core: false,
+        short: '서로 다른 사람들의 마음을 이어주고 이해를 돕는 삶',
+        situation: '생각이 다른 사람들의 이야기를 잘 들어주고 마음과 마음을 따뜻하게 연결해 주는 다리가 되고 싶어요!',
+        phrases: [
+          '따뜻한 공감으로 사람들의 마음을 이어주는',
+          '서로 다른 생각에 귀 기울이며 마음을 연결하는',
+          '작은 이야기도 다정하게 들어주며 공감을 나누는',
+          '사람과 사람 사이에 따뜻한 소통의 다리를 놓는',
+          '열린 마음으로 대화하며 서로 이해하도록 돕는',
+          '진심 어린 경청과 공감으로 사람들의 마음을 여는'
+        ]
+      }
+    ];
+
+    /* ==========================================
+       2. 상태 관리 및 로컬스토리지 연동
+       ========================================== */
+    const STORAGE_KEY = 'agy_values_worldcup_v1';
+    let savedData = {
+      jobTop4: null,   // [1위, 2위, 3위A, 3위B]
+      lifeTop4: null,
+      studentName: '',
+      studentJob: '',
+      studentReason: '',
+      finalDreamSentence: ''
+    };
+
+    function loadStorage() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          savedData = Object.assign(savedData, JSON.parse(raw));
+        }
+      } catch (e) {}
+      refreshHomeUI();
+    }
+
+    function saveStorage() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(savedData));
+      } catch (e) {}
+      refreshHomeUI();
+    }
+
+    function refreshHomeUI() {
+      const jobEl = document.getElementById('homeJobStatus');
+      const btnJob = document.getElementById('btnViewJobRes');
+      if (savedData.jobTop4 && savedData.jobTop4.length >= 2) {
+        const w = savedData.jobTop4[0];
+        jobEl.innerHTML = `✅ <strong>완료!</strong> 1위: <strong style="color:#1d4ed8;">${w.emoji} ${w.name}</strong> / 2위: ${savedData.jobTop4[1].name}`;
+        btnJob.style.display = 'inline-flex';
+      } else {
+        jobEl.textContent = '아직 진행하지 않았어요. (16강 토너먼트 · 15번 선택)';
+        btnJob.style.display = 'none';
+      }
+
+      const lifeEl = document.getElementById('homeLifeStatus');
+      const btnLife = document.getElementById('btnViewLifeRes');
+      if (savedData.lifeTop4 && savedData.lifeTop4.length >= 2) {
+        const w = savedData.lifeTop4[0];
+        lifeEl.innerHTML = `✅ <strong>완료!</strong> 1위: <strong style="color:#6d28d9;">${w.emoji} ${w.name}</strong> / 2위: ${savedData.lifeTop4[1].name}`;
+        btnLife.style.display = 'inline-flex';
+      } else {
+        lifeEl.textContent = '아직 진행하지 않았어요. (16강 토너먼트 · 15번 선택)';
+        btnLife.style.display = 'none';
+      }
+
+      const combEl = document.getElementById('homeCombineStatus');
+      if (savedData.jobTop4 && savedData.lifeTop4) {
+        combEl.innerHTML = `🎉 <strong>두 월드컵 모두 완료!</strong> 지금 바로 나만의 꿈 선언 카드를 완성해 보세요!`;
+      }
+    }
+
+    function switchScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+      const undoBtn = document.getElementById('undoBattleBtn');
+      undoBtn.style.display = (screenId === 'screenBattle') ? 'inline-flex' : 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goHome() {
+      refreshHomeUI();
+      switchScreen('screenHome');
+    }
+
+    /* ==========================================
+       3. 토너먼트 엔진 (셔플, 대결, 되돌리기, 순위 산출)
+       ========================================== */
+    let currentType = 'job'; // 'job' | 'life'
+    let currentPool = [];
+    let nextRoundPool = [];
+    let matchIndex = 0;
+    let totalMatchesDone = 0;
+    let totalMatchesInTournament = 15;
+    let semiLosers = [];
+    let runnerUp = null;
+    let historySnapshots = [];
+    let isAnimatingPick = false;
+
+    function shuffleArray(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function startTournament(type, size) {
+      currentType = type;
+      const source = (type === 'job') ? JOB_VALUES : LIFE_VALUES;
+      let candidates = (size === 8) ? source.filter(v => v.core) : source.slice();
+      currentPool = shuffleArray(candidates);
+      nextRoundPool = [];
+      matchIndex = 0;
+      totalMatchesDone = 0;
+      totalMatchesInTournament = size - 1;
+      semiLosers = [];
+      runnerUp = null;
+      historySnapshots = [];
+      isAnimatingPick = false;
+
+      switchScreen('screenBattle');
+      renderCurrentMatch();
+    }
+
+    function renderCurrentMatch() {
+      const roundSize = currentPool.length;
+      const totalMatchesInRound = roundSize / 2;
+      let roundTitle = `${roundSize}강`;
+      if (roundSize === 4) roundTitle = '⚡ 4강 준결승';
+      if (roundSize === 2) roundTitle = '👑 대망의 결승전!';
+
+      const badge = document.getElementById('roundBadge');
+      badge.textContent = (roundSize === 2)
+        ? `${roundTitle}`
+        : `🏆 ${roundTitle} (${matchIndex + 1} / ${totalMatchesInRound}번째 대결)`;
+
+      const qEl = document.getElementById('battleQuestion');
+      qEl.textContent = (currentType === 'job')
+        ? '💙 [직업가치관] 내가 일할 때 더 중요하게 생각하는 모습은?'
+        : '💜 [인생가치관] 내 삶을 통해 더 이루고 싶은 소중한 가치는?';
+
+      const pct = Math.round((totalMatchesDone / totalMatchesInTournament) * 100);
+      document.getElementById('battleProgress').style.width = `${pct}%`;
+
+      const left = currentPool[matchIndex * 2];
+      const right = currentPool[matchIndex * 2 + 1];
+
+      document.getElementById('leftEmoji').textContent = left.emoji;
+      document.getElementById('leftName').textContent = left.name;
+      document.getElementById('leftShort').textContent = left.short;
+      document.getElementById('leftSituation').textContent = `"${left.situation}"`;
+
+      document.getElementById('rightEmoji').textContent = right.emoji;
+      document.getElementById('rightName').textContent = right.name;
+      document.getElementById('rightShort').textContent = right.short;
+      document.getElementById('rightSituation').textContent = `"${right.situation}"`;
+
+      document.getElementById('cardLeft').classList.remove('choosing');
+      document.getElementById('cardRight').classList.remove('choosing');
+      document.getElementById('undoBattleBtn').disabled = (historySnapshots.length === 0);
+    }
+
+    function pickFighter(side) {
+      if (isAnimatingPick) return;
+      isAnimatingPick = true;
+
+      // 현재 상태 스냅샷 저장 (되돌리기용)
+      historySnapshots.push({
+        currentPool: currentPool.slice(),
+        nextRoundPool: nextRoundPool.slice(),
+        matchIndex,
+        totalMatchesDone,
+        semiLosers: semiLosers.slice(),
+        runnerUp
+      });
+
+      const cardEl = (side === 0) ? document.getElementById('cardLeft') : document.getElementById('cardRight');
+      cardEl.classList.add('choosing');
+
+      const winner = currentPool[matchIndex * 2 + side];
+      const loser = currentPool[matchIndex * 2 + (1 - side)];
+
+      setTimeout(() => {
+        if (currentPool.length === 4) {
+          semiLosers.push(loser);
+        } else if (currentPool.length === 2) {
+          runnerUp = loser;
+        }
+
+        nextRoundPool.push(winner);
+        matchIndex++;
+        totalMatchesDone++;
+
+        if (matchIndex >= currentPool.length / 2) {
+          if (nextRoundPool.length === 1) {
+            // 최종 우승 결정!
+            const finalWinner = nextRoundPool[0];
+            const top4 = [finalWinner, runnerUp, ...semiLosers].filter(Boolean);
+            if (currentType === 'job') {
+              savedData.jobTop4 = top4;
+            } else {
+              savedData.lifeTop4 = top4;
+            }
+            saveStorage();
+            isAnimatingPick = false;
+            showSingleResult(currentType);
+            return;
+          }
+          currentPool = nextRoundPool;
+          nextRoundPool = [];
+          matchIndex = 0;
+        }
+
+        isAnimatingPick = false;
+        renderCurrentMatch();
+      }, 240);
+    }
+
+    function undoLastChoice() {
+      if (historySnapshots.length === 0 || isAnimatingPick) return;
+      const last = historySnapshots.pop();
+      currentPool = last.currentPool;
+      nextRoundPool = last.nextRoundPool;
+      matchIndex = last.matchIndex;
+      totalMatchesDone = last.totalMatchesDone;
+      semiLosers = last.semiLosers;
+      runnerUp = last.runnerUp;
+      renderCurrentMatch();
+    }
+
+    /* ==========================================
+       4. 단일 월드컵 결과 화면 렌더링
+       ========================================== */
+    function showSingleResult(type) {
+      const top4 = (type === 'job') ? savedData.jobTop4 : savedData.lifeTop4;
+      if (!top4 || top4.length === 0) return;
+
+      const w = top4[0];
+      document.getElementById('singleResTypeLabel').textContent =
+        (type === 'job') ? '🏆 나의 직업가치관 월드컵 1위 우승!' : '🏆 나의 인생가치관 월드컵 1위 우승!';
+      document.getElementById('singleWinnerEmoji').textContent = w.emoji;
+      document.getElementById('singleWinnerName').textContent = w.name;
+      document.getElementById('singleWinnerDesc').textContent = w.short;
+
+      const rankLabels = ['🥇 1위 (우승)', '🥈 2위 (준우승)', '🥉 3위 (4강)', '🏅 4위 (4강)'];
+      const grid = document.getElementById('singleRankGrid');
+      grid.innerHTML = '';
+
+      top4.forEach((item, idx) => {
+        const box = document.createElement('div');
+        box.className = `rank-box ${idx === 0 ? 'rank-1' : 'rank-2'}`;
+        box.innerHTML = `
+          <div style="font-size:2.2rem;">${item.emoji}</div>
+          <div>
+            <div style="font-size:0.82rem; font-weight:800; color:#64748b;">${rankLabels[idx] || ''}</div>
+            <div style="font-size:1.15rem; font-weight:900; color:#0f172a;">${item.name}</div>
+            <div style="font-size:0.85rem; color:#475569;">${item.short}</div>
+          </div>
+        `;
+        grid.appendChild(box);
+      });
+
+      switchScreen('screenSingleResult');
+    }
+
+    /* ==========================================
+       5. 두 가치관 합체, 3개 예시 문장 추천 & 이미지 카드 다운로드
+       ========================================== */
+    // 한 번에 3개씩 서로 다른 문장 표현을 조합해 보여주는 인덱스 묶음 (총 6세트 = 18가지 조합)
+    const EXAMPLE_BATCHES = [
+      [[0, 0], [1, 1], [2, 2]],
+      [[3, 3], [4, 4], [5, 5]],
+      [[0, 3], [1, 4], [2, 5]],
+      [[3, 0], [4, 1], [5, 2]],
+      [[0, 2], [2, 4], [4, 0]],
+      [[1, 5], [3, 1], [5, 3]]
+    ];
+    let exampleBatchIdx = 0;
+    let currentThreeExamples = [];
+
+    function findJobValue(idOrName) {
+      return JOB_VALUES.find(v => v.id === idOrName || v.name === idOrName) || JOB_VALUES[0];
+    }
+
+    function findLifeValue(idOrName) {
+      return LIFE_VALUES.find(v => v.id === idOrName || v.name === idOrName) || LIFE_VALUES[0];
+    }
+
+    function openCombinedScreen() {
+      const jobList = (savedData.jobTop4 && savedData.jobTop4.length) ? savedData.jobTop4 : JOB_VALUES;
+      const lifeList = (savedData.lifeTop4 && savedData.lifeTop4.length) ? savedData.lifeTop4 : LIFE_VALUES;
+
+      const jobSum = document.getElementById('combJobSummary');
+      if (savedData.jobTop4) {
+        jobSum.innerHTML = savedData.jobTop4.map((v, i) => `<strong>${i + 1}위:</strong> ${v.emoji} ${v.name}`).join(' · ');
+      } else {
+        jobSum.innerHTML = '아직 직업가치관 월드컵 전이에요! 아래 목록에서 직접 고를 수 있어요.';
+      }
+
+      const lifeSum = document.getElementById('combLifeSummary');
+      if (savedData.lifeTop4) {
+        lifeSum.innerHTML = savedData.lifeTop4.map((v, i) => `<strong>${i + 1}위:</strong> ${v.emoji} ${v.name}`).join(' · ');
+      } else {
+        lifeSum.innerHTML = '아직 인생가치관 월드컵 전이에요! 아래 목록에서 직접 고를 수 있어요.';
+      }
+
+      const selJob = document.getElementById('selCombJob');
+      selJob.innerHTML = '';
+      jobList.forEach((v, i) => {
+        const canonical = findJobValue(v.id || v.name);
+        const opt = document.createElement('option');
+        opt.value = canonical.id;
+        opt.textContent = `${savedData.jobTop4 ? (i + 1) + '위 ' : ''}${canonical.emoji} ${canonical.name} (${canonical.short})`;
+        selJob.appendChild(opt);
+      });
+
+      const selLife = document.getElementById('selCombLife');
+      selLife.innerHTML = '';
+      lifeList.forEach((v, i) => {
+        const canonical = findLifeValue(v.id || v.name);
+        const opt = document.createElement('option');
+        opt.value = canonical.id;
+        opt.textContent = `${savedData.lifeTop4 ? (i + 1) + '위 ' : ''}${canonical.emoji} ${canonical.name} (${canonical.short})`;
+        selLife.appendChild(opt);
+      });
+
+      document.getElementById('studentName').value = savedData.studentName || '';
+      // 이전 기본값('과학자', '전문가')으로 자동 완성되어 있던 경우 빈칸으로 초기화
+      if (savedData.studentJob === '과학자' || savedData.studentJob === '전문가') {
+        savedData.studentJob = '';
+        savedData.finalDreamSentence = '';
+        saveStorage();
+      }
+      document.getElementById('studentJob').value = savedData.studentJob || '';
+      document.getElementById('studentReason').value = savedData.studentReason || '';
+      document.getElementById('finalDreamSentence').value = savedData.finalDreamSentence || '';
+      document.getElementById('dreamEditHint').style.display = 'none';
+
+      exampleBatchIdx = 0;
+      renderExampleSentences();
+      switchScreen('screenCombined');
+    }
+
+    function onValueSelectionChange() {
+      exampleBatchIdx = 0;
+      renderExampleSentences();
+    }
+
+    function nextExampleBatch() {
+      exampleBatchIdx = (exampleBatchIdx + 1) % EXAMPLE_BATCHES.length;
+      renderExampleSentences();
+    }
+
+    function renderExampleSentences() {
+      const jobId = document.getElementById('selCombJob').value;
+      const lifeId = document.getElementById('selCombLife').value;
+      const jobObj = findJobValue(jobId);
+      const lifeObj = findLifeValue(lifeId);
+
+      const rawJobText = document.getElementById('studentJob').value.trim();
+      const jobNounForDisplay = rawJobText || '[관심 직업]';
+
+      const batchPairs = EXAMPLE_BATCHES[exampleBatchIdx % EXAMPLE_BATCHES.length];
+      currentThreeExamples = batchPairs.map(([jIdx, lIdx]) => {
+        const p1 = jobObj.phrases[jIdx % jobObj.phrases.length];
+        const p2 = lifeObj.phrases[lIdx % lifeObj.phrases.length];
+        return `${p1}, ${p2} ${jobNounForDisplay}`;
+      });
+
+      const listEl = document.getElementById('exampleSentenceList');
+      listEl.innerHTML = '';
+
+      currentThreeExamples.forEach((sentence, idx) => {
+        const item = document.createElement('div');
+        item.className = 'example-item';
+        item.onclick = () => applyExampleSentence(idx, item);
+        item.innerHTML = `
+          <div class="example-text">
+            <span style="color:#6d28d9; font-weight:900; margin-right:6px;">예시 ${idx + 1}.</span>"${sentence}"
+          </div>
+          <span class="example-pick-badge">👆 불러와서 고치기</span>
+        `;
+        listEl.appendChild(item);
+      });
+    }
+
+    function applyExampleSentence(idx, clickedEl) {
+      const sentence = currentThreeExamples[idx];
+      if (!sentence) return;
+
+      document.querySelectorAll('#exampleSentenceList .example-item').forEach(el => el.classList.remove('selected'));
+      if (clickedEl) clickedEl.classList.add('selected');
+
+      const inputEl = document.getElementById('finalDreamSentence');
+      inputEl.value = sentence;
+      document.getElementById('dreamEditHint').style.display = 'inline';
+      saveStudentInputs();
+
+      inputEl.focus();
+      // 만약 [관심 직업] 문구가 남아 있으면 해당 부분을 바로 고칠 수 있게 블록 선택
+      const placeholderIdx = sentence.indexOf('[관심 직업]');
+      if (placeholderIdx !== -1 && inputEl.setSelectionRange) {
+        inputEl.setSelectionRange(placeholderIdx, placeholderIdx + '[관심 직업]'.length);
+      }
+    }
+
+    function saveStudentInputs() {
+      savedData.studentName = document.getElementById('studentName').value;
+      savedData.studentJob = document.getElementById('studentJob').value;
+      savedData.studentReason = document.getElementById('studentReason').value;
+      savedData.finalDreamSentence = document.getElementById('finalDreamSentence').value;
+      saveStorage();
+    }
+
+    // 줄바꿈 배열 계산 헬퍼 (한글 어절 및 글자 단위 안전 줄바꿈 지원)
+    function getWrappedLines(ctx, text, maxWidth) {
+      const paragraphs = String(text || '').split('\n');
+      const lines = [];
+
+      paragraphs.forEach(para => {
+        const words = para.split(' ');
+        let line = '';
+
+        for (let n = 0; n < words.length; n++) {
+          const word = words[n];
+          const testLine = line ? (line + ' ' + word) : word;
+          const metrics = ctx.measureText(testLine);
+
+          if (metrics.width > maxWidth && line) {
+            lines.push(line);
+            line = word;
+
+            while (ctx.measureText(line).width > maxWidth && line.length > 1) {
+              let splitIdx = 1;
+              while (splitIdx < line.length && ctx.measureText(line.slice(0, splitIdx + 1)).width <= maxWidth) {
+                splitIdx++;
+              }
+              lines.push(line.slice(0, splitIdx));
+              line = line.slice(splitIdx);
+            }
+          } else {
+            line = testLine;
+          }
+        }
+        if (line) {
+          lines.push(line);
+        }
+      });
+      return lines;
+    }
+
+    // 지정된 세로 영역(areaTop ~ areaBottom)의 정중앙에 여러 줄 텍스트 그리기
+    function drawVerticallyCenteredText(ctx, text, x, areaTop, areaBottom, maxWidth, lineHeight) {
+      const lines = getWrappedLines(ctx, text, maxWidth);
+      if (lines.length === 0) return;
+
+      const prevBaseline = ctx.textBaseline;
+      ctx.textBaseline = 'middle';
+
+      const centerY = (areaTop + areaBottom) / 2;
+      const totalSpan = (lines.length - 1) * lineHeight;
+      const startY = centerY - (totalSpan / 2);
+
+      lines.forEach((line, idx) => {
+        ctx.fillText(line, x, startY + idx * lineHeight);
+      });
+
+      ctx.textBaseline = prevBaseline;
+    }
+
+    function downloadResultCardImage() {
+      const finalSentenceVal = document.getElementById('finalDreamSentence').value.trim();
+      if (!finalSentenceVal) {
+        alert('최종 꿈 문장이 아직 비어 있어요!\n위의 예시 문장 3가지 중 하나를 눌러 불러온 뒤 나만의 표현으로 고치거나, 직접 적어주세요.');
+        document.getElementById('finalDreamSentence').focus();
+        return;
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = 1200;
+      canvas.height = 860;
+      const ctx = canvas.getContext('2d');
+
+      // 배경 그라데이션
+      const grad = ctx.createLinearGradient(0, 0, 1200, 860);
+      grad.addColorStop(0, '#1e3a8a');
+      grad.addColorStop(0.5, '#3b0764');
+      grad.addColorStop(1, '#0f172a');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 1200, 860);
+
+      // 흰색 메인 카드 영역
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.roundRect(40, 40, 1120, 780, 30);
+      ctx.fill();
+
+      // 상단 배지 & 이름
+      const nameStr = document.getElementById('studentName').value.trim() || '멋진 6학년 꿈나무';
+      ctx.fillStyle = '#0f172a';
+      ctx.font = '900 34px Pretendard, Malgun Gothic, sans-serif';
+      ctx.fillText(`🏆 ${nameStr}의 가치관 보석함 & 꿈 선언 카드`, 80, 105, 1040);
+
+      const medals = ['🥇 1위', '🥈 2위', '🥉 3위'];
+
+      // 1) 왼쪽: 직업가치관 박스 (폭 505px, 높이 255px)
+      ctx.fillStyle = '#eff6ff';
+      ctx.beginPath();
+      ctx.roundRect(80, 132, 505, 255, 20);
+      ctx.fill();
+      ctx.strokeStyle = '#bfdbfe';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.fillStyle = '#1d4ed8';
+      ctx.font = '800 22px Pretendard, Malgun Gothic, sans-serif';
+      ctx.fillText('💙 나의 직업가치관 (일하는 기준)', 106, 172);
+
+      const jList = savedData.jobTop4 || [JOB_VALUES[0], JOB_VALUES[1], JOB_VALUES[2]];
+      jList.slice(0, 3).forEach((v, idx) => {
+        const baseY = 212 + idx * 62;
+        ctx.fillStyle = '#0f172a';
+        ctx.font = '800 19px Pretendard, Malgun Gothic, sans-serif';
+        ctx.fillText(`${medals[idx]}  ${v.emoji} ${v.name}`, 106, baseY, 455);
+        ctx.fillStyle = '#475569';
+        ctx.font = '600 15px Pretendard, Malgun Gothic, sans-serif';
+        ctx.fillText(`└ ${v.short}`, 114, baseY + 24, 445);
+      });
+
+      // 2) 오른쪽: 인생가치관 박스 (폭 505px, 높이 255px)
+      ctx.fillStyle = '#f5f3ff';
+      ctx.beginPath();
+      ctx.roundRect(615, 132, 505, 255, 20);
+      ctx.fill();
+      ctx.strokeStyle = '#ddd6fe';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.fillStyle = '#6d28d9';
+      ctx.font = '800 22px Pretendard, Malgun Gothic, sans-serif';
+      ctx.fillText('💜 나의 인생가치관 (삶의 나침반)', 641, 172);
+
+      const lList = savedData.lifeTop4 || [LIFE_VALUES[0], LIFE_VALUES[1], LIFE_VALUES[2]];
+      lList.slice(0, 3).forEach((v, idx) => {
+        const baseY = 212 + idx * 62;
+        ctx.fillStyle = '#0f172a';
+        ctx.font = '800 19px Pretendard, Malgun Gothic, sans-serif';
+        ctx.fillText(`${medals[idx]}  ${v.emoji} ${v.name}`, 641, baseY, 455);
+        ctx.fillStyle = '#475569';
+        ctx.font = '600 15px Pretendard, Malgun Gothic, sans-serif';
+        ctx.fillText(`└ ${v.short}`, 649, baseY + 24, 445);
+      });
+
+      // 3) 나의 이유 박스 (y: 408 ~ 563, 소제목 하단 444 ~ 박스 하단 563 사이 세로 정중앙 배치)
+      ctx.fillStyle = '#f8fafc';
+      ctx.beginPath();
+      ctx.roundRect(80, 408, 1040, 155, 20);
+      ctx.fill();
+      ctx.strokeStyle = '#e2e8f0';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.fillStyle = '#334155';
+      ctx.font = '800 20px Pretendard, Malgun Gothic, sans-serif';
+      ctx.fillText('✍️ 내가 이 가치관들을 선택한 이유', 108, 444);
+
+      ctx.fillStyle = '#0f172a';
+      ctx.font = '600 20px Pretendard, Malgun Gothic, sans-serif';
+      const reasonStr = document.getElementById('studentReason').value.trim() || '나의 성향과 가치관을 바탕으로 세상에 긍정적인 도움을 주는 사람이 되고 싶습니다.';
+      drawVerticallyCenteredText(ctx, reasonStr, 108, 448, 558, 984, 30);
+
+      // 4) 하단 최종 꿈 선언 배너 (y: 584 ~ 779, 소제목 하단 624 ~ 박스 하단 779 사이 세로 정중앙 배치)
+      ctx.fillStyle = '#0f172a';
+      ctx.beginPath();
+      ctx.roundRect(80, 584, 1040, 195, 24);
+      ctx.fill();
+
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = '800 20px Pretendard, Malgun Gothic, sans-serif';
+      ctx.fillText('✨ 두 가치관이 합쳐진 [내가 꿈꾸는 나]', 112, 624);
+
+      ctx.fillStyle = '#fde047';
+      ctx.font = '900 28px Pretendard, Malgun Gothic, sans-serif';
+      const dreamStr = `"${document.getElementById('finalDreamSentence').value.trim()}"`;
+      drawVerticallyCenteredText(ctx, dreamStr, 112, 630, 774, 976, 40);
+
+      const link = document.createElement('a');
+      link.download = `${nameStr}_나의가치관_꿈카드.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    loadStorage();
+  </script>
+</body>
+</html>
