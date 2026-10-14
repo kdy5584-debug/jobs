@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2040 미래 직업 아이디어 탐색기 (진로 4단계)</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --primary-light: #e0f2fe;
+      --secondary: #7c3aed;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 12px 100px 12px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 820px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* 상단 네비게이션 & 헤더 */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: #ffffff;
+      padding: 12px 18px;
+      border-radius: 16px;
+      border: 1.5px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: white;
+      font-weight: 900;
+      font-size: 0.85rem;
+      padding: 5px 12px;
+      border-radius: 999px;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1.5px solid transparent;
+    }
+
+    .btn-nav.worksheet {
+      background: #ecfeff;
+      color: #0369a1;
+      border-color: #a5f3fc;
+    }
+    .btn-nav.worksheet:hover {
+      background: #cffafe;
+      transform: translateY(-1px);
+    }
+
+    .btn-nav.home {
+      background: #f1f5f9;
+      color: #475569;
+      border-color: #cbd5e1;
+    }
+
+    /* 프로필 카드 (이름 & 희망 직업) */
+    .profile-card {
+      background: white;
+      border-radius: 18px;
+      padding: 16px 20px;
+      border: 1.8px solid var(--border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .field-label {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #334155;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .field-input {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 2px solid #cbd5e1;
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #0f172a;
+      background: #f8fafc;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .field-input:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    /* STEP 카드 공통 */
+    .step-card {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      border: 2px solid var(--border);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .step-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      border-bottom: 1.5px solid #f1f5f9;
+      padding-bottom: 12px;
+    }
+
+    .step-title {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .step-badge {
+      background: #ecfeff;
+      color: #0369a1;
+      font-size: 0.85rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .step-desc {
+      font-size: 0.96rem;
+      color: #475569;
+      line-height: 1.5;
+    }
+
+    /* STEP 1: 미래 사회 변화 9가지 칩 그리드 */
+    .keyword-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 700px) {
+      .keyword-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 480px) {
+      .keyword-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .kw-chip {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 12px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+    }
+
+    .kw-chip:hover {
+      background: #f0f9ff;
+      border-color: #7dd3fc;
+      transform: translateY(-2px);
+    }
+
+    .kw-chip.selected {
+      background: #f0fdf4;
+      border-color: #10b981;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .kw-emoji {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .kw-name {
+      font-weight: 800;
+      font-size: 0.96rem;
+      color: #0f172a;
+      margin-bottom: 2px;
+    }
+
+    .kw-desc {
+      font-size: 0.78rem;
+      color: #64748b;
+      line-height: 1.35;
+    }
+
+    /* STEP 2: 추천 아이디어 목록 */
+    .idea-box {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .idea-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .idea-box-title {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: #0369a1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-refresh {
+      background: #ffffff;
+      color: #0284c7;
+      border: 1.5px solid #0284c7;
+      padding: 7px 14px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-refresh:hover {
+      background: #0284c7;
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    .idea-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .idea-item {
+      background: #ffffff;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 14px 16px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s;
+    }
+
+    .idea-item:hover {
+      border-color: #38bdf8;
+      background: #f0f9ff;
+    }
+
+    .idea-item.checked {
+      border-color: #0284c7;
+      background: #f0f9ff;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+    }
+
+    .idea-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .idea-badge {
+      font-size: 0.8rem;
+      font-weight: 900;
+      color: #0284c7;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .idea-text {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.5;
+    }
+
+    .idea-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn-check-pill {
+      background: #e2e8f0;
+      color: #475569;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .idea-item.checked .btn-check-pill {
+      background: #0284c7;
+      color: white;
+    }
+
+    .btn-copy {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: #334155;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-copy:hover {
+      background: #e2e8f0;
+    }
+
+    /* 하단 활동지 안내 배너 */
+    .worksheet-guide-banner {
+      background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%);
+      border: 2px dashed #93c5fd;
+      border-radius: 18px;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .guide-text h4 {
+      font-size: 1.12rem;
+      font-weight: 900;
+      color: #1e40af;
+      margin-bottom: 4px;
+    }
+
+    .guide-text p {
+      font-size: 0.93rem;
+      color: #3b82f6;
+      line-height: 1.45;
+      font-weight: 600;
+    }
+
+    .btn-open-worksheet {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: white;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 0.98rem;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-open-worksheet:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(2, 132, 199, 0.4);
+    }
+
+    /* STEP 1 하단 스크롤 안내 버튼 */
+    .scroll-cue-wrapper {
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .btn-scroll-down {
+      width: 100%;
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfeff 100%);
+      border: 2px dashed #0284c7;
+      color: #0369a1;
+      font-size: 0.98rem;
+      font-weight: 800;
+      padding: 12px 18px;
+      border-radius: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-scroll-down:hover {
+      background: #e0f2fe;
+      border-color: #0284c7;
+      transform: translateY(-2px);
+    }
+
+    .bounce-arrow {
+      display: inline-block;
+      font-size: 1.15rem;
+      animation: bounceDown 1.5s infinite;
+    }
+
+    @keyframes bounceDown {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(5px); }
+    }
+
+    /* 화면 우측 하단 플로팅 스크롤 버튼 (태블릿/PC 편의) */
+    .floating-scroll-bar {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 1000;
+    }
+
+    .floating-btn {
+      background: #ffffff;
+      color: #334155;
+      border: 1.5px solid #cbd5e1;
+      padding: 9px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .floating-btn.primary {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+    }
+
+    .floating-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .floating-btn:active {
+      transform: scale(0.94);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- 상단 바 -->
+    <header class="top-nav">
+      <div class="brand">
+        <span class="brand-badge">진로 4단계</span>
+        <h1 class="brand-title">🚀 2040 미래 직업 아이디어 탐색기</h1>
+      </div>
+      <div class="nav-actions">
+        <a href="4단계_미래사회와_직업탐구_학습지.html" target="_blank" class="btn-nav worksheet">
+          🖨️ 인쇄용 활동지 열기 (A4)
+        </a>
+        <a href="choosing.html" class="btn-nav home">
+          🏠 진로 홈
+        </a>
+      </div>
+    </header>
+
+    <!-- 프로필 영역 (이름 & 희망 직업) -->
+    <section class="profile-card">
+      <div class="profile-grid">
+        <div>
+          <label class="field-label" for="studentName">👤 학번 / 이름</label>
+          <input type="text" id="studentName" class="field-input" placeholder="예: 6학년 2반 김도영" oninput="saveData()">
+        </div>
+        <div>
+          <label class="field-label" for="studentJob">🎯 나의 희망 직업</label>
+          <input type="text" id="studentJob" class="field-input" placeholder="예: 요리사, 선생님, 의사, 축구선수, 작곡가" oninput="onJobInput()">
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         STEP 1: 내가 주목한 2040 미래 사회의 변화 1개 고르기
+         ========================================== -->
+    <section class="step-card">
+      <div class="step-header">
+        <div class="step-title">
+          <span>🌊 STEP 1. 내가 주목한 2040년 미래 사회의 변화</span>
+          <span style="font-size:0.9rem; color:#0284c7; font-weight:800;">(1개 터치!)</span>
+        </div>
+        <span class="step-badge" id="step1SelectedBadge">선택됨: 🧠 인공지능(AI)과 빅데이터</span>
+      </div>
+      <p class="step-desc">
+        내가 어른이 될 2040년 미래 세상에서, <strong>내 직업과 가장 깊이 연결될 미래 변화 1가지</strong>를 터치해 골라보세요! (슬라이드 3쪽 내용)
+      </p>
+
+      <div class="keyword-grid" id="keywordGrid"></div>
+
+      <!-- STEP 2 이동 안내 (스크롤 버튼) -->
+      <div class="scroll-cue-wrapper">
+        <button type="button" class="btn-scroll-down" onclick="scrollToStep2()">
+          <span>💡 선택한 변화의 <strong>[STEP 2 실천 아이디어]</strong> 확인하기</span>
+          <span class="bounce-arrow">⬇️</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         STEP 2: 미래 직업인으로서의 실천 행동 아이디어 탐색 (3개 중 2개 고르기!)
+         ========================================== -->
+    <section class="step-card" id="step2Card">
+      <div class="step-header">
+        <div class="step-title">
+          <span>💡 STEP 2. 미래 직업인으로서의 실천 행동 아이디어</span>
+        </div>
+        <span class="step-badge" style="background:#f0fdf4; color:#166534;" id="step2SelectedCounter">선택한 아이디어: 0 / 2개</span>
+      </div>
+      <p class="step-desc">
+        위 변화 속에서 <strong>미래의 내가 이 직업인이 되었을 때 어떻게 기술을 활용해 일하고 노력할지</strong> 상상해 보세요! 아래 추천 아이디어 중 <strong>마음에 드는 2가지</strong>를 골라 학습지에 적어봅시다.
+      </p>
+
+      <div class="idea-box">
+        <div class="idea-box-header">
+          <div class="idea-box-title" id="ideaBoxTitle">
+            💡 [🧠 인공지능(AI)과 빅데이터] × [나의 직업] 실천 아이디어 (세트 1 / 3)
+          </div>
+          <button type="button" class="btn-refresh" onclick="nextIdeaBatch()">
+            🔄 다른 아이디어 3개 더 보기
+          </button>
+        </div>
+
+        <div class="idea-list" id="ideaList"></div>
+      </div>
+
+      <!-- 활동지 작성 안내 배너 -->
+      <div class="worksheet-guide-banner">
+        <div class="guide-text">
+          <h4>📝 탐색한 아이디어를 학습지에 직접 적어보세요!</h4>
+          <p>
+            1) 위에서 마음에 드는 <strong>행동 아이디어 2가지</strong>를 골라 활동지의 <strong>[활동 1]</strong>에 적습니다.<br>
+            2) 활동지의 <strong>[활동 2]</strong>를 보며, 이 직업에 필요한 공부와 지금 6학년인 나의 실천 노력을 스스로 검색해 채워보세요!
+          </p>
+        </div>
+        <a href="4단계_미래사회와_직업탐구_학습지.html" target="_blank" class="btn-open-worksheet">
+          🖨️ A4 탐구 활동지 열기 ▶
+        </a>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- 플로팅 스크롤 보조 버튼 (태블릿/PC 언제든 편리하게 위아래 이동) -->
+  <div class="floating-scroll-bar" id="floatingScrollBar">
+    <button type="button" class="floating-btn" onclick="scrollToTop()" title="화면 맨 위로">
+      ⬆️ 맨 위로
+    </button>
+    <button type="button" class="floating-btn primary" onclick="scrollToStep2()" title="STEP 2 실천 아이디어로 가기">
+      💡 STEP 2로
+    </button>
+  </div>
+
+  <script>
+    const WORLDCUP_KEY = 'agy_values_worldcup_v1';
+    const FUTURE_KEY = 'agy_future_dream_v1';
+
+    // 2040년 미래 사회 9가지 핵심 변화 (슬라이드 3쪽 내용과 100% 일치)
+    const FUTURE_KEYWORDS = [
+      { id: 'ai', emoji: '🧠', name: '인공지능(AI)과 빅데이터', desc: '모든 직업 현장에 똑똑한 AI 비서가 함께하며 맞춤 분석과 편리함을 돕는 세상' },
+      { id: 'mobility', emoji: '🚁', name: '자율주행·드론·사물인터넷', desc: '운전대 없는 차, 드론 택시, 사물인터넷(IoT)으로 시공간이 편리하게 연결된 스마트 세상' },
+      { id: 'vr', emoji: '🥽', name: '로봇·가상현실(VR)·3D프린터', desc: '힘든 일을 돕는 로봇과 시공간을 넘어 생생하게 체험하고 상상을 현실로 만드는 세상' },
+      { id: 'eco', emoji: '🌱', name: '탄소중립과 친환경 에너지', desc: '뜨거워지는 지구를 지키기 위해 깨끗한 자연과 친환경 에너지를 실천하는 세상' },
+      { id: 'upcycling', emoji: '♻️', name: '에코 신소재와 업사이클링', desc: '플라스틱 쓰레기를 줄이고 버려진 자원에 예술과 새 생명을 불어넣는 순환 세상' },
+      { id: 'food', emoji: '🥗', name: '미래 푸드테크와 생태 복원', desc: '도심 속 스마트팜과 지구·사람이 모두 건강해지는 착한 미래 먹거리 세상' },
+      { id: 'senior', emoji: '🧓', name: '100세 시대 초고령 사회', desc: '어르신들이 오랫동안 건강하고 즐거운 여가를 누리며 인생 2막을 멋지게 사는 세상' },
+      { id: 'mind', emoji: '🩹', name: '마음 건강과 정서적 치유(힐링)', desc: '지친 사람들의 마음을 따뜻한 공감, 예술, 힐링으로 보듬고 위로해 주는 세상' },
+      { id: 'global', emoji: '🐶', name: '반려동물 가족화와 세계시민', desc: '반려동물을 가족처럼 사랑하고 국경 없이 전 세계 이웃과 소통·협력하는 글로벌 세상' }
+    ];
+
+    let state = {
+      studentName: '',
+      studentJob: '',
+      selectedKeyword: 'ai',
+      checkedIdeas: []
+    };
+
+    let ideaBatchIdx = 0;
+
+    function detectJobCategory(jobStr) {
+      const j = (jobStr || '').trim();
+      if (/교사|선생|교수|강사|교육|유치원/.test(j)) return 'teacher';
+      if (/의사|간호|수의사|약사|치료|의료|병원|치과/.test(j)) return 'medical';
+      if (/요리|셰프|제과|제빵|파티시에|음식|바리스타/.test(j)) return 'chef';
+      if (/운동|선수|축구|배드민턴|야구|농구|태권도|수영|코치|감독|체육/.test(j)) return 'sports';
+      if (/작곡|음악|가수|화가|웹툰|디자인|디자이너|작가|배우|예술|만화|일러스트/.test(j)) return 'art';
+      if (/과학|연구|개발|프로그래머|코딩|로봇|공학|천문|발명|건축/.test(j)) return 'science';
+      if (/경찰|소방|군인|판사|검사|변호사|법|안전|경호/.test(j)) return 'safety';
+      return 'general';
+    }
+
+    // 9가지 미래 변화 × 직업별 구체적 실천/행동 아이디어 (옵션 B 다짐/행동형: ~할 것입니다)
+    function getActionIdeas(kwId, jobStr) {
+      const job = (jobStr || '').trim() || '전문가';
+      const cat = detectJobCategory(job);
+
+      const specific = {
+        ai: {
+          teacher: [
+            `학생 개개인의 학습 속도와 이해도를 분석하는 AI 튜터를 활용해 1:1 맞춤형 수업을 진행할 것입니다.`,
+            `AI 기술이 분석한 학생들의 고민과 감정 상태를 참고하여, 따뜻하고 세심한 눈높이 상담을 실천할 것입니다.`,
+            `반복적인 채점과 행정 업무는 똑똑한 AI 조수에게 맡기고, 아이들과 직접 눈을 맞추며 대화하는 시간을 늘릴 것입니다.`
+          ],
+          medical: [
+            `AI 질병 진단 시스템을 활용해 병을 조기에 발견하고, 환자에게 가장 안전한 맞춤 치료법을 찾아줄 것입니다.`,
+            `빅데이터로 환자의 건강 기록을 실시간 모니터링하여 위험 상황을 사전에 예방할 것입니다.`,
+            `기계의 계산보다 환자의 아픈 마음에 귀 기울이며, AI가 줄 수 없는 따뜻한 위로와 정성을 전할 것입니다.`
+          ],
+          chef: [
+            `요리 과정에 인공지능 조리 로봇을 도입하여 조리 시간을 단축하고 위생을 철저히 관리할 것입니다.`,
+            `손님 개개인의 건강 데이터와 영양 정보를 분석하는 AI를 활용해 세상에 하나뿐인 맞춤 건강식을 제공할 것입니다.`,
+            `빅데이터로 식재료 소비량을 예측하여 버려지는 음식물 쓰레기를 최소화하는 스마트 주방을 만들 것입니다.`
+          ],
+          sports: [
+            `경기 중 AI 움직임 추적 센서와 빅데이터를 분석하여 나의 단점을 보완하고 경기력을 극대화할 것입니다.`,
+            `바이오 센서 데이터를 통해 부상 위험을 사전에 예측하고 과학적인 맞춤 재활 및 체력 관리를 실천할 것입니다.`,
+            `상대 팀 선수들의 전술 패턴을 AI 분석 시스템으로 미리 분석하여 경기에서 결정적인 플레이를 펼칠 것입니다.`
+          ],
+          art: [
+            `새로운 생성형 AI 도구를 창의적인 스케치 파트너로 활용해, 세상에 없던 독창적인 작품을 만들 것입니다.`,
+            `사람들의 감정과 선호도를 분석하는 데이터 기술을 참고해, 많은 사람들의 마음에 깊은 울림을 주는 작품을 선보일 것입니다.`,
+            `기계가 절대 흉내 낼 수 없는 나만의 진심 어린 감성과 이야기를 작품에 담아 사람들을 감동시킬 것입니다.`
+          ],
+          science: [
+            `방대한 우주·생명 과학 데이터를 AI 슈퍼컴퓨터로 분석해, 인류의 난제를 해결하는 신기술을 연구할 것입니다.`,
+            `위험하거나 복잡한 실험을 AI 가상 시뮬레이션으로 수만 번 반복 검증하여 연구 실패율을 낮출 것입니다.`,
+            `AI 기술이 사람을 해치지 않고 사회를 안전하게 돕도록 올바른 연구 윤리를 지키며 개발할 것입니다.`
+          ],
+          safety: [
+            `AI 지능형 CCTV와 데이터 분석을 활용해 위험 지역을 사전에 예측하고 범죄와 사고를 예방할 것입니다.`,
+            `재난 상황에서 AI 구조 분석 시스템을 가동하여 가장 안전하고 빠른 대피 경로를 시민들에게 안내할 것입니다.`,
+            `기술의 편리함 위에 공정한 법과 인권을 최우선으로 지키며, 억울한 시민이 없도록 정의를 실현할 것입니다.`
+          ],
+          general: [
+            `내 직업 현장에 똑똑한 AI 비서를 도입해 업무 효율을 높이고, 사람만이 할 수 있는 창의적인 일에 집중할 것입니다.`,
+            `빅데이터를 활용해 사람들의 숨은 필요를 정확히 찾아내고, 더 만족스러운 도움과 서비스를 선물할 것입니다.`,
+            `기계의 자동화 속에서도 사람 사이의 신뢰와 따뜻한 배려를 잃지 않는 믿음직한 전문가로 일할 것입니다.`
+          ]
+        },
+        mobility: {
+          teacher: [
+            `스마트 모빌리티를 타고 원거리 시골 학교나 이동식 배움터로 찾아가 소외된 아이들에게 배움의 기회를 줄 것입니다.`,
+            `자율주행 이동 도서관과 스마트 체험 버스를 운영하여 아이들이 어디서나 즐겁게 공부하도록 이끌 것입니다.`,
+            `드론 촬영 기술을 야외 생태 수업과 지리 탐구에 접목하여 아이들의 시야를 넓혀줄 것입니다.`
+          ],
+          medical: [
+            `응급 환자가 발생했을 때 하늘을 나는 드론 앰뷸런스를 즉시 파견하여 골든타임을 지켜낼 것입니다.`,
+            `자율주행 원격 진료 차량을 이용해 의료 시설이 부족한 외딴 마을의 어르신들을 정기적으로 찾아갈 것입니다.`,
+            `스마트 센서로 이송 중인 환자의 생체 신호를 실시간 모니터링하며 병원 도착 즉시 수술할 수 있게 준비할 것입니다.`
+          ],
+          chef: [
+            `친환경 자율주행 푸드트럭을 타고 지역 축제나 도움이 필요한 이웃을 찾아가 따뜻한 음식을 나눌 것입니다.`,
+            `신선도가 생명인 고급 요리 재료를 드론 항공 배송으로 산지에서 직송받아 최고의 맛을 선보일 것입니다.`,
+            `스마트 모빌리티 내부를 이동식 주방으로 꾸며 특별한 장소에서 식사하는 이색 다이닝을 운영할 것입니다.`
+          ],
+          sports: [
+            `원정 경기 이동 시 자율주행 스마트 훈련 차량에서 피로를 회복하고 컨디션을 최상으로 유지할 것입니다.`,
+            `초고속 추적 드론으로 나의 훈련 영상을 다양한 각도에서 촬영해 자세와 동작을 정밀하게 교정할 것입니다.`,
+            `스마트 이동 장비를 적극 활용하여 세계 어느 곳의 경기장에 가더라도 시차와 피로를 빠르게 극복할 것입니다.`
+          ],
+          art: [
+            `수백 대의 드론 군집 비행 기술을 활용해 밤하늘에 환상적인 이야기와 빛을 수놓는 드론 아트 쇼를 연출할 것입니다.`,
+            `자율주행 이동식 갤러리를 기획하여 미술관에 오기 힘든 이웃들을 직접 찾아가 예술의 감동을 나눌 것입니다.`,
+            `드론 항공 촬영과 모빌리티 미디어를 결합해 지상에서는 볼 수 없는 웅장하고 아름다운 영상 작품을 제작할 것입니다.`
+          ],
+          science: [
+            `하늘을 나는 도심 항공 교통(UAM)과 자율주행 로봇이 안전하게 다닐 수 있는 첨단 항법 시스템을 연구·개발할 것입니다.`,
+            `사람이 가기 힘든 오지나 재난 현장에 투입할 수 있는 특수 탐사 드론과 자율주행 탐사선을 설계할 것입니다.`,
+            `친환경 무인 모빌리티 배터리와 제어 기술을 연구하여 배기가스 없는 깨끗한 미래 교통 시스템을 완성할 것입니다.`
+          ],
+          safety: [
+            `자율주행 순찰 로봇과 순찰 드론을 24시간 투입해 어두운 골목길과 우범 지역을 샅샅이 지킬 것입니다.`,
+            `화재나 산불 현장에 소방 드론을 먼저 투입하여 조난자를 신속히 수색하고 안전하게 구조할 것입니다.`,
+            `자율주행 교통 관제 시스템을 모니터링하여 도로 위의 교통사고를 0건으로 만드는 스마트 안전망을 구축할 것입니다.`
+          ],
+          general: [
+            `${job}로서 자율주행과 드론 등 스마트 이동 기술을 활용하여 시공간의 한계를 넘어 사람들에게 신속하게 다가갈 것입니다.`,
+            `첨단 모빌리티 기술을 내 직업 현장에 접목하여 이동 시간과 비용을 줄이고, 서비스 품질을 획기적으로 높일 것입니다.`,
+            `스마트 이동 수단을 지혜롭게 활용하여 멀리 떨어진 사람들에게도 내 전문성과 따뜻한 도움을 나눌 것입니다.`
+          ]
+        },
+        vr: {
+          teacher: [
+            `가상현실(VR) 메타버스를 활용해 역사 현장이나 우주 공간을 아이들과 직접 탐험하는 생생한 수업을 할 것입니다.`,
+            `위험하거나 교실에서 하기 힘든 과학 실험을 3D 시뮬레이션으로 안전하고 신나게 체험하도록 이끌 것입니다.`,
+            `시공간을 넘어 전 세계 다른 나라 교실의 친구들과 실시간 가상 교류 수업을 열어 시야를 넓혀줄 것입니다.`
+          ],
+          medical: [
+            `수술 전 3D 가상 시뮬레이션으로 환자의 환부를 정밀하게 연습해 오차 없는 안전한 수술을 진행할 것입니다.`,
+            `통증이나 두려움을 겪는 소아 환자에게 VR 가상 힐링 체험을 제공하여 편안한 마음으로 치료받게 도울 것입니다.`,
+            `3D 바이오 프린팅 기술을 활용해 환자에게 꼭 맞는 인공 조직이나 보조 기구를 맞춤 제작할 것입니다.`
+          ],
+          chef: [
+            `가상공간(VR)에 나의 미래 레스토랑을 열어 전 세계 사람들에게 가상 요리 체험과 특별한 레시피를 소개할 것입니다.`,
+            `음식 3D 프린터를 활용해 영양소를 정밀하게 배합한 아름답고 독창적인 디저트를 만들어낼 것입니다.`,
+            `시각·청각 효과와 어우러지는 몰입형 미디어 아트 식당을 기획해 손님들에게 잊지 못할 식사 경험을 선물할 것입니다.`
+          ],
+          sports: [
+            `가상현실(VR) 시뮬레이션으로 세계 유명 경기장의 환경을 미리 체험하며 실전 경기 감각을 극대화할 것입니다.`,
+            `로봇 훈련 파트너와 함께 강도 높은 스파링과 맞춤 훈련을 진행하여 기술적인 약점을 완벽하게 보완할 것입니다.`,
+            `모션 캡처와 3D 입체 분석으로 내 신체 관절의 움직임을 교정하여 부상을 막고 기록을 경신할 것입니다.`
+          ],
+          art: [
+            `VR 가상 캔버스 속에서 시공간을 초월한 3차원 입체 예술 작품을 만들어 전 세계에 전시할 것입니다.`,
+            `메타버스 공연장에서 전 세계 관객들과 아바타로 호흡하며 실시간 소통하는 새로운 예술을 펼칠 것입니다.`,
+            `3D 프린팅 기술과 디지털 미디어를 결합해 상상 속의 캐릭터와 세상을 현실의 아름다운 조형물로 구현할 것입니다.`
+          ],
+          science: [
+            `인간을 대신해 위험한 우주나 심해, 방사능 구역을 탐사하는 지능형 휴머노이드 로봇을 연구·개발할 것입니다.`,
+            `나노 단위의 분자 구조와 우주 천체 모델을 3D 입체 시뮬레이션으로 구현하여 자연의 신비를 밝혀낼 것입니다.`,
+            `인간과 로봇이 서로 협력하며 안전하게 일할 수 있는 따뜻한 감성 로봇 공학 기술을 발전시킬 것입니다.`
+          ],
+          safety: [
+            `유독가스가 가득한 화재 건물이나 붕괴 위험 지역에 특수 수색 로봇을 먼저 진입시켜 생존자를 구할 것입니다.`,
+            `경찰·소방 대원들이 실제 재난 현장과 똑같은 환경에서 대처 능력을 키울 수 있도록 초실감 VR 훈련을 진행할 것입니다.`,
+            `폭발물 처리나 위험물 제거 작업에 원격 제어 로봇을 활용하여 시민과 대원의 안전을 완벽하게 지킬 것입니다.`
+          ],
+          general: [
+            `${job}로서 시공간을 넘나드는 가상현실(VR)과 로봇 기술을 활용하여 사람들에게 새롭고 환상적인 경험을 선물할 것입니다.`,
+            `힘들고 위험한 작업은 든든한 로봇 친구와 협력하고, 나는 ${job}만이 할 수 있는 창의적인 아이디어를 펼칠 것입니다.`,
+            `첨단 가상 기술을 능숙하게 다루며 사람들의 상상력을 멋진 현실로 바꾸어 주는 전문가가 될 것입니다.`
+          ]
+        },
+        eco: {
+          teacher: [
+            `학교 옥상과 텃밭에 친환경 태양광 발전과 빗물 재활용 시설을 갖추고, 학생들과 함께 생생한 탄소중립 실천 수업을 할 것입니다.`,
+            `태블릿과 디지털 전자교과서를 적극 활용하여 종이 낭비가 전혀 없는 친환경 그린 교실을 앞장서서 가꿀 것입니다.`,
+            `아이들과 함께 '어린이 기후위기 대응 동아리'를 조직하여 플라스틱 줄이기와 생태 보호 캠페인을 실천할 것입니다.`
+          ],
+          medical: [
+            `병원에서 나오는 의료 폐기물을 안전하게 줄이고 재활용하는 친환경 그린 호스피탈 시스템을 실천할 것입니다.`,
+            `기후변화와 온열 질환, 환경성 아토피로 고통받는 환자들을 조기에 치료하고 환경 보건 예방 수칙을 널리 알릴 것입니다.`,
+            `친환경 태양광 에너지를 비상 전력으로 사용하는 안전한 의료 시설을 갖추어 기후 재난 상황에서도 진료를 이어갈 것입니다.`
+          ],
+          chef: [
+            `식재료 이동 거리를 줄인 로컬 푸드와 유기농 친환경 농산물만을 고집하여 지구를 살리는 식탁을 차릴 것입니다.`,
+            `탄소 배출량이 적은 건강한 식물성 대체육 메뉴를 맛있게 개발해 친환경 식문화를 널리 알릴 것입니다.`,
+            `조리 과정에서 나오는 열에너지를 재활용하고 일회용품을 전혀 쓰지 않는 제로 탄소 식당을 운영할 것입니다.`
+          ],
+          sports: [
+            `경기장 조명과 잔디 관리에 100% 재생 에너지를 사용하는 친환경 스포츠 경기 문화를 만드는 데 앞장설 것입니다.`,
+            `폐페트병과 친환경 생분해 소재로 제작된 유니폼과 운동화를 착용하며 환경 사랑의 메시지를 팬들에게 전할 것입니다.`,
+            `달리기를 하며 쓰레기를 줍는 플로깅(Plogging) 캠페인을 팬들과 함께 실천하여 선한 영향력을 펼칠 것입니다.`
+          ],
+          art: [
+            `자연 채광과 재생 에너지만으로 운영되는 친환경 에코 미술관을 기획하고 자연의 소중함을 알리는 전시를 열 것입니다.`,
+            `화학 물감이 아닌 천연 광물과 식물성 물감만을 사용하여 환경을 오염시키지 않는 생태 예술 작품을 창작할 것입니다.`,
+            `지구 온난화의 심각성과 아름다운 자연을 대비시킨 감동적인 작품으로 사람들의 환경 보호 실천을 이끌어낼 것입니다.`
+          ],
+          science: [
+            `화석 연료를 대체할 수 있는 고효율 태양광 페로브스카이트 전지와 청정 수소 에너지 기술을 연구·개발할 것입니다.`,
+            `공기 중의 이산화탄소를 직접 포집하여 유용한 자원으로 변환하는 탄소 포집 신기술을 완성할 것입니다.`,
+            `지구 온난화를 늦추고 미래 세대에게 깨끗한 지구를 물려줄 수 있는 신재생 에너지 인프라를 설계할 것입니다.`
+          ],
+          safety: [
+            `전기·수소 순찰차와 친환경 소방차를 전면 도입하여 매연 없는 깨끗한 도시 안전 순찰을 실천할 것입니다.`,
+            `기후변화로 인해 자주 발생하는 게릴라성 폭우와 산불 재난에 대비한 친환경 재난 대응 시스템을 구축할 것입니다.`,
+            `시민들과 함께 탄소 배출을 줄이는 안전 수칙을 지키며 기후 재난으로부터 이웃의 생명과 터전을 지킬 것입니다.`
+          ],
+          general: [
+            `${job}로서 내 일터에서 전기와 자원을 아끼고 재생 에너지를 사용하는 탄소중립 실천에 적극 동참할 것입니다.`,
+            `내가 제공하는 서비스와 상품에 친환경 가치를 담아, 고객들도 자연스럽게 지구 살리기에 동참하도록 도울 것입니다.`,
+            `기후위기 시대에 책임감 있는 ${job}로서 자연과 인간이 공존할 수 있는 지속 가능한 사회를 만드는 데 힘쓸 것입니다.`
+          ]
+        },
+        upcycling: {
+          teacher: [
+            `버려지는 페트병, 종이박스, 헌 옷을 활용해 교실 꾸미기와 창의 발명 수업을 진행하며 자원 순환의 가치를 가르칠 것입니다.`,
+            `아이들과 함께 버려지는 물건에 아이디어를 더해 새로운 가치를 불어넣는 '어린이 업사이클링 마켓'을 운영할 것입니다.`,
+            `버려진 물건도 귀하게 쓰이듯, 모든 학생이 저마다의 특별한 재능과 가치를 지니고 있음을 따뜻하게 일깨워줄 것입니다.`
+          ],
+          medical: [
+            `폐플라스틱을 안전하게 멸균·가공한 친환경 바이오 신소재로 의료용 붕대나 환자 보조 기구를 제작하여 사용할 것입니다.`,
+            `병원 내에서 발생하는 무해한 일회용품 포장재를 재활용하는 에코 클리닉 문화를 만들어 환경 보건에 기여할 것입니다.`,
+            `환자들에게 친환경 소재의 편안한 환자복을 제공하여 피부 자극을 줄이고 심리적 안정을 도울 것입니다.`
+          ],
+          chef: [
+            `버려지는 못난이 농산물이나 식재료 껍질을 창의적으로 재해석한 업사이클링 시그니처 요리를 개발할 것입니다.`,
+            `식당에서 나오는 커피 찌꺼기와 음식 부산물을 친환경 비료로 재활용하는 완벽한 자원 순환을 만들 것입니다.`,
+            `버려지는 굴 껍데기나 곡물 껍질로 만든 자연 분해 친환경 접시와 식기를 사용하여 환경을 지킬 것입니다.`
+          ],
+          sports: [
+            `버려진 어망과 해양 플라스틱을 수거해 만든 고기능성 스포츠웨어와 친환경 라켓·공을 사용하여 경기할 것입니다.`,
+            `수명이 다한 스포츠 장비나 공을 모아 어린이들을 위한 체육 교구로 업사이클링하여 기부할 것입니다.`,
+            `친환경 스포츠 브랜드와 협업하여 팬들에게 자원 재활용의 소중함을 알리는 환경 캠페인을 진행할 것입니다.`
+          ],
+          art: [
+            `버려지는 폐플라스틱과 헌 옷을 수거하여 세상에 하나뿐인 멋진 예술 작품과 패션 아이템으로 재탄생시킬 것입니다.`,
+            `환경오염의 심각성을 일깨우는 정크아트(업사이클링 미술) 전시회를 열어 사람들의 마음에 큰 울림을 줄 것입니다.`,
+            `시민들과 함께하는 '버려진 물건 예술로 되살리기' 공방을 운영하여 누구나 예술가가 될 수 있도록 이끌 것입니다.`
+          ],
+          science: [
+            `자연에서 몇 달 만에 100% 분해되는 옥수수 전분 기반 생분해 바이오 플라스틱 신소재를 연구·개발할 것입니다.`,
+            `버려지는 폐배터리에서 리튬과 코발트 등 핵심 희귀 금속을 99% 이상 추출해 재활용하는 기술을 완성할 것입니다.`,
+            `플라스틱을 먹어 치우는 친환경 미생물과 효소를 개량하여 전 세계 쓰레기 매립지 문제를 해결할 것입니다.`
+          ],
+          safety: [
+            `수명이 다한 소방 호스와 방화복을 튼튼한 구조용 가방과 안전 장비로 업사이클링하여 대원들에게 보급할 것입니다.`,
+            `버려지는 신소재 섬유를 재가공하여 가볍고 충격 흡수력이 뛰어난 차세대 경찰 방탄조끼와 안전모를 개발할 것입니다.`,
+            `자원 낭비 없는 안전한 환경을 만들며 시민들에게 친환경 안전 수칙을 전파하는 모범적인 ${job}가 될 것입니다.`
+          ],
+          general: [
+            `${job}로서 버려지는 자원에 창의적인 아이디어를 더해 새로운 가치를 불어넣는 업사이클링 실천에 앞장설 것입니다.`,
+            `환경을 해치지 않는 에코 신소재 제품을 적극적으로 사용하고 주변 사람들에게도 그 가치를 권유할 것입니다.`,
+            `쓸모없어 보이는 물건에서도 숨은 가능성을 찾아내듯, 세상의 모든 사람과 자원을 소중히 여기는 ${job}가 될 것입니다.`
+          ]
+        },
+        food: {
+          teacher: [
+            `교실 안에 인공지능 스마트팜을 설치하고 학생들과 함께 무농약 채소를 직접 재배하며 생태와 과학을 가르칠 것입니다.`,
+            `미래 식량 부족 문제와 스마트 푸드테크를 주제로 흥미진진한 융합 프로젝트 수업을 열어 학생들의 호기심을 키울 것입니다.`,
+            `학생들이 스마트팜에서 수확한 작물로 건강한 간식을 만들어 먹으며 올바른 식습관과 생명의 소중함을 체득하게 할 것입니다.`
+          ],
+          medical: [
+            `환자의 유전체와 장내 미생물 데이터를 분석해 스마트팜 맞춤 기능성 채소로 식단을 처방하는 푸드테라피를 제공할 것입니다.`,
+            `미래 푸드테크로 개발된 고농축 영양 대체 식품을 활용해 영양 결핍 환자나 삼킴 곤란 환자를 안전하게 회복시킬 것입니다.`,
+            `식품 알레르기 유발 물질을 완벽히 제거한 미래 안전 식품을 환자들에게 권장하여 알레르기 질환을 예방할 것입니다.`
+          ],
+          chef: [
+            `도심 빌딩 스마트팜에서 갓 수확한 신선한 무농약 미래 식재료로 손님들에게 최상의 건강식을 대접할 것입니다.`,
+            `기후변화에도 끄떡없는 미래 슈퍼푸드와 해조류를 활용한 창의적인 건강 보양식 메뉴를 개발할 것입니다.`,
+            `환자나 어르신들이 씹고 삼키기 편하면서도 영양과 맛이 풍부한 미래형 케어푸드를 전문적으로 요리할 것입니다.`
+          ],
+          sports: [
+            `스마트팜에서 과학적으로 재배된 고순도 천연 비타민과 미래 단백질 식단을 섭취하여 지치지 않는 근지구력을 기를 것입니다.`,
+            `운동 후 근육 회복 속도를 2배로 높여주는 미래 푸드테크 스포츠 보충제를 활용해 최상의 컨디션을 관리할 것입니다.`,
+            `후배 선수들에게도 철저한 스마트 영양 관리의 중요성을 전파하여 부상 없는 건강한 선수 생활을 돕는 멘토가 될 것입니다.`
+          ],
+          art: [
+            `푸드테크 3D 프린터로 음식의 색감과 형태를 예술적으로 조각하여 눈과 입이 모두 즐거운 신개념 푸드 아트를 창작할 것입니다.`,
+            `도심 속 아름다운 미래 스마트팜의 모습을 감각적인 일러스트와 영상 미디어 아트로 표현해 전시할 것입니다.`,
+            `미래 식량 문화의 따뜻한 풍경을 동화와 웹툰으로 그려내어 어린이들에게 건강한 음식에 대한 흥미를 선물할 것입니다.`
+          ],
+          science: [
+            `사막이나 우주 기지에서도 식물을 빠르게 키울 수 있는 완전 자동화 스마트팜 인공지능 환경 제어기를 개발할 것입니다.`,
+            `동물을 해치지 않고 세포를 배양해 진짜 고기와 똑같은 맛과 영양을 내는 고효율 배양육 생산 기술을 연구할 것입니다.`,
+            `병충해와 가뭄에 강하고 영양가가 3배 높은 미래 슈퍼 작물 유전체를 연구해 지구의 식량 위기를 해결할 것입니다.`
+          ],
+          safety: [
+            `스마트팜 재배 농산물과 미래 배양육의 안전성을 철저히 검사하여 유해 물질이 없는지 감시하는 식품 안전을 지킬 것입니다.`,
+            `식품 유통 과정에서 온도와 신선도를 실시간 감지하는 스마트 센서 시스템을 도입해 변질된 먹거리를 원천 차단할 것입니다.`,
+            `국민들이 미래 식재료를 안심하고 먹을 수 있도록 과학적인 식품 위생 기준과 법률을 바로 세우는 데 기여할 것입니다.`
+          ],
+          general: [
+            `${job}로서 도심 속 스마트팜과 첨단 푸드테크 기술을 내 일과 삶에 접목하여 건강하고 활력 넘치는 환경을 만들 것입니다.`,
+            `지구 환경을 해치지 않는 착한 미래 먹거리에 관심을 기울이며, ${job}의 역할을 통해 건강한 식문화를 널리 알릴 것입니다.`,
+            `자연의 생명력과 첨단 기술이 어우러진 미래 푸드 시스템을 지지하며, 이웃들과 함께 풍요로운 삶을 가꾸는 ${job}가 될 것입니다.`
+          ]
+        },
+        senior: {
+          teacher: [
+            `100세 시대를 맞이한 할머니·할아버지들께 디지털 스마트 기기와 평생 배움의 즐거움을 나누는 시니어 교실을 열 것입니다.`,
+            `어린이와 어르신이 짝꿍이 되어 서로의 지혜와 따뜻한 마음을 나누는 '세대 공감 배움터'를 학교에 만들 것입니다.`,
+            `나이에 상관없이 누구나 배움의 설렘을 느낄 수 있도록 평생교육 프로그램을 기획하여 어르신들의 꿈을 응원할 것입니다.`
+          ],
+          medical: [
+            `어르신들의 만성 질환과 관절 건강을 사전에 예방하고 활기찬 노후를 보내시도록 정기적인 방문 맞춤 진료를 실천할 것입니다.`,
+            `외롭고 우울한 마음을 겪으시는 어르신들의 손을 따뜻하게 잡아드리며, 가족 같은 정성으로 마음 건강까지 챙겨드릴 것입니다.`,
+            `스마트 원격 생체 모니터링 시스템으로 혼자 계신 어르신들의 응급 상황을 24시간 감지하여 즉시 대처할 것입니다.`
+          ],
+          chef: [
+            `치아가 약한 어르신들도 부드럽게 씹고 편하게 소화시킬 수 있으면서도 맛있는 영양 만점 시니어 보양식을 개발할 것입니다.`,
+            `당뇨, 고혈압 등 만성 질환을 가진 어르신들을 위해 염분과 당분을 줄이면서도 감칠맛을 살린 건강 맞춤 식단을 제공할 것입니다.`,
+            `지역 복지관 어르신들께 따뜻한 점심 식사를 정기적으로 대접하며 음식으로 따뜻한 위로와 정을 나눌 것입니다.`
+          ],
+          sports: [
+            `할머니·할아버지들의 관절과 근력을 안전하게 지켜주는 100세 맞춤 시니어 재활 스포츠 프로그램을 개발할 것입니다.`,
+            `어르신들이 손주들과 함께 즐겁게 어울려 운동할 수 있는 신나는 패밀리 스포츠 축제를 기획할 것입니다.`,
+            `나이가 들어도 건강하고 당당하게 운동을 즐길 수 있다는 자신감을 어르신들께 심어주는 다정한 코치가 될 것입니다.`
+          ],
+          art: [
+            `어르신들이 살아오신 인생의 소중한 추억과 이야기를 담아 세상에 하나뿐인 자서전 그림책과 다큐멘터리로 제작해 드릴 것입니다.`,
+            `노인 복지관에서 어르신들과 함께 추억을 그리는 미술·음악 치유 교실을 열어 마음에 활력과 미소를 선물할 것입니다.`,
+            `백발의 아름다움과 깊은 연륜을 담아낸 멋진 시니어 패션과 인물 사진전을 열어 나이 듦의 아름다움을 알릴 것입니다.`
+          ],
+          science: [
+            `보행이 불편한 어르신들이 입기만 해도 가볍게 산책할 수 있는 경량 웨어러블 보행 보조 로봇을 개발할 것입니다.`,
+            `치매를 조기에 진단하고 뇌 건강을 지켜주는 두뇌 훈련 인공지능 소프트웨어를 연구·개발할 것입니다.`,
+            `혼자 계신 어르신과 정답게 말벗이 되어 드리고 응급 상황을 알려주는 다정한 반려 돌봄 로봇을 만들 것입니다.`
+          ],
+          safety: [
+            `홀로 거주하시는 독거 어르신 댁에 스마트 화재 감지기와 활동 센서를 설치해 고독사와 안전사고를 철저히 예방할 것입니다.`,
+            `어르신들을 대상으로 한 보이스피싱이나 금융 사기 범죄를 미리 차단하고 안전한 동네 순찰망을 강화할 것입니다.`,
+            `거동이 불편한 어르신들을 위한 맞춤형 피난 지원 시스템을 갖추어 재난 시 가장 먼저 안전하게 대피시켜 드릴 것입니다.`
+          ],
+          general: [
+            `${job}로서 100세 시대를 맞이한 어르신들이 소외되지 않고 사회에서 존중받으며 편리하게 생활하시도록 도울 것입니다.`,
+            `어르신 고객들의 눈높이에 맞추어 더 친절하고 천천히 다가가며, 세심한 배려로 신뢰를 얻는 ${job}가 될 것입니다.`,
+            `어린이부터 어르신까지 모든 세대가 다정하게 어우러져 서로를 존중하는 따뜻한 사회를 만드는 데 힘쓸 것입니다.`
+          ]
+        },
+        mind: {
+          teacher: [
+            `학업 스트레스로 지친 아이들에게 명상, 예술, 따뜻한 대화를 통해 마음의 평화를 선물하는 '쉼표 교실'을 가꿀 것입니다.`,
+            `친구 관계에서 어려움을 겪는 아이들의 작은 고민도 놓치지 않고 다정하게 경청하며 자존감을 높여줄 것입니다.`,
+            `학생들이 서로의 감정을 솔직하게 표현하고 공감하며 갈등을 지혜롭게 해결하는 '마음 챙김 감정 수업'을 진행할 것입니다.`
+          ],
+          medical: [
+            `몸의 상처뿐만 아니라 불안과 우울로 힘들어하는 환자들의 이야기에 귀 기울이며 정서적인 치유까지 함께 도울 것입니다.`,
+            `뇌파 분석과 디지털 치료제를 활용해 스트레스 지수를 과학적으로 관리하고 맞춤 힐링 솔루션을 처방할 것입니다.`,
+            `환자와 보호자가 병원을 두려운 곳이 아닌 마음 편히 회복할 수 있는 따뜻한 치유의 안식처로 느끼도록 보살필 것입니다.`
+          ],
+          chef: [
+            `지친 마음에 따뜻한 위로와 안정감을 주는 세로토닌 촉진 힐링 티와 영양 푸드를 정성껏 대접할 것입니다.`,
+            `손님 한 분 한 분의 기분과 사연에 어울리는 '마음 맞춤 위로 요리'를 만들어 따뜻한 온기를 선물할 것입니다.`,
+            `조용하고 아늑한 분위기에서 음식의 향과 맛에 온전히 집중하며 힐링할 수 있는 마인드풀 다이닝 공간을 운영할 것입니다.`
+          ],
+          sports: [
+            `과도한 승부욕과 스트레스를 비워내고 몸과 마음의 조화를 이루는 요가·필라테스 마인드케어 운동을 지도할 것입니다.`,
+            `자연 속에서 산책하며 땀을 흘리고 긍정적인 에너지를 채우는 힐링 스포츠 캠프를 열어 사람들의 지친 마음을 달래줄 것입니다.`,
+            `경기 결과에 낙담한 동료들에게 따뜻한 격려와 지지를 보내며 언제나 든든한 버팀목이 되어주는 선수가 될 것입니다.`
+          ],
+          art: [
+            `마음에 상처를 입거나 외로운 사람들을 따뜻하게 위로하고 치유해 주는 힐링 미술·음악 작품을 선보일 것입니다.`,
+            `사람들이 자신의 슬픔과 불안을 자유롭게 표현하고 털어낼 수 있도록 돕는 힐링 예술 워크숍을 운영할 것입니다.`,
+            `바쁜 일상에 지친 현대인들이 멍하니 바라보며 마음의 평화를 찾을 수 있는 미디어 아트 쉼터를 만들 것입니다.`
+          ],
+          science: [
+            `사용자의 음성과 표정, 심박수를 실시간 감지해 우울감을 조기에 발견하고 위로해 주는 감성 인공지능을 개발할 것입니다.`,
+            `가상현실(VR) 속에서 숲속이나 파도 소리를 들으며 심리적 안정을 되찾는 뇌파 맞춤형 가상 힐링 테라피 기술을 연구할 것입니다.`,
+            `기술이 인간의 마음을 메마르게 하지 않고 정서적 유대감을 키워주도록 돕는 따뜻한 인터페이스를 설계할 것입니다.`
+          ],
+          safety: [
+            `범죄나 재난을 겪고 트라우마에 시달리는 피해자와 유가족들에게 전문 심리 상담과 회복을 적극 지원할 것입니다.`,
+            `위험한 현장에서 극심한 스트레스를 겪는 동료 경찰·소방관들의 마음 건강을 지켜주는 동료 서포터즈로 활동할 것입니다.`,
+            `위기 상황에 처한 시민들에게 차분하고 다정한 목소리로 안도감을 주며 끝까지 안전을 지켜내는 든든한 ${job}가 될 것입니다.`
+          ],
+          general: [
+            `${job}로서 바쁜 일상 속에서 사람들의 지친 마음에 따뜻한 쉼표와 행복을 선물하는 힐링 전문가로 활약할 것입니다.`,
+            `따뜻한 공감과 밝은 미소로 이웃의 이야기에 귀 기울이며, 마음에 큰 용기와 위로를 북돋아 주는 ${job}가 될 것입니다.`,
+            `내가 가진 밝은 에너지와 다정한 감성으로 함께 일하는 사람들의 스트레스를 덜어주고 행복한 일터를 만들 것입니다.`
+          ]
+        },
+        global: {
+          teacher: [
+            `다문화 가정의 학생들과 전 세계 친구들이 편견 없이 서로의 문화를 존중하고 어울리도록 세계시민 교육을 실천할 것입니다.`,
+            `온라인 화상 플랫폼을 활용해 해외 학교 친구들과 실시간으로 지구촌 환경과 평화 문제를 토론하는 수업을 열 것입니다.`,
+            `생명 존중 교육의 일환으로 동물권과 유기동물 보호 캠페인을 학생들과 함께 실천하며 따뜻한 생명 감수성을 길러줄 것입니다.`
+          ],
+          medical: [
+            `국경없는의사회 같은 국제 구호 단체에 참여하여 의료 혜택을 받지 못하는 전 세계 가난한 이웃들을 치료할 것입니다.`,
+            `반려동물의 질병을 가족처럼 소중히 돌보고, 사람과 동물이 모두 건강하게 살아가는 '원헬스(One Health)'를 실천할 것입니다.`,
+            `언어가 다른 외국인 환자들도 소외되지 않도록 다국어 의료 번역 시스템을 갖추고 정성을 다해 치료할 것입니다.`
+          ],
+          chef: [
+            `한국의 전통 발효 음식과 세계 여러 나라의 식문화를 융합해 국경을 넘어 누구나 사랑하는 글로벌 K-푸드를 선보일 것입니다.`,
+            `다양한 종교와 문화적 배경을 가진 세계 손님들을 배려하여 비건, 할랄 등 맞춤 요리를 정성껏 대접할 것입니다.`,
+            `반려동물의 영양과 건강을 생각한 천연 오가닉 펫 푸드와 수제 간식을 개발해 반려동물 가족에게 행복을 선물할 것입니다.`
+          ],
+          sports: [
+            `올림픽과 세계선수권 등 국제무대에서 전 세계 선수들과 당당하게 겨루며 페어플레이 정신으로 한국을 빛낼 것입니다.`,
+            `반려견과 함께 달리는 도그 마라톤(Canicross)이나 반려 스포츠 대회를 기획하여 생명과 함께하는 스포츠를 널리 알릴 것입니다.`,
+            `전 세계 소외 계층 어린이들에게 스포츠 용품을 기부하고 희망을 전하는 글로벌 스포츠 나눔 대사로 활약할 것입니다.`
+          ],
+          art: [
+            `전 세계 다양한 인종과 문화가 지닌 고유한 아름다움을 화폭에 담아 인류의 화합과 평화를 노래하는 작품을 창작할 것입니다.`,
+            `반려동물의 사랑스러운 표정과 교감을 담아낸 감성적인 웹툰과 일러스트를 그려 많은 사람의 마음에 온기를 전할 것입니다.`,
+            `유기동물 보호와 생명 사랑을 주제로 한 자선 전시회를 열어 수익금을 동물 보호소에 기부하는 선한 예술가가 될 것입니다.`
+          ],
+          science: [
+            `반려동물의 울음소리와 행동 빅데이터를 분석해 감정과 통증을 사람의 말로 통역해 주는 AI 펫 번역기를 개발할 것입니다.`,
+            `전 세계 과학자들과 실시간 오픈 연구 네트워크로 협력하여 기후변화와 신종 바이러스 등 인류 공동의 문제를 해결할 것입니다.`,
+            `동물 실험을 대체할 수 있는 인공 장기 칩을 개발하여 생명을 희생시키지 않는 따뜻한 과학 발전을 이룰 것입니다.`
+          ],
+          safety: [
+            `전 세계 재난 현장에 파견되는 국제 구조대의 일원으로 활약하며 인종과 국경을 초월해 생명을 구하는 영웅이 될 것입니다.`,
+            `위험한 재난 현장에서 함께 활약하는 인명 구조견과 경찰견의 복지와 건강을 최우선으로 챙기는 안전 파트너가 될 것입니다.`,
+            `동물 학대 사건과 유기동물 범죄를 엄정하게 수사하고 근절하여 사람과 동물이 공존하는 안전한 사회를 만들 것입니다.`
+          ],
+          general: [
+            `${job}로서 언어와 국경을 넘어 전 세계 여러 문화의 사람들과 열린 마음으로 소통하고 협력하는 글로벌 전문가가 될 것입니다.`,
+            `생명을 가진 모든 존재를 다정하게 아끼며, 사람과 동물·자연이 평화롭게 어울려 살아가는 사회를 만들 것입니다.`,
+            `국제적인 감각과 따뜻한 인성을 두루 갖추고, 전 세계 무대에서 당당하게 내 재능을 펼치는 멋진 ${job}가 될 것입니다.`
+          ]
+        }
+      };
+
+      const kwMap = specific[kwId] || specific.ai;
+      const catList = kwMap[cat] || [];
+      const genList = kwMap.general || specific.ai.general;
+
+      // 6개의 키워드 공통 아이디어
+      const commonPool = [
+        `2040년 미래 세상에서 ${job}로서 새로운 변화를 적극 배우고 활용하여 사람들에게 더 큰 도움을 줄 것입니다.`,
+        `첨단 기술의 편리함 위에 ${job}만의 따뜻한 진심과 전문성을 더해 사람들에게 특별한 감동을 선물할 것입니다.`,
+        `동료들과 좋은 팀워크를 발휘하며, 세상에 긍정적인 가치를 나누는 자랑스러운 ${job}가 될 것입니다.`,
+        `기술이 빠르게 변하더라도 사람의 안전과 행복을 최우선으로 지키는 믿음직한 ${job}로 활약할 것입니다.`,
+        `새로운 문제에 부딪혀도 포기하지 않고 창의적인 아이디어로 해결책을 찾아내는 주도적인 ${job}가 될 것입니다.`,
+        `내가 가진 재능과 열정으로 2040년 미래 사회를 더 따뜻하고 살기 좋은 곳으로 만들어갈 것입니다.`
+      ];
+
+      const merged = [...catList, ...genList, ...commonPool];
+      // 중복 제거 후 9개 아이디어 반환 (3세트 구성)
+      const unique = Array.from(new Set(merged)).slice(0, 9);
+      while (unique.length < 9) {
+        unique.push(`미래 기술을 지혜롭게 활용하여 사람들에게 신뢰를 주는 멋진 ${job}로 활약할 것입니다.`);
+      }
+      return unique;
+    }
+
+    function initApp() {
+      // choosing.html 동기화 (#sync=)
+      try {
+        if (window.location.hash && window.location.hash.includes('sync=')) {
+          const encoded = window.location.hash.split('sync=')[1];
+          if (encoded) {
+            const synced = JSON.parse(decodeURIComponent(encoded));
+            localStorage.setItem(WORLDCUP_KEY, JSON.stringify(synced));
+          }
+        }
+      } catch (e) {}
+
+      // 이전 저장값 로드
+      try {
+        const rawWC = localStorage.getItem(WORLDCUP_KEY);
+        if (rawWC) {
+          const wc = JSON.parse(rawWC);
+          if (wc.studentName) state.studentName = wc.studentName;
+          if (wc.studentJob) state.studentJob = wc.studentJob;
+        }
+      } catch (e) {}
+
+      try {
+        const rawFut = localStorage.getItem(FUTURE_KEY);
+        if (rawFut) {
+          const fut = JSON.parse(rawFut);
+          if (fut.studentName) state.studentName = fut.studentName;
+          if (fut.studentJob) state.studentJob = fut.studentJob;
+          if (fut.selectedKeyword) state.selectedKeyword = fut.selectedKeyword;
+          if (fut.checkedIdeas) state.checkedIdeas = fut.checkedIdeas;
+        }
+      } catch (e) {}
+
+      document.getElementById('studentName').value = state.studentName;
+      document.getElementById('studentJob').value = state.studentJob;
+
+      renderKeywords();
+      renderIdeas();
+    }
+
+    function renderKeywords() {
+      const grid = document.getElementById('keywordGrid');
+      grid.innerHTML = '';
+
+      FUTURE_KEYWORDS.forEach(kw => {
+        const isSel = (state.selectedKeyword === kw.id);
+        const div = document.createElement('div');
+        div.className = `kw-chip ${isSel ? 'selected' : ''}`;
+        div.onclick = () => selectKeyword(kw.id);
+        div.innerHTML = `
+          <div class="kw-emoji">${kw.emoji}</div>
+          <div>
+            <div class="kw-name">${kw.name}</div>
+            <div class="kw-desc">${kw.desc}</div>
+          </div>
+        `;
+        grid.appendChild(div);
+      });
+
+      const currentKw = FUTURE_KEYWORDS.find(k => k.id === state.selectedKeyword) || FUTURE_KEYWORDS[0];
+      const badge = document.getElementById('step1SelectedBadge');
+      if (badge) {
+        badge.textContent = `선택됨: ${currentKw.emoji} ${currentKw.name}`;
+      }
+    }
+
+    function selectKeyword(id) {
+      state.selectedKeyword = id;
+      ideaBatchIdx = 0;
+      renderKeywords();
+      renderIdeas();
+      saveData();
+
+      // 태블릿/모바일 등에서 STEP 2 카드가 화면 아래에 가려져 있을 때 부드럽게 스크롤
+      const step2 = document.getElementById('step2Card');
+      if (step2) {
+        const rect = step2.getBoundingClientRect();
+        if (rect.top > window.innerHeight * 0.65) {
+          step2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }
+
+    function scrollToStep2() {
+      const step2 = document.getElementById('step2Card');
+      if (step2) {
+        step2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function onJobInput() {
+      state.studentJob = document.getElementById('studentJob').value;
+      renderIdeas();
+      saveData();
+    }
+
+    function renderIdeas() {
+      const list = document.getElementById('ideaList');
+      const allIdeas = getActionIdeas(state.selectedKeyword, state.studentJob);
+      list.innerHTML = '';
+
+      const currentKw = FUTURE_KEYWORDS.find(k => k.id === state.selectedKeyword) || FUTURE_KEYWORDS[0];
+      const jobLabel = (state.studentJob || '').trim() || '나의 직업';
+
+      const titleEl = document.getElementById('ideaBoxTitle');
+      if (titleEl) {
+        titleEl.textContent = `💡 [${currentKw.emoji} ${currentKw.name}] × [${jobLabel}] 실천 아이디어 (세트 ${ideaBatchIdx + 1} / 3)`;
+      }
+
+      const counterEl = document.getElementById('step2SelectedCounter');
+      if (counterEl) {
+        counterEl.textContent = `선택한 아이디어: ${state.checkedIdeas.length} / 2개`;
+      }
+
+      for (let i = 0; i < 3; i++) {
+        const text = allIdeas[(ideaBatchIdx * 3 + i) % allIdeas.length];
+        const isChecked = state.checkedIdeas.includes(text);
+
+        const div = document.createElement('div');
+        div.className = `idea-item ${isChecked ? 'checked' : ''}`;
+        div.onclick = (e) => {
+          if (e.target.closest('.btn-copy')) return;
+          toggleIdeaCheck(text);
+        };
+
+        div.innerHTML = `
+          <div class="idea-main">
+            <div class="idea-badge">
+              <span>💡 추천 아이디어 ${i + 1}</span>
+            </div>
+            <div class="idea-text">${text}</div>
+          </div>
+          <div class="idea-actions">
+            <button type="button" class="btn-copy" onclick="copyText('${text.replace(/'/g, "\\'")}', this)" title="글자 복사">📋 복사</button>
+            <span class="btn-check-pill">${isChecked ? '✔ 선택됨' : '👆 선택'}</span>
+          </div>
+        `;
+        list.appendChild(div);
+      }
+    }
+
+    function toggleIdeaCheck(text) {
+      const idx = state.checkedIdeas.indexOf(text);
+      if (idx >= 0) {
+        state.checkedIdeas.splice(idx, 1);
+      } else {
+        if (state.checkedIdeas.length >= 2) {
+          // 최대 2개까지 선택 가능 (새로 누르면 가장 오래된 것 교체)
+          state.checkedIdeas.shift();
+        }
+        state.checkedIdeas.push(text);
+      }
+      renderIdeas();
+      saveData();
+    }
+
+    function nextIdeaBatch() {
+      ideaBatchIdx = (ideaBatchIdx + 1) % 3;
+      renderIdeas();
+    }
+
+    function copyText(str, btn) {
+      navigator.clipboard.writeText(str).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = '✅ 복사됨!';
+        btn.style.background = '#dcfce7';
+        btn.style.color = '#15803d';
+        setTimeout(() => {
+          btn.textContent = orig;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 1200);
+      }).catch(() => {
+        alert('복사되었습니다: ' + str);
+      });
+    }
+
+    function saveData() {
+      state.studentName = document.getElementById('studentName').value;
+      state.studentJob = document.getElementById('studentJob').value;
+      try {
+        localStorage.setItem(FUTURE_KEY, JSON.stringify(state));
+      } catch (e) {}
+    }
+
+    initApp();
+  </script>
+</body>
+</html>
