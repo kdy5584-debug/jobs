@@ -11,11 +11,9 @@
     :root {
       --primary: #4F46E5;
       --primary-light: #EEF2FF;
-      --secondary: #06B6D4;
-      --accent: #F59E0B;
       --bg: #F8FAFC;
       --card-bg: #FFFFFF;
-      --text-main: #1E293B;
+      --text-main: #0F172A;
       --text-sub: #64748B;
       --border: #E2E8F0;
     }
@@ -31,70 +29,68 @@
       background: var(--bg);
       color: var(--text-main);
       line-height: 1.5;
-      padding-bottom: 80px;
+      padding-bottom: 60px;
     }
 
     /* Header */
     header {
-      background: linear-gradient(135deg, #312E81 0%, #4F46E5 50%, #7C3AED 100%);
+      background: linear-gradient(135deg, #1E1B4B 0%, #3730A3 50%, #4F46E5 100%);
       color: white;
-      padding: 48px 24px 36px;
+      padding: 36px 20px 28px;
       text-align: center;
-      box-shadow: 0 4px 20px rgba(79, 70, 229, 0.15);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
     }
 
     .badge {
       display: inline-block;
       background: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(8px);
-      padding: 6px 16px;
+      padding: 5px 14px;
       border-radius: 999px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 700;
-      letter-spacing: 0.5px;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
     }
 
     h1 {
       font-family: 'Jua', sans-serif;
-      font-size: 2.4rem;
+      font-size: 2.1rem;
       font-weight: 400;
-      margin-bottom: 10px;
-      letter-spacing: 1px;
+      margin-bottom: 6px;
     }
 
     header p {
-      font-size: 1.05rem;
+      font-size: 0.95rem;
       opacity: 0.9;
-      max-width: 650px;
+      max-width: 600px;
       margin: 0 auto;
+      word-break: keep-all;
     }
 
-    /* Search & Filter Bar */
+    /* Toolbar */
     .toolbar {
       max-width: 1200px;
-      margin: -24px auto 32px;
-      padding: 0 20px;
+      margin: -20px auto 24px;
+      padding: 0 16px;
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .search-box {
       flex: 1;
-      min-width: 260px;
       position: relative;
     }
 
     .search-box input {
       width: 100%;
-      padding: 14px 20px 14px 44px;
-      border-radius: 14px;
+      padding: 13px 18px 13px 42px;
+      border-radius: 12px;
       border: 1px solid var(--border);
       background: white;
-      font-size: 1rem;
+      font-size: 0.95rem;
       outline: none;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.05);
       transition: all 0.2s;
     }
 
@@ -105,155 +101,158 @@
 
     .search-icon {
       position: absolute;
-      left: 16px;
+      left: 14px;
       top: 50%;
       transform: translateY(-50%);
-      color: var(--text-sub);
-      font-size: 1.1rem;
+      font-size: 1rem;
+      color: #94A3B8;
     }
 
     .stat-pill {
       background: white;
-      border-radius: 14px;
-      padding: 0 20px;
+      border-radius: 12px;
+      padding: 0 18px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-weight: 700;
+      font-weight: 800;
+      font-size: 0.9rem;
       color: var(--primary);
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.05);
       border: 1px solid var(--border);
+      white-space: nowrap;
     }
 
     /* Grid */
     .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 0 16px;
     }
 
     .students-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 18px;
     }
 
-    /* Student Card */
+    /* Card */
     .student-card {
       background: var(--card-bg);
-      border-radius: 18px;
-      padding: 22px;
+      border-radius: 16px;
+      overflow: hidden;
       border: 1px solid var(--border);
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
-      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      transition: all 0.2s ease;
+      cursor: pointer;
       display: flex;
       flex-direction: column;
-      cursor: pointer;
-      position: relative;
     }
 
     .student-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 16px 30px -10px rgba(0, 0, 0, 0.1);
-      border-color: #CBD5E1;
+      box-shadow: 0 16px 25px -8px rgba(0, 0, 0, 0.1);
+      border-color: #818CF8;
     }
 
-    .card-top {
+    .card-thumb-wrap {
+      width: 100%;
+      aspect-ratio: 1200 / 860;
+      background: #0F172A;
+      overflow: hidden;
+    }
+
+    .card-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.25s;
+    }
+
+    .student-card:hover .card-thumb {
+      transform: scale(1.02);
+    }
+
+    .card-body {
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
     .student-name {
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       font-weight: 800;
       color: var(--text-main);
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
     .job-badge {
       background: var(--primary-light);
       color: var(--primary);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 800;
     }
 
-    .tag-list {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
+    .headline-preview-pill {
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-radius: 10px;
+      padding: 8px 12px;
+      margin-top: 4px;
+      margin-bottom: 10px;
     }
 
-    .tag {
-      font-size: 0.78rem;
-      padding: 3px 9px;
-      border-radius: 6px;
-      background: #F1F5F9;
-      color: #475569;
-      font-weight: 600;
-    }
-
-    .headline-preview {
-      background: #F8FAFC;
-      border-left: 4px solid var(--primary);
-      padding: 12px 14px;
-      border-radius: 0 10px 10px 0;
-      margin-bottom: 14px;
-    }
-
-    .headline-preview .label {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--primary);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
+    .headline-preview-pill .label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #B45309;
       display: block;
+      margin-bottom: 2px;
     }
 
-    .headline-preview .text {
+    .headline-preview-pill .text {
       font-family: 'Jua', sans-serif;
-      font-size: 1.15rem;
-      color: #0F172A;
+      font-size: 1.1rem;
+      color: #78350F;
       word-break: keep-all;
     }
 
     .card-footer {
       margin-top: auto;
-      padding-top: 12px;
+      padding-top: 10px;
       border-top: 1px dashed var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: var(--text-sub);
+      font-weight: 600;
     }
 
     .view-btn {
       color: var(--primary);
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 4px;
+      font-weight: 800;
     }
 
     /* Modal */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.65);
+      background: rgba(15, 23, 42, 0.7);
       backdrop-filter: blur(6px);
       display: none;
       justify-content: center;
       align-items: center;
       z-index: 1000;
-      padding: 20px;
+      padding: 16px;
     }
 
     .modal-backdrop.active {
@@ -264,27 +263,21 @@
       background: white;
       width: 100%;
       max-width: 860px;
-      max-height: 92vh;
+      max-height: 94vh;
       overflow-y: auto;
-      border-radius: 24px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
       position: relative;
-      animation: modalSlide 0.25s ease-out;
+      animation: modalSlide 0.2s ease-out;
     }
 
     @keyframes modalSlide {
-      from {
-        opacity: 0;
-        transform: scale(0.96) translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
+      from { opacity: 0; transform: scale(0.97) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     .modal-header {
-      padding: 20px 28px;
+      padding: 16px 20px;
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
@@ -292,8 +285,7 @@
       position: sticky;
       top: 0;
       background: white;
-      z-index: 10;
-      border-radius: 24px 24px 0 0;
+      z-index: 20;
     }
 
     .close-btn {
@@ -305,7 +297,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       cursor: pointer;
       color: var(--text-sub);
       transition: all 0.2s;
@@ -317,258 +309,161 @@
     }
 
     .modal-body {
-      padding: 24px 28px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 18px;
     }
 
-    /* Custom Headline Input */
-    .custom-input-box {
-      background: #FFFBEB;
-      border: 2px dashed #F59E0B;
+    /* Original Image Section */
+    .orig-image-card {
+      background: #0F172A;
       border-radius: 14px;
-      padding: 14px 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+      overflow: hidden;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      border: 1px solid #334155;
     }
 
-    .custom-input-box label {
-      font-size: 0.85rem;
-      font-weight: 800;
-      color: #B45309;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .custom-input-box input {
+    .orig-image-card img {
       width: 100%;
-      padding: 10px 14px;
-      border-radius: 10px;
-      border: 1px solid #FCD34D;
-      font-family: 'Jua', sans-serif;
-      font-size: 1.25rem;
-      color: #78350F;
-      outline: none;
-      background: white;
+      display: block;
+      aspect-ratio: 1200 / 860;
+      object-fit: contain;
+      background: #0F172A;
     }
 
-    .custom-input-box input:focus {
-      border-color: #F59E0B;
-      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25);
-    }
-
-    /* Headline Options */
+    /* Headline Options Section */
     .section-title {
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-weight: 800;
       color: var(--text-main);
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
+      gap: 6px;
+      margin-bottom: 10px;
     }
 
-    .headline-options {
+    .options-grid {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
 
-    .option-card {
+    .option-item {
       border: 2px solid var(--border);
-      border-radius: 14px;
-      padding: 14px 18px;
+      border-radius: 12px;
+      padding: 14px 16px;
+      background: white;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
     }
 
-    .option-card:hover {
-      border-color: #A5B4FC;
+    .option-item:hover {
+      border-color: #818CF8;
       background: #F8FAFC;
     }
 
-    .option-card.selected {
+    .option-item.selected {
       border-color: var(--primary);
       background: var(--primary-light);
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.12);
     }
 
-    .option-info {
+    .option-left {
       display: flex;
-      flex-direction: column;
-      gap: 4px;
+      align-items: center;
+      gap: 12px;
     }
 
-    .option-tag {
-      font-size: 0.75rem;
-      font-weight: 700;
+    .option-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #E0E7FF;
       color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .option-item.selected .option-num {
+      background: var(--primary);
+      color: white;
     }
 
     .option-text {
       font-family: 'Jua', sans-serif;
-      font-size: 1.3rem;
-      color: var(--text-main);
+      font-size: 1.35rem;
+      color: #0F172A;
+      word-break: keep-all;
     }
 
     .option-len {
       font-size: 0.8rem;
       color: var(--text-sub);
+      font-weight: 700;
       white-space: nowrap;
     }
 
-    /* Poster Mockup */
-    .poster-preview-box {
-      background: #334155;
-      padding: 24px;
-      border-radius: 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .poster-mockup {
-      width: 100%;
-      max-width: 440px;
-      aspect-ratio: 1 / 1.414; /* 8절지 비율 */
-      background: white;
-      border-radius: 6px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-      padding: 24px 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      text-align: center;
-      box-sizing: border-box;
-      position: relative;
-    }
-
-    .mockup-header {
-      font-family: 'Jua', sans-serif;
-      font-size: 1.35rem;
-      color: #1E1B4B;
-      padding: 10px;
-      background: #FEF3C7;
-      border: 2px dashed #F59E0B;
-      border-radius: 8px;
-      word-break: keep-all;
-    }
-
-    .mockup-drawing-area {
-      flex: 1;
-      margin: 16px 0;
-      border: 2px dashed #CBD5E1;
-      border-radius: 10px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: #94A3B8;
+    /* Custom Input */
+    .custom-box {
       background: #F8FAFC;
-      font-size: 0.9rem;
+      border: 2px dashed #CBD5E1;
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
       gap: 6px;
     }
 
-    .mockup-footer {
-      background: #EEF2FF;
-      border: 2px solid #818CF8;
-      border-radius: 10px;
-      padding: 12px 14px;
-      font-family: 'Jua', sans-serif;
-      font-size: 1.15rem;
-      color: #1E1B4B;
-      line-height: 1.45;
-      word-break: keep-all;
-      box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.08);
+    .custom-box label {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #475569;
+      display: flex;
+      justify-content: space-between;
     }
 
-    /* Original Info Box */
-    .orig-box {
-      background: #F8FAFC;
-      border-radius: 14px;
-      padding: 18px;
+    .custom-box input {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 8px;
       border: 1px solid var(--border);
-      font-size: 0.9rem;
+      font-family: 'Jua', sans-serif;
+      font-size: 1.2rem;
+      color: #1E1B4B;
+      outline: none;
+      background: white;
     }
 
-    .orig-row {
-      display: flex;
-      margin-bottom: 8px;
-      line-height: 1.5;
-    }
-
-    .orig-label {
-      width: 100px;
-      font-weight: 700;
-      color: var(--text-sub);
-      flex-shrink: 0;
-    }
-
-    .orig-val {
-      color: var(--text-main);
-    }
-
-    /* Print Controls */
-    .copy-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: background 0.2s;
-    }
-
-    .copy-btn:hover {
-      background: #4338CA;
-    }
-
-    @media print {
-      body {
-        background: white;
-        padding: 0;
-      }
-      header, .toolbar, .modal-backdrop {
-        display: none !important;
-      }
-      .students-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-      }
-      .student-card {
-        break-inside: avoid;
-        box-shadow: none;
-        border: 1px solid #ccc;
-      }
+    .custom-box input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
     }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="badge">🎨 6학년 2반 가치관 & 꿈 선언 포스터</div>
-    <h1>내가 꿈꾸는 나! 한 줄 헤드카피 보석함</h1>
-    <p>아이들이 8절지에 그림과 함께 시원하게 적을 수 있는 맞춤형 헤드카피 추천안입니다. 학생 이름을 클릭하면 8절지 배치 시뮬레이션을 확인할 수 있습니다.</p>
+    <div class="badge">🎨 6학년 2반 꿈 포스터</div>
+    <h1>내가 꿈꾸는 나! 추천 헤드카피</h1>
+    <p>나의 꿈 카드를 보고, 내 그림에 가장 잘 어울리는 멋진 제목을 골라보세요!</p>
   </header>
 
   <div class="toolbar">
     <div class="search-box">
       <span class="search-icon">🔍</span>
-      <input type="text" id="searchInput" placeholder="학생 이름이나 직업으로 검색해보세요 (예: 하윤, 유튜버)...">
+      <input type="text" id="searchInput" placeholder="내 이름 검색 (예: 하윤, 준영, 슬찬)...">
     </div>
     <div class="stat-pill">
-      <span>총 22명의 꿈</span>
+      <span>22명</span>
     </div>
   </div>
 
@@ -580,70 +475,39 @@
   <div class="modal-backdrop" id="modalBackdrop">
     <div class="modal-content">
       <div class="modal-header">
-        <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
           <span class="job-badge" id="modalJob">직업</span>
-          <h2 id="modalName" style="font-size: 1.4rem; font-weight: 800;">학생 이름</h2>
+          <h2 id="modalName" style="font-size: 1.35rem; font-weight: 800;">학생 이름</h2>
         </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <button class="close-btn" onclick="prevStudent()" title="이전 학생">◀</button>
-          <button class="close-btn" onclick="nextStudent()" title="다음 학생">▶</button>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <button class="close-btn" onclick="prevStudent()" title="이전 친구">◀</button>
+          <button class="close-btn" onclick="nextStudent()" title="다음 친구">▶</button>
           <button class="close-btn" onclick="closeModal()" title="닫기">✕</button>
         </div>
       </div>
 
       <div class="modal-body">
-        <!-- Headline Options -->
-        <div>
-          <div class="section-title">✨ 추천 헤드카피 (클릭하여 8절지 배치 확인)</div>
-          <div class="headline-options" id="headlineOptions"></div>
+        <!-- 원본 카드 이미지 -->
+        <div class="orig-image-card">
+          <img id="modalImg" src="" alt="꿈카드 원본 이미지">
         </div>
 
-        <!-- Custom Headline Input -->
-        <div class="custom-input-box">
+        <!-- 딱 3가지 추천 헤드카피 -->
+        <div>
+          <div class="section-title">
+            <span>✨ 추천 헤드카피 (3가지 중 마음에 드는 문구를 골라보세요)</span>
+          </div>
+          <div class="options-grid" id="optionsGrid"></div>
+        </div>
+
+        <!-- 나만의 문장 직접 쓰기 -->
+        <div class="custom-box">
           <label>
-            <span>✍️ 나만의 문장으로 직접 수정해보기 (세로형 포스터 제목)</span>
-            <span id="customCharCount" style="font-weight: 700; color: #B45309;">0자</span>
+            <span>✍️ 내가 직접 단어를 바꾸거나 써보고 싶다면?</span>
+            <span id="charCount" style="color: #64748B;">0자</span>
           </label>
-          <input type="text" id="customInput" placeholder="추천 문구를 바꾸거나 내가 쓰고 싶은 멋진 문장을 입력해보세요..." oninput="onCustomInputChange(this.value)">
+          <input type="text" id="customInput" placeholder="여기에 나만의 문장을 직접 적어보세요..." oninput="onCustomType(this.value)">
         </div>
-
-        <!-- 8절지 미리보기 -->
-        <div>
-          <div class="section-title">📐 8절지 세로형 포스터 실시간 완성 미리보기</div>
-          <div class="poster-preview-box">
-            <div class="poster-mockup">
-              <div class="mockup-header" id="mockupHeadline">헤드카피가 들어가는 자리</div>
-              <div class="mockup-drawing-area">
-                <span style="font-size: 2.2rem;">🎨</span>
-                <span style="font-weight: 800; color: #475569; font-size: 1.05rem;">내가 꿈꾸는 내 모습 그림</span>
-                <span style="font-size: 0.8rem; color: #94A3B8;">(도화지 중앙에 주인공과 배경을 큼직하게 그려요!)</span>
-              </div>
-              <div>
-                <div class="mockup-footer" id="mockupSubcopy">하단 서브카피</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 원본 가치관 정보 -->
-        <div class="orig-box">
-          <div class="orig-row">
-            <span class="orig-label">핵심 가치관</span>
-            <span class="orig-val" id="modalValues"></span>
-          </div>
-          <div class="orig-row">
-            <span class="orig-label">선택 이유</span>
-            <span class="orig-val" id="modalReason"></span>
-          </div>
-          <div class="orig-row">
-            <span class="orig-label">기존 선언문</span>
-            <span class="orig-val" id="modalOriginal" style="color: #4F46E5; font-weight: 600;"></span>
-          </div>
-        </div>
-
-        <button class="copy-btn" id="copyBtn" onclick="copySelectedHeadline()">
-          📋 현재 화면의 헤드카피 복사하기
-        </button>
       </div>
     </div>
   </div>
@@ -654,314 +518,270 @@
         id: 1,
         name: "권하윤",
         job: "요리사",
-        val1: "좋은 동료 (공동체)",
-        val2: "가족과 화목",
-        reason: "사람들의 행복이 가장 중요하기 때문이야",
-        orig: "좋은 동료들과 행복하게 일하며, 행복한 음식을 만드는 요리사",
+        file: "6학년 2반 권하윤_나의가치관_꿈카드.png",
+        valDesc: "좋은 동료 + 가족과 화목",
         headlines: [
-          { tag: "추천 1 (감성형)", text: "행복을 요리하는 다정한 셰프", note: "14자 · 따뜻함 강조" },
-          { tag: "추천 2 (동료/화목)", text: "함께 웃으며 정을 나누는 요리사", note: "16자 · 공동체 가치관" },
-          { tag: "추천 3 (직관형)", text: "마음을 담아 행복을 만드는 요리사", note: "17자 · 행복 추구" }
+          { val: "동료 + 화목", text: "좋은 동료와 행복을 굽는 요리사" },
+          { val: "가족 사랑", text: "가족처럼 따뜻한 정을 나누는 셰프" },
+          { val: "소통과 행복", text: "다정한 소통으로 행복을 주는 요리사" }
         ]
       },
       {
         id: 2,
         name: "김강율",
         job: "복싱 선수",
-        val1: "실력 발휘 (전문성)",
-        val2: "도전과 용기",
-        reason: "포기하지 않고 내 몸을 지키고 나의 몸으로 다른 사람에게 응원 받고 싶어",
-        orig: "나만의 특기를 살려, 상대를 두려워하지 않는 복싱 선수",
+        file: "6학년 2반 김강율_나의가치관_꿈카드 (1).png",
+        valDesc: "실력 발휘 + 도전과 용기",
         headlines: [
-          { tag: "추천 1 (용기/도전)", text: "두려움 없이 도전하는 당당한 챔피언", note: "18자 · 자신감" },
-          { tag: "추천 2 (파워형)", text: "용기로 링을 지배하는 복싱 선수", note: "16자 · 힘찬 에너지" },
-          { tag: "추천 3 (희망형)", text: "나만의 펀치로 희망을 전하는 복서", note: "17자 · 응원과 극복" }
+          { val: "도전과 용기", text: "두려움 없이 도전하는 챔피언" },
+          { val: "실력 발휘", text: "나만의 실력으로 용기를 주는 복서" },
+          { val: "성취와 활력", text: "끈기와 활력으로 승리하는 복서" }
         ]
       },
       {
         id: 3,
         name: "김슬찬",
         job: "유튜버",
-        val1: "좋은 동료 (공동체)",
-        val2: "소통과 공감",
-        reason: "사람들과 소통하며 게임을 즐기는 게 재밌고 웃음이 적어질까 봐 소중한 직업",
-        orig: "좋은 동료들과 즐겁게 호흡을 맞추며, 따뜻한 공감으로 사람들의 마음을 이어주는 유튜버",
+        file: "6학년 2반 김슬찬_나의가치관_꿈카드.png",
+        valDesc: "좋은 동료 + 소통과 공감",
         headlines: [
-          { tag: "추천 1 (직관형)", text: "마음을 잇고 웃음을 전하는 유튜버", note: "16자 · 소통과 재미" },
-          { tag: "추천 2 (가치관 강조)", text: "함께 소통하는 따뜻한 공감 유튜버", note: "16자 · 공감 중심" },
-          { tag: "추천 3 (친근형)", text: "세상과 친구가 되는 유쾌한 방송인", note: "17자 · 밝은 소통" }
+          { val: "동료 + 공감", text: "좋은 동료와 소통하는 공감 유튜버" },
+          { val: "소통과 웃음", text: "마음을 잇고 웃음을 주는 유튜버" },
+          { val: "협동과 공감", text: "따뜻한 공감으로 세상을 잇는 방송인" }
         ]
       },
       {
         id: 4,
         name: "김시아",
         job: "화가",
-        val1: "쾌적한 근무환경",
-        val2: "진리와 발견",
-        reason: "그저 평범한 사람이지만 언젠간 그렇게 되든 행복한 게 좋은 것이다",
-        orig: "안전하고 쾌적한 일터 환경을 가꾸며, 세상의 숨겨진 비밀과 진리를 밝혀내는 화가",
+        file: "6학년 2반 김시아_나의가치관_꿈카드.png",
+        valDesc: "쾌적한 환경 + 진리와 발견",
         headlines: [
-          { tag: "추천 1 (신비형)", text: "세상의 비밀을 화폭에 담는 화가", note: "15자 · 진리와 발견" },
-          { tag: "추천 2 (예술형)", text: "진리와 아름다움을 그리는 예술가", note: "16자 · 깊이감" },
-          { tag: "추천 3 (개성형)", text: "나만의 색으로 진리를 밝히는 화가", note: "16자 · 감각적 표현" }
+          { val: "진리와 발견", text: "세상의 숨겨진 진리를 밝히는 화가" },
+          { val: "환경 + 진리", text: "나만의 공간에서 진리를 그리는 화가" },
+          { val: "사랑과 진리", text: "따뜻한 사랑과 진리를 담는 예술가" }
         ]
       },
       {
         id: 5,
         name: "백승현",
         job: "유튜버",
-        val1: "사회 봉사 (기여)",
-        val2: "가족과 화목",
-        reason: "사회봉사를 하고 가족들과 행복한 시간을 보내는 게 가장 중요하기 때문입니다.",
-        orig: "모두를 위한 따뜻한 나눔과 봉사를 실천하며, 사랑하는 사람들과 다정하고 화목한 삶을 가꾸는 유튜버",
+        file: "6학년 2반 백승현_나의가치관_꿈카드.png",
+        valDesc: "사회 봉사 + 가족과 화목",
         headlines: [
-          { tag: "추천 1 (나눔형)", text: "나눔과 사랑을 전하는 따뜻한 유튜버", note: "17자 · 봉사와 기여" },
-          { tag: "추천 2 (온기형)", text: "함께 행복해지는 온기 가득 유튜버", note: "16자 · 화목과 행복" },
-          { tag: "추천 3 (희망형)", text: "선한 나눔을 실천하는 착한 유튜버", note: "16자 · 선한 영향력" }
+          { val: "사회 봉사", text: "따뜻한 나눔을 실천하는 유튜버" },
+          { val: "가족 화목", text: "가족의 화목과 사랑을 전하는 유튜버" },
+          { val: "평화와 기여", text: "세상에 선한 도움을 주는 크리에이터" }
         ]
       },
       {
         id: 6,
         name: "서준영",
         job: "선생님",
-        val1: "일의 즐거움 (흥미)",
-        val2: "정의와 안전",
-        reason: "일에 즐거움을 갖고 안전하게 일하는 게 좋기 때문이야",
-        orig: "하는 일 자체를 놀이처럼 재미있게 즐기며, 억울한 사람 없이 공정하고 안전한 사회를 지키는 선생님",
+        file: "6학년 2반 서준영_나의가치관_꿈카드.png",
+        valDesc: "일의 즐거움 + 정의와 안전",
         headlines: [
-          { tag: "추천 1 (정의형)", text: "정의롭고 즐거운 교실을 만드는 선생님", note: "18자 · 공정함" },
-          { tag: "추천 2 (균형형)", text: "즐겁게 배우고 공정함을 지키는 선생님", note: "18자 · 재미+정의" },
-          { tag: "추천 3 (안전형)", text: "신나고 안전한 배움을 이끄는 선생님", note: "16자 · 밝은 교실" }
+          { val: "정의와 안전", text: "공정하고 안전한 교실의 지킴이" },
+          { val: "재미 + 정의", text: "신나게 배우고 정의를 지키는 선생님" },
+          { val: "공평과 안전", text: "모두가 안전하고 행복한 반 선생님" }
         ]
       },
       {
         id: 7,
         name: "서효진",
-        job: "유치원 선생님",
-        val1: "좋은 동료 (공동체)",
-        val2: "가족과 화목",
-        reason: "동료를 만나야 직장생활을 잘 보낼 수 있고 가족과 화목해야 잘 지낼 수 있기 때문이야",
-        orig: "좋은 동료들과 기쁘게 소통하고 잘 지내며, 누구에게나 가족처럼 따뜻한 정과 기쁨을 나누는 유치원선생님",
+        job: "유치원 교사",
+        file: "6학년 2반 서효진_나의가치관_꿈카드.png",
+        valDesc: "좋은 동료 + 가족과 화목",
         headlines: [
-          { tag: "추천 1 (포근형)", text: "따뜻한 품으로 사랑을 주는 유치원 선생님", note: "19자 · 가족 같은 정" },
-          { tag: "추천 2 (웃음형)", text: "아이들의 웃음꽃을 피우는 다정한 선생님", note: "19자 · 기쁨 나눔" },
-          { tag: "추천 3 (햇살형)", text: "햇살처럼 따뜻한 우리 유치원 선생님", note: "17자 · 다정한 온기" }
+          { val: "동료 + 화목", text: "동료와 함께 화목을 가꾸는 선생님" },
+          { val: "가족 사랑", text: "가족처럼 포근한 사랑을 주는 교사" },
+          { val: "건강과 신뢰", text: "건강한 활력과 믿음을 주는 선생님" }
         ]
       },
       {
         id: 8,
         name: "신은렬",
         job: "유튜버",
-        val1: "경제적 보상 (보수)",
-        val2: "아름다움과 예술",
-        reason: "유튜버는 사람들에게 웃음과 재미를 주니까.",
-        orig: "땀 흘려 일한 만큼 풍요로운 결실을 거두며, 일상 곳곳에 아름다움과 설렘을 선물하고 용기를 주는 유튜버",
+        file: "6학년 2반 신은렬_나의가치관_꿈카드.png",
+        valDesc: "경제적 보상 + 아름다움과 예술",
         headlines: [
-          { tag: "추천 1 (설렘형)", text: "일상에 아름다움과 설렘을 더하는 유튜버", note: "19자 · 감각적" },
-          { tag: "추천 2 (용기형)", text: "설렘과 용기를 선물하는 반짝이는 유튜버", note: "20자 · 활력" },
-          { tag: "추천 3 (열정형)", text: "열정과 감각으로 꿈을 전하는 크리에이터", note: "19자 · 당당함" }
+          { val: "예술과 창의", text: "창의적인 예술로 설렘을 주는 유튜버" },
+          { val: "노력과 결실", text: "땀 흘린 결실로 빛나는 크리에이터" },
+          { val: "감각과 보람", text: "나만의 감각으로 꿈을 이루는 유튜버" }
         ]
       },
       {
         id: 9,
         name: "이아윤",
         job: "웨딩플래너",
-        val1: "쾌적한 근무환경 / 흥미",
-        val2: "나눔과 희망",
-        reason: "평화 자유와 일의 즐거움을 알고 있는 것 같기 때문에",
-        orig: "하는 일 자체를 놀이처럼 재미있게 일을 하는 웨딩플래너",
+        file: "6학년 2반 이아윤_나의가치관_꿈카드.png",
+        valDesc: "나눔과 희망 + 자유와 평화",
         headlines: [
-          { tag: "추천 1 (축제형)", text: "행복한 시작을 디자인하는 웨딩플래너", note: "17자 · 직무 특화" },
-          { tag: "추천 2 (미소형)", text: "즐겁게 웃으며 사랑을 엮는 웨딩플래너", note: "18자 · 일의 즐거움" },
-          { tag: "추천 3 (설렘형)", text: "가장 눈부신 날을 선물하는 웨딩플래너", note: "18자 · 특별함" }
+          { val: "나눔과 희망", text: "사랑과 나눔으로 희망을 엮는 플래너" },
+          { val: "평화와 재미", text: "즐겁게 일하며 평화를 주는 플래너" },
+          { val: "따뜻한 시작", text: "따뜻한 시작을 돕는 웨딩플래너" }
         ]
       },
       {
         id: 10,
         name: "이정인",
         job: "외교관",
-        val1: "글로벌 무대 확장",
-        val2: "정직과 신뢰",
-        reason: "외국으로 진출해서 일하고 싶고 믿음직한 사람이 되고 싶다",
-        orig: "넓은 세계를 무대로 당당히 소통하며, 정직함과 믿음으로 든든한 신뢰를 주는 외교관",
+        file: "6학년 2반 이정인_나의가치관_꿈카드.png",
+        valDesc: "글로벌 무대 + 정직과 신뢰",
         headlines: [
-          { tag: "추천 1 (글로벌)", text: "세계를 무대로 신뢰를 잇는 당당한 외교관", note: "20자 · 당당한 포부" },
-          { tag: "추천 2 (정직형)", text: "정직과 믿음으로 세계와 손잡는 외교관", note: "19자 · 신뢰 중심" },
-          { tag: "추천 3 (대표형)", text: "당당하게 대한민국을 알리는 믿음의 외교관", note: "21자 · 애국심" }
+          { val: "글로벌 무대", text: "세계 무대에서 당당한 신뢰의 외교관" },
+          { val: "정직과 신뢰", text: "정직과 믿음으로 나라를 빛낼 외교관" },
+          { val: "배움과 성장", text: "끊임없이 성장하며 소통하는 외교관" }
         ]
       },
       {
         id: 11,
         name: "이제이",
         job: "소설가 (작가)",
-        val1: "자율성 / 창의성",
-        val2: "감동과 위로",
-        reason: "글쓰기에 흥미를 느끼고 생각을 자유롭게 표현하고 인정받고 싶기 때문",
-        orig: "나만의 아이디어를 모아 아름다운 글로 표현하고, 사람들의 마음에 작고 은은한 빛의 씨앗을 심어주는 소설가(작가)",
+        file: "6학년 2반 이제이_나의가치관_꿈카드.png",
+        valDesc: "자율성 + 감동과 위로",
         headlines: [
-          { tag: "추천 1 (문학형)", text: "마음에 은은한 위로의 빛을 심는 작가", note: "17자 · 감동 중심" },
-          { tag: "추천 2 (감성형)", text: "따뜻한 문장으로 감동을 피워내는 소설가", note: "19자 · 깊은 울림" },
-          { tag: "추천 3 (상상형)", text: "나만의 빛나는 생각으로 세상을 품는 작가", note: "20자 · 창의성" }
+          { val: "자율과 감동", text: "자유로운 상상으로 감동을 주는 작가" },
+          { val: "감동과 위로", text: "마음에 은은한 위로를 심는 소설가" },
+          { val: "창의적 표현", text: "독창적인 글에 따뜻함을 담는 작가" }
         ]
       },
       {
         id: 12,
         name: "이하준",
         job: "크리에이터",
-        val1: "몸과 마음의 여유",
-        val2: "자유와 평화",
-        reason: "여유롭고 평화로운 영상을 촬영하여 올리고 자유로운 영상으로 흥미를 채우고 싶다",
-        orig: "즐겁고 여유로운 마음의 균형을 지키며, 다툼 없이 평화롭고 자유로운 세상을 가꾸는 크리에이터",
+        file: "6학년 2반 이하준_나의가치관_꿈카드.png",
+        valDesc: "마음의 여유 + 자유와 평화",
         headlines: [
-          { tag: "추천 1 (힐링형)", text: "여유와 쉼표를 전하는 자유로운 크리에이터", note: "20자 · 마음의 평화" },
-          { tag: "추천 2 (평화형)", text: "평화로운 마음으로 세상을 담는 크리에이터", note: "20자 · 균형 감각" },
-          { tag: "추천 3 (자유형)", text: "나다운 자유로 힐링을 선물하는 크리에이터", note: "20자 · 나다운 매력" }
+          { val: "여유와 평화", text: "여유와 평화를 나누는 크리에이터" },
+          { val: "자유와 평화", text: "자유와 평화를 전하는 크리에이터" },
+          { val: "즐거운 힐링", text: "마음의 여유로 힐링을 주는 제작자" }
         ]
       },
       {
         id: 13,
         name: "정지민",
         job: "약사",
-        val1: "실력 발휘 (전문성)",
-        val2: "도전과 용기",
-        reason: "내가 가장 잘하는 특기와 재능을 마음껏 써서",
-        orig: "내가 가장 잘하는 분야에서 멋지게 실력을 뽐내며, 실패를 두려워하지 않는 도전으로 희망을 전하는 약사",
+        file: "6학년 2반 정지민_나의가치관_꿈카드 (1).png",
+        valDesc: "실력 발휘 + 도전과 용기",
         headlines: [
-          { tag: "추천 1 (희망형)", text: "따뜻한 실력으로 희망을 처방하는 약사", note: "18자 · 전문성+희망" },
-          { tag: "추천 2 (도전형)", text: "도전하는 열정으로 건강을 지키는 전문 약사", note: "21자 · 당당함" },
-          { tag: "추천 3 (실력형)", text: "두려움 없는 열정으로 사람을 살리는 약사", note: "20자 · 전문직 자부심" }
+          { val: "실력과 도전", text: "실력과 도전으로 희망을 짓는 약사" },
+          { val: "도전과 건강", text: "열정과 도전으로 건강을 지키는 약사" },
+          { val: "전문성과 공감", text: "따뜻한 전문성으로 치유하는 약사" }
         ]
       },
       {
         id: 14,
         name: "조민성",
         job: "변호사",
-        val1: "경제적 보상 / 성취",
-        val2: "배움과 성장",
-        reason: "어제의 나보다 성장하기 위해서야",
-        orig: "최고의 성과로 멋진 경제적 가치를 만들며, 어제보다 더 나은 나를 가꾸며 함께 성장하는 변호사",
+        file: "6학년 2반 조민성_나의가치관_꿈카드.png",
+        valDesc: "배움과 성장 + 경제적 성과",
         headlines: [
-          { tag: "추천 1 (성장형)", text: "실력과 지혜로 날마다 성장하는 변호사", note: "18자 · 배움 중심" },
-          { tag: "추천 2 (정의형)", text: "최고의 실력으로 정의를 세우는 성장형 변호사", note: "22자 · 유능함" },
-          { tag: "추천 3 (미래형)", text: "어제보다 더 나은 내일을 여는 당당한 변호사", note: "21자 · 도전 정신" }
+          { val: "배움과 성장", text: "날마다 배우며 성장하는 바른 변호사" },
+          { val: "정직과 실력", text: "정직한 실력으로 정의를 세울 변호사" },
+          { val: "정의와 평화", text: "정의와 평화를 지키는 유능한 변호사" }
         ]
       },
       {
         id: 15,
         name: "조은호",
         job: "프로게이머",
-        val1: "몸과 마음의 여유",
-        val2: "가족과 화목",
-        reason: "사람들에게 즐거움을 주는 게 가장 중요하다고 생각하기 때문이야",
-        orig: "일과 여가를 함께 가꾸는 밝은 에너지로 일하며, 소중한 사람들의 화목과 따뜻한 웃음을 지켜주는 프로게이머",
+        file: "6학년 2반 조은호_나의가치관_꿈카드.png",
+        valDesc: "마음의 여유 + 가족과 화목",
         headlines: [
-          { tag: "추천 1 (에너지)", text: "밝은 에너지로 즐거움을 주는 프로게이머", note: "19자 · 유쾌함" },
-          { tag: "추천 2 (플레이)", text: "즐거운 플레이로 웃음을 선물하는 프로게이머", note: "21자 · 팬 소통" },
-          { tag: "추천 3 (화목형)", text: "화목한 웃음을 지켜주는 멋진 프로게이머", note: "19자 · 따뜻한 승부" }
+          { val: "여유와 화목", text: "여유와 화목을 지키는 프로게이머" },
+          { val: "희망과 나눔", text: "즐거움과 희망을 전하는 프로게이머" },
+          { val: "건강한 활력", text: "건강한 플레이로 웃음을 주는 선수" }
         ]
       },
       {
         id: 16,
         name: "최윤비",
         job: "유치원 교사",
-        val1: "안정성",
-        val2: "가족과 화목",
-        reason: "안정성 있는 직업과 주변 가족/친구관계를 중요하게 생각하기 때문",
-        orig: "오랜 시간 변치 않는 성실함으로 일하며, 사람들에게 가족 같은 포근함과 마음을 전하는 유치원 교사",
+        file: "6학년 2반 최윤비_나의가치관_꿈카드.png",
+        valDesc: "안정성 + 가족과 화목",
         headlines: [
-          { tag: "추천 1 (포근형)", text: "포근한 마음으로 아이들을 품는 유치원 교사", note: "20자 · 가족 사랑" },
-          { tag: "추천 2 (성실형)", text: "변함없는 성실함으로 사랑을 주는 유치원 교사", note: "21자 · 든든한 안정" },
-          { tag: "추천 3 (행복형)", text: "가족 같은 따스함으로 함께하는 유치원 교사", note: "20자 · 화목한 교실" }
+          { val: "안정과 화목", text: "변함없는 안정감으로 정을 주는 교사" },
+          { val: "가족 사랑", text: "가족 같은 따스함을 주는 선생님" },
+          { val: "성실과 희망", text: "성실한 사랑으로 아이를 키우는 교사" }
         ]
       },
       {
         id: 17,
         name: "최은유",
         job: "요리사",
-        val1: "경제적 보상 / 성취",
-        val2: "가족과 화목",
-        reason: "돈을 많이 벌어 가족들과 좋은 장소에 가서 행복한 추억을 만들고 싶기 때문이야.",
-        orig: "최선을 다해 일하고 확실한 보상을 성취하며, 사랑하는 사람들과 다정하고 화목한 삶을 가꾸는 요리사",
+        file: "6학년 2반 최은유_나의가치관_꿈카드.png",
+        valDesc: "노력의 결실 + 가족과 화목",
         headlines: [
-          { tag: "추천 1 (정성형)", text: "정성을 다해 가족의 행복을 굽는 요리사", note: "18자 · 따뜻한 추억" },
-          { tag: "추천 2 (결실형)", text: "최고의 맛으로 화목을 요리하는 멋진 셰프", note: "20자 · 성취와 보람" },
-          { tag: "추천 3 (사랑형)", text: "소중한 사람들에게 행복을 선물하는 요리사", note: "20자 · 가족 사랑" }
+          { val: "노력과 화목", text: "최선의 노력으로 화목을 굽는 요리사" },
+          { val: "기쁨과 행복", text: "맛있는 음식으로 행복을 주는 셰프" },
+          { val: "실력과 인정", text: "정직한 실력으로 인정받는 요리사" }
         ]
       },
       {
         id: 18,
         name: "허이수",
         job: "경찰관",
-        val1: "성취감",
-        val2: "창의와 혁신",
-        reason: "사람들을 지켜주고 싶고 내 이름만 들어도 아 그 경찰이잖아 소문이 나면 좋을 것 같아서",
-        orig: "어려운 문제를 내 힘으로 멋지게 해결하며, 창의적인 생각으로 사람들의 삶을 편리하게 돕는 경찰관",
+        file: "6학년 2번 허이수_나의가치관_꿈카드 (1).png",
+        valDesc: "성취감 + 창의와 혁신",
         headlines: [
-          { tag: "추천 1 (지혜형)", text: "창의적인 지혜로 안전을 지키는 든든한 경찰관", note: "21자 · 혁신적 문제해결" },
-          { tag: "추천 2 (해결형)", text: "어려운 일도 척척 해결하는 믿음직한 경찰관", note: "20자 · 성취감과 자부심" },
-          { tag: "추천 3 (수호형)", text: "지혜와 용기로 시민의 곁을 지키는 경찰관", note: "19자 · 든든한 수호자" }
+          { val: "성취와 도전", text: "어려운 일도 척척 해결하는 경찰관" },
+          { val: "창의와 안전", text: "창의적인 생각으로 안전을 지킬 경찰" },
+          { val: "진리와 수호", text: "진실을 밝히며 시민을 지키는 경찰관" }
         ]
       },
       {
         id: 19,
         name: "한서영",
         job: "제빵사",
-        val1: "경제적 보상 / 활력",
-        val2: "가족과 화목",
-        reason: "빵을 만들면서 운동도 되고 돈도 벌 수 있기 때문이다.",
-        orig: "열심히 노력한 만큼 높은 보상을 얻고, 사람들에게 활력을 주는 제빵사",
+        file: "6학년 한서영_나의가치관_꿈카드.png",
+        valDesc: "경제적 보상 + 가족과 화목",
         headlines: [
-          { tag: "추천 1 (달콤형)", text: "달콤한 빵으로 매일 활력을 굽는 제빵사", note: "18자 · 활기찬 하루" },
-          { tag: "추천 2 (노력형)", text: "성실한 노력으로 따뜻한 행복을 굽는 파티시에", note: "21자 · 결실과 보람" },
-          { tag: "추천 3 (향기형)", text: "갓 구운 빵처럼 세상에 힘을 주는 제빵사", note: "19자 · 긍정 에너지" }
+          { val: "노력과 화목", text: "노력의 땀방울로 화목을 굽는 제빵사" },
+          { val: "즐거움과 활력", text: "즐겁게 일하며 활력을 주는 제빵사" },
+          { val: "자율과 행복", text: "나만의 레시피로 행복을 굽는 제빵사" }
         ]
       },
       {
         id: 20,
         name: "정현준",
         job: "세무사",
-        val1: "쾌적한 근무환경",
-        val2: "정의와 안전",
-        reason: "억울한 사람이 없고 쾌적한 환경에서 살고 싶기 때문이야.",
-        orig: "안전이 잘 지켜지는 믿음직한 환경에서 일하며, 억울한 사람 없이 안전한 사회를 만드는 세무사",
+        file: "6학년2반 정현준_나의가치관_꿈카드.png",
+        valDesc: "정의와 안전 + 쾌적한 환경",
         headlines: [
-          { tag: "추천 1 (공정형)", text: "공정함과 정직으로 신뢰를 지키는 세무사", note: "19자 · 정의 추구" },
-          { tag: "추천 2 (바른형)", text: "억울함 없는 밝은 세상을 만드는 세무사", note: "19자 · 공평한 사회" },
-          { tag: "추천 3 (스마트)", text: "정의로운 눈으로 바른 길을 찾는 든든한 세무사", note: "21자 · 전문성" }
+          { val: "정의와 안전", text: "억울함 없는 공정한 사회의 세무사" },
+          { val: "환경과 공정", text: "쾌적한 일터에서 공정을 지킬 세무사" },
+          { val: "소통과 신뢰", text: "따뜻한 소통으로 신뢰를 주는 세무사" }
         ]
       },
       {
         id: 21,
         name: "서우진",
         job: "가상현실전문가",
-        val1: "경제적 보상 / 끈기",
-        val2: "가족과 화목 / 도전과 용기",
-        reason: "나는 끈기가 있고 보수가 중요하기 때문이다",
-        orig: "성실한 노력으로 경제적 여유를 일구며, 새로운 길을 개척하는 열정으로 용기를 북돋는 가상현실전문가",
+        file: "6학년2반25번서우진_나의가치관_꿈카드.png",
+        valDesc: "끈기와 도전 + 가족과 화목",
         headlines: [
-          { tag: "추천 1 (개척형)", text: "새로운 세상을 개척하는 도전형 VR 전문가", note: "20자 · 미래지향" },
-          { tag: "추천 2 (열정형)", text: "끝없는 도전으로 미래를 여는 가상현실전문가", note: "21자 · 끈기와 용기" },
-          { tag: "추천 3 (상상형)", text: "열정과 상상력으로 가상세계를 빚는 전문가", note: "20자 · 창조적" }
+          { val: "끈기와 도전", text: "끈기 있는 도전의 VR 전문가" },
+          { val: "새로운 개척", text: "새로운 세상을 개척하는 VR 전문가" },
+          { val: "성실과 발견", text: "성실과 끈기로 미래를 여는 개척자" }
         ]
       },
       {
         id: 22,
         name: "이하윤",
         job: "유튜버",
-        val1: "자율성",
-        val2: "기쁨과 행복",
-        reason: "사람들을 웃기는 걸 좋아하고 자유롭게 노는 것과 게임하는 걸 좋아하기 때문",
-        orig: "나만의 아이디어를 자유롭게 펼치며, 일상 속에 유쾌한 기쁨과 밝은 활력을 불어넣는 유튜버",
+        file: "6학년2반이하윤_나의가치관_꿈카드.png",
+        valDesc: "자율성 + 기쁨과 행복",
         headlines: [
-          { tag: "추천 1 (웃음형)", text: "팡팡 튀는 아이디어로 큰 웃음을 주는 유튜버", note: "21자 · 유쾌한 끼" },
-          { tag: "추천 2 (자유형)", text: "자유로운 상상으로 활력을 채우는 유쾌한 방송인", note: "22자 · 자율성" },
-          { tag: "추천 3 (해피형)", text: "세상을 유쾌하게 물들이는 해피 크리에이터", note: "20자 · 밝은 에너지" }
+          { val: "자율과 기쁨", text: "자유로운 끼로 기쁨을 주는 유튜버" },
+          { val: "끼와 즐거움", text: "나만의 끼로 큰 웃음을 주는 방송인" },
+          { val: "성취와 소통", text: "세상과 소통하며 꿈을 이룰 유튜버" }
         ]
       }
     ];
 
     let currentStudent = null;
-    let selectedHeadlineIndex = 0;
+    let selectedHeadline = "";
 
     const grid = document.getElementById('studentsGrid');
     const searchInput = document.getElementById('searchInput');
@@ -970,7 +790,7 @@
       grid.innerHTML = '';
       if (list.length === 0) {
         grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: #94A3B8;">
-          <p style="font-size: 1.2rem; font-weight: 700;">검색 결과가 없습니다.</p>
+          <p style="font-size: 1.1rem; font-weight: 700;">검색 결과가 없습니다.</p>
         </div>`;
         return;
       }
@@ -981,26 +801,22 @@
         card.onclick = () => openModal(s);
 
         card.innerHTML = `
-          <div class="card-top">
-            <div class="student-name">
-              <span>${s.name}</span>
+          <div class="card-thumb-wrap">
+            <img class="card-thumb" src="${encodeURIComponent(s.file)}" alt="${s.name} 꿈카드" loading="lazy">
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <span class="student-name">${s.name}</span>
+              <span class="job-badge">${s.job}</span>
             </div>
-            <span class="job-badge">${s.job}</span>
-          </div>
-
-          <div class="tag-list">
-            <span class="tag">#${s.val1.split(' ')[0]}</span>
-            <span class="tag">#${s.val2.split(' ')[0]}</span>
-          </div>
-
-          <div class="headline-preview">
-            <span class="label">대표 헤드카피</span>
-            <div class="text">"${s.headlines[0].text}"</div>
-          </div>
-
-          <div class="card-footer">
-            <span>추천 문구 3개 준비됨</span>
-            <span class="view-btn">포스터 보기 ➔</span>
+            <div class="headline-preview-pill">
+              <span class="label">대표 추천 헤드카피</span>
+              <div class="text">"${s.headlines[0].text}"</div>
+            </div>
+            <div class="card-footer">
+              <span>추천 문구 3개</span>
+              <span class="view-btn">보러가기 ➔</span>
+            </div>
           </div>
         `;
         grid.appendChild(card);
@@ -1012,8 +828,6 @@
       const filtered = studentsData.filter(s => 
         s.name.toLowerCase().includes(q) || 
         s.job.toLowerCase().includes(q) ||
-        s.val1.toLowerCase().includes(q) ||
-        s.val2.toLowerCase().includes(q) ||
         s.headlines.some(h => h.text.toLowerCase().includes(q))
       );
       renderStudents(filtered);
@@ -1021,28 +835,66 @@
 
     function openModal(student) {
       currentStudent = student;
-      selectedHeadlineIndex = 0;
+      selectedHeadline = student.headlines[0].text;
 
-      document.getElementById('modalName').textContent = `${student.name}의 꿈 포스터`;
+      document.getElementById('modalName').textContent = `${student.name}의 꿈카드`;
       document.getElementById('modalJob').textContent = student.job;
-      document.getElementById('modalValues').textContent = `${student.val1} + ${student.val2}`;
-      document.getElementById('modalReason').textContent = student.reason;
-      document.getElementById('modalOriginal').textContent = `"${student.orig}"`;
-      // 끝부분 정리 후 "직업, [이름]" 형태로 2줄 완성
-      const cleanOrig = student.orig.replace(/["'”’.\s]+$/, '');
-      const fullText = `${cleanOrig}, ${student.name}`;
-      const twoLines = fullText.replace(/,\s*/, ',<br>');
-      document.getElementById('mockupSubcopy').innerHTML = `"${twoLines}"`;
-
-      renderOptions();
-      updateMockup();
-
-      document.getElementById('modalBackdrop').classList.add('active');
-      document.body.style.overflow = 'hidden';
+      document.getElementById('modalImg').src = encodeURIComponent(student.file);
 
       const customInp = document.getElementById('customInput');
       customInp.value = '';
-      document.getElementById('customCharCount').textContent = '0자';
+      document.getElementById('charCount').textContent = '0자';
+
+      renderOptions();
+
+      document.getElementById('modalBackdrop').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modalBackdrop').classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    function renderOptions() {
+      const container = document.getElementById('optionsGrid');
+      container.innerHTML = '';
+
+      currentStudent.headlines.forEach((h, idx) => {
+        const item = document.createElement('div');
+        const isSelected = (h.text === selectedHeadline);
+        item.className = `option-item ${isSelected ? 'selected' : ''}`;
+        item.onclick = () => {
+          selectedHeadline = h.text;
+          document.getElementById('customInput').value = '';
+          document.getElementById('charCount').textContent = '0자';
+          renderOptions();
+        };
+
+        item.innerHTML = `
+          <div class="option-left">
+            <span class="option-num">${idx + 1}</span>
+            <div>
+              <span style="font-size: 0.75rem; font-weight: 800; color: #4F46E5; background: #EEF2FF; padding: 2px 8px; border-radius: 6px; display: inline-block; margin-bottom: 4px;">#${h.val}</span>
+              <div class="option-text">"${h.text}"</div>
+            </div>
+          </div>
+          <span class="option-len">${h.text.length}자</span>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function onCustomType(val) {
+      document.getElementById('charCount').textContent = `${val.length}자`;
+      if (val.trim().length > 0) {
+        selectedHeadline = val.trim();
+        const items = document.querySelectorAll('.option-item');
+        items.forEach(it => it.classList.remove('selected'));
+      } else {
+        selectedHeadline = currentStudent.headlines[0].text;
+        renderOptions();
+      }
     }
 
     function prevStudent() {
@@ -1059,73 +911,6 @@
       openModal(studentsData[nextIdx]);
     }
 
-    function closeModal() {
-      document.getElementById('modalBackdrop').classList.remove('active');
-      document.body.style.overflow = 'auto';
-    }
-
-    function renderOptions() {
-      const container = document.getElementById('headlineOptions');
-      container.innerHTML = '';
-
-      currentStudent.headlines.forEach((h, idx) => {
-        const opt = document.createElement('div');
-        opt.className = `option-card ${idx === selectedHeadlineIndex ? 'selected' : ''}`;
-        opt.onclick = () => {
-          selectedHeadlineIndex = idx;
-          document.getElementById('customInput').value = '';
-          document.getElementById('customCharCount').textContent = '0자';
-          renderOptions();
-          updateMockup();
-        };
-
-        opt.innerHTML = `
-          <div class="option-info">
-            <span class="option-tag">${h.tag} · ${h.note}</span>
-            <span class="option-text">"${h.text}"</span>
-          </div>
-          <span class="option-len">${h.text.length}자</span>
-        `;
-        container.appendChild(opt);
-      });
-    }
-
-    function onCustomInputChange(val) {
-      document.getElementById('customCharCount').textContent = `${val.length}자`;
-      if (val.trim().length > 0) {
-        selectedHeadlineIndex = -1; // Unselect preset cards
-        const cards = document.querySelectorAll('.option-card');
-        cards.forEach(c => c.classList.remove('selected'));
-        document.getElementById('mockupHeadline').textContent = val;
-      } else {
-        selectedHeadlineIndex = 0;
-        renderOptions();
-        updateMockup();
-      }
-    }
-
-    function updateMockup() {
-      if (selectedHeadlineIndex >= 0) {
-        const chosen = currentStudent.headlines[selectedHeadlineIndex];
-        document.getElementById('mockupHeadline').textContent = chosen.text;
-      }
-    }
-
-    function copySelectedHeadline() {
-      const textToCopy = document.getElementById('mockupHeadline').textContent;
-      navigator.clipboard.writeText(textToCopy).then(() => {
-        const btn = document.getElementById('copyBtn');
-        const oldText = btn.innerHTML;
-        btn.innerHTML = '✅ 복사 완료!';
-        btn.style.background = '#10B981';
-        setTimeout(() => {
-          btn.innerHTML = oldText;
-          btn.style.background = 'var(--primary)';
-        }, 1500);
-      });
-    }
-
-    // Keyboard navigation (Arrow left/right, ESC)
     window.addEventListener('keydown', (e) => {
       const modal = document.getElementById('modalBackdrop');
       if (modal.classList.contains('active')) {
@@ -1141,7 +926,6 @@
       if (e.target.id === 'modalBackdrop') closeModal();
     });
 
-    // Initial render
     renderStudents(studentsData);
   </script>
 </body>
