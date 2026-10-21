@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>부산 신혼부부 맞춤 부동산 전략 대시보드</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Google Fonts: Pretentard / Inter -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', 'Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+              900: '#0c4a6e',
+            },
+            accent: {
+              500: '#10b981',
+              600: '#059669',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Pretendard', sans-serif; }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-slate-900 via-sky-900 to-indigo-950 text-white sticky top-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap justify-between items-center gap-3">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-400 to-indigo-500 flex items-center justify-center shadow-lg font-bold text-xl text-white">
+          부
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-extrabold text-lg sm:text-xl tracking-tight">부산 신혼부부 15년 내집마련 솔루션</h1>
+            <span class="bg-sky-500/30 text-sky-200 text-xs px-2.5 py-0.5 rounded-full font-medium border border-sky-400/30">맞춤 컨설팅 v1.0</span>
+          </div>
+          <p class="text-xs text-slate-300">규동산 부산 부동산 톡방 빅데이터(19.7만 건) & 금융 정책 심층 분석 기반</p>
+        </div>
+      </div>
+      
+      <!-- Quick Profile Pills -->
+      <div class="flex flex-wrap items-center gap-2 text-xs">
+        <span class="bg-white/10 px-3 py-1.5 rounded-lg border border-white/10 flex items-center gap-1.5">
+          <span class="text-sky-300 font-semibold">직장:</span> 부암동 & 모라동
+        </span>
+        <span class="bg-white/10 px-3 py-1.5 rounded-lg border border-white/10 flex items-center gap-1.5">
+          <span class="text-emerald-300 font-semibold">소득:</span> 월 실수령 500후반 (공무원·공기업)
+        </span>
+        <span class="bg-white/10 px-3 py-1.5 rounded-lg border border-white/10 flex items-center gap-1.5">
+          <span class="text-amber-300 font-semibold">자산:</span> 순수 현금 2.2억 원
+        </span>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-700/60 flex space-x-1 sm:space-x-4 overflow-x-auto custom-scrollbar text-sm font-medium">
+      <button onclick="switchTab('roadmap')" id="tab-roadmap" class="tab-btn py-3 px-3.5 border-b-2 border-sky-400 text-sky-400 font-bold whitespace-nowrap flex items-center gap-1.5">
+        <span>🧭 15년 로드맵 & 핵심 결론</span>
+      </button>
+      <button onclick="switchTab('scenarios')" id="tab-scenarios" class="tab-btn py-3 px-3.5 border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap flex items-center gap-1.5">
+        <span>⚖️ 4대 시나리오 비교</span>
+      </button>
+      <button onclick="switchTab('apartments')" id="tab-apartments" class="tab-btn py-3 px-3.5 border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap flex items-center gap-1.5">
+        <span>🏢 추천 전세 단지 (진구/사상/북구)</span>
+      </button>
+      <button onclick="switchTab('finance')" id="tab-finance" class="tab-btn py-3 px-3.5 border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap flex items-center gap-1.5">
+        <span>💰 대출 & 재정 시뮬레이터</span>
+      </button>
+      <button onclick="switchTab('market')" id="tab-market" class="tab-btn py-3 px-3.5 border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap flex items-center gap-1.5">
+        <span>📊 부산 시장 빅데이터 & 금리 전망</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- ========================================== -->
+    <!-- TAB 1: 15년 로드맵 & 핵심 결론 -->
+    <!-- ========================================== -->
+    <section id="panel-roadmap" class="tab-panel space-y-6">
+      
+      <!-- Key Verdict Banner -->
+      <div class="p-6 rounded-2xl bg-gradient-to-r from-sky-900 via-indigo-900 to-slate-900 text-white shadow-xl relative overflow-hidden">
+        <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div class="space-y-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-bold">
+              ✓ 최종 검증된 최적 솔루션
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+              "2년 전세(시드 축적) → 2029년 신생아 대출로 7억대 84타입 첫 집 매수"
+            </h2>
+            <p class="text-slate-300 text-sm max-w-3xl leading-relaxed">
+              아이 둘(2028년 첫째, 2031년 둘째) 계획과 최소 이사(1~2회) 목표를 모두 만족하는 유일한 길입니다. 5억 영끌 부담과 고바위 감가상각 덫을 피하고, 15년간 단 2번의 이사로 첫째 중학교 갈 때까지 완벽하게 정착합니다.
+            </p>
+          </div>
+          <div class="flex-shrink-0 bg-white/10 p-4 rounded-xl border border-white/15 text-center min-w-[200px]">
+            <div class="text-xs text-sky-200 font-medium">15년간 이사 횟수</div>
+            <div class="text-3xl font-black text-amber-300 my-1">단 2회</div>
+            <div class="text-xs text-slate-300">거래비용 2,500만 원 절약</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 15-Year Interactive Timeline -->
+      <div class="glass-card rounded-2xl p-6 shadow-sm">
+        <div class="flex items-center justify-between mb-6 pb-3 border-b border-slate-200">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-sky-500"></span>
+              2026 ~ 2041년 15년 생애주기 주거 로드맵
+            </h3>
+            <p class="text-xs text-slate-500">출산 계획과 대출 혜택을 100% 매칭한 단계별 실행 타임라인</p>
+          </div>
+          <span class="text-xs bg-slate-100 text-slate-600 px-3 py-1 rounded-full font-semibold">총 5단계</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 relative">
+          
+          <!-- Step 1 -->
+          <div class="p-4 rounded-xl border-2 border-sky-400 bg-sky-50/70 relative flex flex-col justify-between">
+            <span class="absolute -top-3 left-4 bg-sky-600 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+              STEP 1 (현재~4개월)
+            </span>
+            <div class="space-y-2 mt-1">
+              <div class="font-extrabold text-slate-900 text-base">2027년 2월 전세 입주</div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                • <b>입지:</b> 주례롯데 59 or 카이저 59<br>
+                • <b>자금:</b> 현금 2.2억 + 부산시 전세대출(8천만)<br>
+                • <b>월 주거비:</b> <span class="text-emerald-600 font-bold">이자 10만 원대</span>
+              </p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-sky-200 text-[11px] text-sky-800 font-semibold">
+              🎯 1회차 이사 완료 (신혼 안착)
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="p-4 rounded-xl border border-slate-200 bg-white flex flex-col justify-between">
+            <span class="bg-amber-100 text-amber-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full w-fit">
+              STEP 2 (1년 뒤)
+            </span>
+            <div class="space-y-2 mt-2">
+              <div class="font-extrabold text-slate-900 text-base">2028년 첫째 출산</div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                • <b>자격 획득:</b> 신생아 특례대출(구입자금) 발동<br>
+                • <b>저축 진행:</b> 2년간 총 7,000만 원 순저축 완료<br>
+                • <b>시드 머니:</b> <span class="text-indigo-600 font-bold">2.9억~3.0억 달성</span>
+              </p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-100 text-[11px] text-amber-700 font-semibold">
+              🎯 7억대 84 급매 모니터링 시작
+            </div>
+          </div>
+
+          <!-- Step 3 (Gold Moment) -->
+          <div class="p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50/70 relative flex flex-col justify-between shadow-md">
+            <span class="absolute -top-3 left-4 bg-emerald-600 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+              ★ 골든타임 (2년 뒤)
+            </span>
+            <div class="space-y-2 mt-1">
+              <div class="font-extrabold text-slate-900 text-base">2029년 2월 '첫 집' 매수</div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                • <b>타깃:</b> 7.5억 평지 대단지 84타입<br>
+                • <b>자금:</b> 시드 3억 + 신생아 대출 4.5억<br>
+                • <b>월 원리금:</b> <span class="text-emerald-700 font-bold">130만~140만 원</span> (2%대)
+              </p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-emerald-200 text-[11px] text-emerald-800 font-semibold">
+              🎯 2회차 이사 (평생 주거 정착!)
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="p-4 rounded-xl border border-slate-200 bg-white flex flex-col justify-between">
+            <span class="bg-indigo-100 text-indigo-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full w-fit">
+              STEP 4 (4년 뒤)
+            </span>
+            <div class="space-y-2 mt-2">
+              <div class="font-extrabold text-slate-900 text-base">2031년 둘째 출산</div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                • <b>평형 충족:</b> 84타입이라 짐 걱정 없음<br>
+                • <b>금리 보너스:</b> <span class="text-sky-600 font-bold">우대금리 0.2%p 인하</span><br>
+                • <b>기간 연장:</b> 특례 5년 추가 (총 10년)
+              </p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-100 text-[11px] text-indigo-700 font-semibold">
+              🎯 이사 없이 10년 초저금리 항해
+            </div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col justify-between">
+            <span class="bg-slate-200 text-slate-700 text-[11px] font-bold px-2.5 py-0.5 rounded-full w-fit">
+              STEP 5 (15년 뒤)
+            </span>
+            <div class="space-y-2 mt-2">
+              <div class="font-extrabold text-slate-900 text-base">~2041년 학군지 이사</div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                • 첫째 중학교 입학 시점까지 12년간 무이사<br>
+                • 10년 초저금리 동안 자산 축적 극대화<br>
+                • 해·수·남 최상급지 갈아타기 완성
+              </p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-slate-200 text-[11px] text-slate-600 font-semibold">
+              🎯 선택적 상급지 점프 (3회차 이사)
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Core 3 Reasons Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
+          <div class="w-9 h-9 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center font-bold text-lg">1</div>
+          <h4 class="font-bold text-slate-900">대출 5억 영끌 파산 위험 차단</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            지금 7억 초반 84를 사면 대출 5억에 일반금리 4.2%로 매달 218만 원이 나갑니다. 2년 뒤 시드를 3억으로 불리고 신생아 대출(2%)을 쓰면 월 원리금이 130만 원대로 떨어져 가계 재정이 안전합니다.
+          </p>
+        </div>
+        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
+          <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-lg">2</div>
+          <h4 class="font-bold text-slate-900">둘째 출산 시 59타입 공간 지옥 회피</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            59타입은 2028년 첫째까진 좋아도 2031년 둘째가 태어나면 짐 폭발로 억지 이사를 가야 합니다. 84타입으로 곧장 들어가면 이사비·복비·취득세 2,500만 원을 아끼고 중학교 갈 때까지 거주합니다.
+          </p>
+        </div>
+        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
+          <div class="w-9 h-9 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold text-lg">3</div>
+          <h4 class="font-bold text-slate-900">부산시 전세대출 실부담 1.5%의 마법</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            부산시는 부부소득 1.3억 이하 가구에 전세대출 이자를 2.0% 지원해 줍니다. 8,000만 원만 빌리면 월 이자 10만 원만 내면서 2년간 월 300만 원씩 맹렬하게 저축할 수 있습니다.
+          </p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: 4대 시나리오 비교 -->
+    <!-- ========================================== -->
+    <section id="panel-scenarios" class="tab-panel hidden space-y-6">
+      <div class="glass-card rounded-2xl p-6 shadow-sm">
+        <h3 class="text-lg font-bold text-slate-900 mb-2">신혼부부 4대 주거 선택지 종합 배틀</h3>
+        <p class="text-xs text-slate-500 mb-6">현금 2.2억, 월 소득 500후반, 2028년 첫째 / 2031년 둘째 출산 기준</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          
+          <!-- Scenario A (Winner) -->
+          <div class="rounded-xl border-2 border-emerald-500 bg-emerald-50/40 p-5 flex flex-col justify-between relative shadow-md">
+            <div class="absolute -top-3 right-4 bg-emerald-600 text-white text-[11px] font-bold px-2 py-0.5 rounded-full">
+              👑 추천 1위 (최선책)
+            </div>
+            <div class="space-y-3">
+              <div class="text-xs font-bold text-emerald-700 tracking-wider">SCENARIO A</div>
+              <h4 class="text-lg font-extrabold text-slate-900 leading-snug">2년 전세 후<br>7억대 84 직행</h4>
+              <div class="space-y-1.5 text-xs text-slate-700 border-t border-emerald-200/80 pt-3">
+                <p>• <b>총 이사 횟수:</b> 단 2회</p>
+                <p>• <b>2년간 월 주거비:</b> <span class="text-emerald-700 font-bold">10만 원대</span></p>
+                <p>• <b>매수 시 대출:</b> 4.5억 (신생아 2%대)</p>
+                <p>• <b>매수 후 월 상환:</b> 약 130만~140만 원</p>
+                <p>• <b>둘째 출산 시:</b> 10년 특례 연장 혜택</p>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-emerald-200">
+              <div class="text-xs font-bold text-emerald-800">종합 평점: 98점 / 100점</div>
+              <p class="text-[11px] text-slate-600 mt-1">자산과 생활의 완벽한 균형</p>
+            </div>
+          </div>
+
+          <!-- Scenario B -->
+          <div class="rounded-xl border border-slate-200 bg-white p-5 flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="text-xs font-bold text-slate-400 tracking-wider">SCENARIO B</div>
+              <h4 class="text-lg font-bold text-slate-900 leading-snug">지금 59타입<br>평지 역세권 매수</h4>
+              <div class="space-y-1.5 text-xs text-slate-700 border-t border-slate-100 pt-3">
+                <p>• <b>대상:</b> 가야롯데 59 (6.0억)</p>
+                <p>• <b>초기 대출:</b> 약 3.8억</p>
+                <p>• <b>월 상환액:</b> 일반 150만 → 신생아 95만</p>
+                <p>• <b>치명적 약점:</b> <span class="text-rose-600 font-bold">2031년 둘째 낳으면 짐에 치여 억지 이사</span></p>
+                <p>• <b>매몰 비용:</b> 갈아타기 시 2,500만 원 증발</p>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100">
+              <div class="text-xs font-bold text-amber-700">종합 평점: 75점 (차선책)</div>
+              <p class="text-[11px] text-slate-500 mt-1">아이 하나까진 좋으나 둘째 한계</p>
+            </div>
+          </div>
+
+          <!-- Scenario C -->
+          <div class="rounded-xl border border-rose-300 bg-rose-50/30 p-5 flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="text-xs font-bold text-rose-500 tracking-wider">SCENARIO C</div>
+              <h4 class="text-lg font-bold text-slate-900 leading-snug">지금 7억 초반<br>84타입 무리한 영끌</h4>
+              <div class="space-y-1.5 text-xs text-slate-700 border-t border-rose-100 pt-3">
+                <p>• <b>대상:</b> 래미안어반파크 84 (7.3억)</p>
+                <p>• <b>필요 대출:</b> 5.1억 (LTV 70% 꽉 채움)</p>
+                <p>• <b>월 상환액:</b> <span class="text-rose-600 font-bold">월 218만 원 (4.2% 기준)</span></p>
+                <p>• <b>치명적 약점:</b> 육아휴직 시 가계 파탄</p>
+                <p>• <b>규제 리스크:</b> 스트레스 DSR 한도 초과</p>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-rose-100">
+              <div class="text-xs font-bold text-rose-700">종합 평점: 40점 (위험)</div>
+              <p class="text-[11px] text-slate-500 mt-1">신혼 초 하우스푸어 전락</p>
+            </div>
+          </div>
+
+          <!-- Scenario D -->
+          <div class="rounded-xl border border-amber-300 bg-amber-50/30 p-5 flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="text-xs font-bold text-amber-600 tracking-wider">SCENARIO D</div>
+              <h4 class="text-lg font-bold text-slate-900 leading-snug">지금 라센트 84<br>(고바위 신축) 매수</h4>
+              <div class="space-y-1.5 text-xs text-slate-700 border-t border-amber-100 pt-3">
+                <p>• <b>대상:</b> 롯데캐슬 라센트 84 (5.8억)</p>
+                <p>• <b>대출 부담:</b> 3억 중반 (원리금 양호)</p>
+                <p>• <b>치명적 약점:</b> <span class="text-amber-800 font-bold">신축빨 빠지면 10년 뒤 횡보</span></p>
+                <p>• <b>입지 한계:</b> 고바위 + 비역세권</p>
+                <p>• <b>환금성:</b> 나중에 팔고 싶어도 안 팔림</p>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-amber-100">
+              <div class="text-xs font-bold text-amber-700">종합 평점: 55점 (비추천)</div>
+              <p class="text-[11px] text-slate-500 mt-1">자산 가치 방어 실패 우려</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: 추천 전세 단지 -->
+    <!-- ========================================== -->
+    <section id="panel-apartments" class="tab-panel hidden space-y-6">
+      <div class="glass-card rounded-2xl p-6 shadow-sm">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-6">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900">부산진구·사상구·북구 추천 전세 단지 TOP 5</h3>
+            <p class="text-xs text-slate-500">2년 뒤 전세보증금 칼반환 보장 & 부암·모라 출퇴근 최적 입지</p>
+          </div>
+          <span class="text-xs text-sky-700 bg-sky-100 px-3 py-1 rounded-full font-semibold">
+            전세보증보험 100% 필수 가입 단지
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          
+          <!-- Apt 1 -->
+          <div class="p-5 rounded-2xl border-2 border-sky-500 bg-white shadow-md relative space-y-3">
+            <span class="absolute top-4 right-4 bg-sky-600 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+              🥇 가성비 & 통근 1위
+            </span>
+            <div>
+              <div class="text-xs text-sky-600 font-bold">사상구 주례동</div>
+              <h4 class="text-lg font-black text-slate-900">주례 롯데캐슬 골드스마트</h4>
+              <p class="text-xs text-slate-500">2022년 준공 | 998세대 | 2호선 주례역 도보 3분</p>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl space-y-1 text-xs">
+              <div class="flex justify-between">
+                <span class="text-slate-500">59타입 전세:</span>
+                <span class="font-bold text-slate-900">2.8억 ~ 3.1억</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-500">84타입 전세:</span>
+                <span class="font-bold text-slate-900">3.8억 ~ 4.1억</span>
+              </div>
+            </div>
+            <div class="text-xs text-slate-600 space-y-1">
+              <p>• <b>모라역:</b> 2호선 지하철 10분 (환승 없음)</p>
+              <p>• <b>부암동:</b> 2호선 지하철 10분, 자차 10분</p>
+              <p class="text-emerald-700 font-semibold">• 현금 2.2억 + 대출 8천으로 월 이자 10만 원대 거주!</p>
+            </div>
+          </div>
+
+          <!-- Apt 2 -->
+          <div class="p-5 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-3">
+            <span class="bg-indigo-100 text-indigo-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full w-fit">
+              🥈 환금성 & 인프라 2위
+            </span>
+            <div>
+              <div class="text-xs text-indigo-600 font-bold">부산진구 가야동</div>
+              <h4 class="text-lg font-black text-slate-900">가야 롯데캐슬 골드아너</h4>
+              <p class="text-xs text-slate-500">2022년 준공 | 2,144세대 | 2호선 가야역 초역세권</p>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl space-y-1 text-xs">
+              <div class="flex justify-between">
+                <span class="text-slate-500">59타입 전세:</span>
+                <span class="font-bold text-slate-900">3.0억 ~ 3.3억</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-500">84타입 전세:</span>
+                <span class="font-bold text-slate-900">4.1억 ~ 4.3억</span>
+              </div>
+            </div>
+            <div class="text-xs text-slate-600 space-y-1">
+              <p>• <b>모라역:</b> 2호선 지하철 직통 (18분)</p>
+              <p>• <b>부암동:</b> 자차 5~7분 / 버스 10분</p>
+              <p class="text-slate-700">• 평지 2천세대 대단지라 2년 뒤 전세 빼기 극도로 수월</p>
+            </div>
+          </div>
+
+          <!-- Apt 3 -->
+          <div class="p-5 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-3">
+            <span class="bg-emerald-100 text-emerald-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full w-fit">
+              🥉 보증금 안전 끝판왕
+            </span>
+            <div>
+              <div class="text-xs text-emerald-600 font-bold">북구 화명동</div>
+              <h4 class="text-lg font-black text-slate-900">화명 롯데캐슬 카이저</h4>
+              <p class="text-xs text-slate-500">2012년 준공 | 5,239세대 | 2호선 수정역 직통</p>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl space-y-1 text-xs">
+              <div class="flex justify-between">
+                <span class="text-slate-500">59타입 전세:</span>
+                <span class="font-bold text-slate-900">2.8억 ~ 3.1억</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-500">84타입 전세:</span>
+                <span class="font-bold text-slate-900">3.9억 ~ 4.2억</span>
+              </div>
+            </div>
+            <div class="text-xs text-slate-600 space-y-1">
+              <p>• <b>모라역:</b> 2호선 딱 4정거장 (8분 컷)</p>
+              <p>• <b>부암동:</b> 자차 15분 (백양대로 이용)</p>
+              <p class="text-slate-700">• 5천세대 매머드급 전세 수요로 만기일 칼반환 보장</p>
+            </div>
+          </div>
+
+          <!-- Apt 4 -->
+          <div class="p-5 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-3">
+            <span class="bg-amber-100 text-amber-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full w-fit">
+              전세 가성비 우수
+            </span>
+            <div>
+              <div class="text-xs text-amber-600 font-bold">부산진구 부암동</div>
+              <h4 class="text-lg font-black text-slate-900">롯데캐슬 라센트</h4>
+              <p class="text-xs text-slate-500">2023년 준공 | 2,195세대 | 부암1구역 재개발</p>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl space-y-1 text-xs">
+              <div class="flex justify-between">
+                <span class="text-slate-500">59타입 전세:</span>
+                <span class="font-bold text-slate-900">2.8억 ~ 3.0억</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-500">84타입 전세:</span>
+                <span class="font-bold text-slate-900">3.8억 ~ 4.0억</span>
+              </div>
+            </div>
+            <div class="text-xs text-slate-600 space-y-1">
+              <p>• <b>부암 직장:</b> 도보 3분 컷 (완벽 직주근접)</p>
+              <p>• <b>모라 직장:</b> 백양터널(무료) 10분 컷</p>
+              <p class="text-slate-700">• 매매는 비추천이나 전세로는 저렴하게 신축 누리기 최적</p>
+            </div>
+          </div>
+
+          <!-- Apt 5 -->
+          <div class="p-5 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-3">
+            <span class="bg-teal-100 text-teal-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full w-fit">
+              공원·쾌적성 우수
+            </span>
+            <div>
+              <div class="text-xs text-teal-600 font-bold">부산진구 연지동</div>
+              <h4 class="text-lg font-black text-slate-900">래미안 어반파크</h4>
+              <p class="text-xs text-slate-500">2022년 준공 | 2,613세대 | 시민공원 도보권</p>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl space-y-1 text-xs">
+              <div class="flex justify-between">
+                <span class="text-slate-500">59타입 전세:</span>
+                <span class="font-bold text-slate-900">2.9억 ~ 3.2억</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-500">84타입 전세:</span>
+                <span class="font-bold text-slate-900">3.9억 ~ 4.2억</span>
+              </div>
+            </div>
+            <div class="text-xs text-slate-600 space-y-1">
+              <p>• <b>부암 직장:</b> 자차 3~5분 바로 옆</p>
+              <p>• <b>모라 직장:</b> 백양터널 진입로 인접 12분 컷</p>
+              <p class="text-slate-700">• 신생아 유모차 산책과 숲세권 쾌적성 원탑</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 4: 대출 & 재정 시뮬레이터 -->
+    <!-- ========================================== -->
+    <section id="panel-finance" class="tab-panel hidden space-y-6">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Calculator Inputs -->
+        <div class="glass-card rounded-2xl p-6 shadow-sm space-y-5 lg:col-span-1">
+          <h3 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-3 flex items-center gap-2">
+            <span>⚙️ 시뮬레이션 설정</span>
+          </h3>
+          
+          <div class="space-y-4 text-xs">
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">현재 보유 현금</label>
+              <div class="flex items-center gap-2">
+                <input type="range" id="input-cash" min="15000" max="35000" step="1000" value="22000" class="w-full accent-sky-600" oninput="recalc()">
+                <span id="label-cash" class="font-black text-sky-700 text-sm whitespace-nowrap min-w-[70px]">2억 2,000만</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">전세 보증금 (2027.02 전세)</label>
+              <div class="flex items-center gap-2">
+                <input type="range" id="input-jeonse" min="20000" max="45000" step="1000" value="30000" class="w-full accent-sky-600" oninput="recalc()">
+                <span id="label-jeonse" class="font-black text-slate-800 text-sm whitespace-nowrap min-w-[70px]">3억 원</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">월 순수 저축 가능액 (2년간)</label>
+              <div class="flex items-center gap-2">
+                <input type="range" id="input-save" min="150" max="400" step="10" value="270" class="w-full accent-emerald-600" oninput="recalc()">
+                <span id="label-save" class="font-black text-emerald-700 text-sm whitespace-nowrap min-w-[70px]">월 270만</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">2029년 목표 매매가 (84타입 대장)</label>
+              <div class="flex items-center gap-2">
+                <input type="range" id="input-buy" min="65000" max="85000" step="1000" value="75000" class="w-full accent-indigo-600" oninput="recalc()">
+                <span id="label-buy" class="font-black text-indigo-700 text-sm whitespace-nowrap min-w-[70px]">7억 5,000만</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-[11px] text-amber-800 space-y-1">
+            <div class="font-bold">💡 실시간 자동 계산 기준</div>
+            <p>• 부산시 전세대출: 실부담 금리 1.6%</p>
+            <p>• 신생아 구입자금 대출: 금리 2.1% (30년 원리금 균등)</p>
+          </div>
+        </div>
+
+        <!-- Calculator Results & Charts -->
+        <div class="glass-card rounded-2xl p-6 shadow-sm space-y-6 lg:col-span-2 flex flex-col justify-between">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-3 mb-4">
+              📊 2단계 자금 수지 및 월 상환액 분석
+            </h3>
+
+            <!-- 2 Steps Comparison Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              
+              <!-- Stage 1 (Jeonse Period) -->
+              <div class="p-4 rounded-xl bg-sky-50/60 border border-sky-200 space-y-2">
+                <div class="text-xs font-bold text-sky-700">1단계: 2년 전세 거주기 (27.02 ~ 29.02)</div>
+                <div class="text-2xl font-black text-slate-900" id="res-jeonse-loan">대출: 8,000만 원</div>
+                <div class="text-xs text-slate-600 space-y-1">
+                  <p>• 전세대출 월 이자: <span id="res-jeonse-interest" class="font-bold text-emerald-600 text-sm">약 10.7만 원</span></p>
+                  <p>• 2년간 총 순저축: <span id="res-2yr-savings" class="font-bold text-indigo-700 text-sm">약 6,480만 원</span></p>
+                  <p>• 2년 뒤 확보 시드: <span id="res-final-seed" class="font-bold text-slate-900 text-sm">약 2억 8,480만 원</span></p>
+                </div>
+              </div>
+
+              <!-- Stage 2 (Buy Period) -->
+              <div class="p-4 rounded-xl bg-emerald-50/60 border border-emerald-200 space-y-2">
+                <div class="text-xs font-bold text-emerald-700">2단계: 2029년 84 매수기 (신생아 대출)</div>
+                <div class="text-2xl font-black text-slate-900" id="res-buy-loan">대출: 4억 6,520만 원</div>
+                <div class="text-xs text-slate-600 space-y-1">
+                  <p>• 신생아 구입 월 상환: <span id="res-buy-payment" class="font-bold text-emerald-700 text-sm">약 174만 원</span></p>
+                  <p>• 일반 주담대 대비 절감: <span id="res-save-diff" class="font-bold text-sky-700">월 60만 원 절약</span></p>
+                  <p>• 둘째 출산 시 금리: <span class="font-bold text-purple-700">연 1.9%로 추가 인하</span></p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Chart Area -->
+          <div class="h-56 w-full">
+            <canvas id="financeChart"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 5: 부산 시장 빅데이터 & 금리 전망 -->
+    <!-- ========================================== -->
+    <section id="market-panel" class="tab-panel hidden space-y-6">
+      <div class="glass-card rounded-2xl p-6 shadow-sm space-y-6">
+        <div>
+          <h3 class="text-lg font-bold text-slate-900 mb-1">규동산 부산 부동산 톡방 빅데이터 분석 보고서</h3>
+          <p class="text-xs text-slate-500">19만 7,453건 대화 데이터 마이닝 및 시황 지표 교차 검증</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="text-xs text-sky-600 font-bold">핵심 거시 지표 1</div>
+            <div class="text-xl font-black text-slate-900">전세가율 66.8% 돌파</div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              장기 평균선(67%) 상회 직전. 서울(52%)과 달리 부산은 거품이 없으며, 탄탄한 실수요 전세가가 매매가를 아래에서 밀어 올리는 강한 하방 지지 사이클입니다.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="text-xs text-emerald-600 font-bold">핵심 거시 지표 2</div>
+            <div class="text-xl font-black text-slate-900">2025~2027 공급 절벽</div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              과거 연간 3만 가구 입주 폭탄이 끝나고, 적정 수요(1.7만 가구)에 크게 못 미치는 연 1만 가구 미만으로 공급이 급감합니다. 신축 희소성이 극대화됩니다.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="text-xs text-purple-600 font-bold">핵심 거시 지표 3</div>
+            <div class="text-xl font-black text-slate-900">양극화 (8억+ vs 6억-)</div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              8억 이상 상급지는 신고가 상승장을 주도하며, 6억 이하는 '평지 역세권 59'만 전세가로 버티고 외곽/고바위 구축은 유동성 실종으로 도태됩니다.
+            </p>
+          </div>
+        </div>
+
+        <!-- Interest & Policy Prediction Table -->
+        <div class="border border-slate-200 rounded-xl overflow-hidden">
+          <div class="bg-slate-100 px-4 py-2.5 font-bold text-xs text-slate-700">
+            금리 및 부동산 정책 종합 전망 (2026~2028년)
+          </div>
+          <div class="divide-y divide-slate-200 text-xs">
+            <div class="p-3.5 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+              <span class="font-bold text-slate-800 sm:w-1/4">미국 연준 (Fed)</span>
+              <span class="text-slate-600 sm:w-3/4">중립금리 3%대 초중반에서 완만한 인하 멈춤. 0%대 제로금리 복귀 불가.</span>
+            </div>
+            <div class="p-3.5 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+              <span class="font-bold text-slate-800 sm:w-1/4">한국은행 기준금리</span>
+              <span class="text-slate-600 sm:w-3/4">환율(1,400원)과 수도권 집값 자극 우려로 2.75%~3.0% 선에서 하한선 형성.</span>
+            </div>
+            <div class="p-3.5 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+              <span class="font-bold text-slate-800 sm:w-1/4">시중은행 일반 주담대</span>
+              <span class="text-slate-600 sm:w-3/4">정부 가산금리 인상 압박 + 스트레스 DSR 확대로 체감 금리는 3.8%~4.2%대 고착화.</span>
+            </div>
+            <div class="p-3.5 flex flex-col sm:flex-row justify-between sm:items-center gap-2 bg-emerald-50/50">
+              <span class="font-bold text-emerald-800 sm:w-1/4">신생아 특례대출 (정책)</span>
+              <span class="text-emerald-900 sm:w-3/4 font-semibold">저출산 국정과제로 1~2%대 초저금리 독점 유지. 9억 이하 주택에서 가치 극대화.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-6 mt-auto border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-3">
+      <div>
+        © 2026 부산 신혼부부 맞춤 부동산 분석 솔루션 | 전세 및 매수 의사결정 지원 시스템
+      </div>
+      <div class="text-slate-500">
+        데이터 출처: 규동산 부산 부동산 톡방 (158,347건 + 39,106건) & 국토교통부 실거래가
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive JavaScript Logic -->
+  <script>
+    // Tab Switching Logic
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-panel').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('border-sky-400', 'text-sky-400', 'font-bold');
+        btn.classList.add('border-transparent', 'text-slate-400');
+      });
+
+      const targetPanel = tabId === 'market' ? document.getElementById('market-panel') : document.getElementById('panel-' + tabId);
+      if (targetPanel) targetPanel.classList.remove('hidden');
+
+      const activeBtn = document.getElementById('tab-' + tabId);
+      if (activeBtn) {
+        activeBtn.classList.remove('border-transparent', 'text-slate-400');
+        activeBtn.classList.add('border-sky-400', 'text-sky-400', 'font-bold');
+      }
+
+      if (tabId === 'finance') {
+        setTimeout(renderChart, 50);
+      }
+    }
+
+    // Financial Calculator Logic
+    let chartInstance = null;
+
+    function formatManWon(val) {
+      if (val >= 10000) {
+        const eok = Math.floor(val / 10000);
+        const rem = val % 10000;
+        return rem === 0 ? `${eok}억 원` : `${eok}억 ${rem.toLocaleString()}만 원`;
+      }
+      return `${val.toLocaleString()}만 원`;
+    }
+
+    function recalc() {
+      const cash = parseInt(document.getElementById('input-cash').value);
+      const jeonse = parseInt(document.getElementById('input-jeonse').value);
+      const monthlySave = parseInt(document.getElementById('input-save').value);
+      const buyPrice = parseInt(document.getElementById('input-buy').value);
+
+      document.getElementById('label-cash').innerText = formatManWon(cash);
+      document.getElementById('label-jeonse').innerText = formatManWon(jeonse);
+      document.getElementById('label-save').innerText = `월 ${monthlySave}만`;
+      document.getElementById('label-buy').innerText = formatManWon(buyPrice);
+
+      // Stage 1: Jeonse Loan Calculation
+      const jeonseLoan = Math.max(0, jeonse - cash);
+      const jeonseMonthlyInterest = (jeonseLoan * 0.016 / 12); // Busan City Subsidized Rate 1.6%
+      
+      const twoYearSavings = monthlySave * 24;
+      const finalSeed = cash + twoYearSavings;
+
+      // Stage 2: Buy Loan Calculation
+      const buyLoan = Math.max(0, buyPrice - finalSeed);
+      
+      // Newborn loan PMT (2.1%, 30 years)
+      const r = 0.021 / 12;
+      const n = 360;
+      const newbornPmt = buyLoan > 0 ? (buyLoan * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1) : 0;
+
+      // General mortgage PMT (4.0%, 30 years)
+      const rGen = 0.040 / 12;
+      const genPmt = buyLoan > 0 ? (buyLoan * rGen * Math.pow(1 + rGen, n)) / (Math.pow(1 + rGen, n) - 1) : 0;
+      const monthlySaved = Math.max(0, genPmt - newbornPmt);
+
+      // Update UI
+      document.getElementById('res-jeonse-loan').innerText = `대출: ${formatManWon(jeonseLoan)}`;
+      document.getElementById('res-jeonse-interest').innerText = `약 ${Math.round(jeonseMonthlyInterest).toLocaleString()}만 원`;
+      document.getElementById('res-2yr-savings').innerText = `약 ${formatManWon(twoYearSavings)}`;
+      document.getElementById('res-final-seed').innerText = `약 ${formatManWon(finalSeed)}`;
+      document.getElementById('res-buy-loan').innerText = `대출: ${formatManWon(buyLoan)}`;
+      document.getElementById('res-buy-payment').innerText = `약 ${Math.round(newbornPmt).toLocaleString()}만 원`;
+      document.getElementById('res-save-diff').innerText = `일반 대비 월 ${Math.round(monthlySaved).toLocaleString()}만 절약`;
+
+      updateChartData(newbornPmt, genPmt, jeonseMonthlyInterest);
+    }
+
+    function renderChart() {
+      const ctx = document.getElementById('financeChart');
+      if (!ctx) return;
+
+      if (chartInstance) {
+        chartInstance.destroy();
+      }
+
+      chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['전세 기간 월 이자 (부산시 지원)', '매수 후 월 원리금 (신생아 특례 2.1%)', '매수 후 월 원리금 (일반 주담대 4.0%)'],
+          datasets: [{
+            label: '월 부담액 (만 원)',
+            data: [10.7, 174, 234],
+            backgroundColor: [
+              'rgba(14, 165, 233, 0.7)',
+              'rgba(16, 185, 129, 0.8)',
+              'rgba(244, 63, 94, 0.7)'
+            ],
+            borderColor: [
+              '#0ea5e9',
+              '#10b981',
+              '#f43f5e'
+            ],
+            borderWidth: 1.5,
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `월 부담액: 약 ${Math.round(context.raw).toLocaleString()}만 원`;
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) { return value + '만'; }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function updateChartData(newborn, general, jeonse) {
+      if (!chartInstance) return;
+      chartInstance.data.datasets[0].data = [Math.round(jeonse), Math.round(newborn), Math.round(general)];
+      chartInstance.update();
+    }
+
+    // Initialize on page load
+    window.onload = function() {
+      recalc();
+      renderChart();
+    };
+  </script>
+</body>
+</html>
