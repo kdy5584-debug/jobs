@@ -839,7 +839,7 @@
 
       document.getElementById('modalName').textContent = `${student.name}의 꿈카드`;
       document.getElementById('modalJob').textContent = student.job;
-      document.getElementById('modalImg').src = encodeURIComponent(student.file);
+      document.getElementById('modalImg').src = student.file;
 
       const customInp = document.getElementById('customInput');
       customInp.value = '';
