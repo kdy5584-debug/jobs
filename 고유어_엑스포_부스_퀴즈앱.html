@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>고유어 엑스포 - 우리 모둠 부스 퀴즈</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+    
+    * {
+      box-sizing: border-box;
+      font-family: 'Pretendard', sans-serif;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f0f4f9 0%, #e2e8f0 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 760px;
+      background: #ffffff;
+      border-radius: 24px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.08);
+      overflow: hidden;
+      border: 2px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      min-height: 620px;
+    }
+
+    /* 상단 헤더 */
+    .app-header {
+      background: #1e293b;
+      color: #fff;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .app-header h1 {
+      font-size: 20px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-mode-toggle {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-mode-toggle:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* 본문 영역 */
+    .content-body {
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* =========================================
+       1. 문제 출제 화면 (Edit Mode)
+       ========================================= */
+    .edit-mode {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .meta-inputs {
+      display: flex;
+      gap: 12px;
+    }
+    .meta-inputs select, .meta-inputs input {
+      padding: 10px 14px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      outline: none;
+    }
+    .meta-inputs select {
+      background: #f8fafc;
+      min-width: 130px;
+    }
+    .meta-inputs input {
+      flex: 1;
+    }
+
+    .question-card {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .q-badge {
+      display: inline-block;
+      align-self: flex-start;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .badge-ox { background: #fee2e2; color: #dc2626; }
+    .badge-choice { background: #e0e7ff; color: #4338ca; }
+    .badge-short { background: #fef3c7; color: #d97706; }
+
+    .input-field {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+    }
+    .input-field:focus {
+      border-color: #3b82f6;
+    }
+
+    /* 1번 OX 설정 */
+    .ox-selector {
+      display: flex;
+      gap: 12px;
+    }
+    .ox-btn {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      background: #fff;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
+    .ox-btn.selected {
+      border-color: #3b82f6;
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+
+    /* 2번 4지선다 설정 */
+    .choice-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .choice-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .choice-radio {
+      width: 22px;
+      height: 22px;
+      accent-color: #4338ca;
+      cursor: pointer;
+    }
+
+    /* 큰 버튼 */
+    .btn-main {
+      background: #2563eb;
+      color: #fff;
+      padding: 16px;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+      transition: all 0.2s;
+      margin-top: 10px;
+    }
+    .btn-main:active {
+      transform: scale(0.98);
+    }
+
+    /* =========================================
+       2. 문제 풀기 화면 (Play Mode)
+       ========================================= */
+    .play-mode {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .play-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .booth-tag {
+      font-size: 16px;
+      font-weight: 800;
+      color: #1e293b;
+      background: #e2e8f0;
+      padding: 6px 14px;
+      border-radius: 12px;
+    }
+    .step-indicator {
+      font-size: 15px;
+      font-weight: 700;
+      color: #64748b;
+    }
+
+    .quiz-question-box {
+      background: #f8fafc;
+      border: 2px solid #cbd5e1;
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 24px;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .quiz-q-num {
+      font-size: 14px;
+      font-weight: 800;
+      color: #2563eb;
+      margin-bottom: 8px;
+    }
+    .quiz-q-text {
+      font-size: 21px;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.45;
+    }
+
+    /* OX 풀이 영역 */
+    .play-ox-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      flex: 1;
+      min-height: 180px;
+    }
+    .btn-play-ox {
+      border: 3px solid #cbd5e1;
+      border-radius: 20px;
+      background: #fff;
+      font-size: 54px;
+      font-weight: 900;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .btn-play-ox.btn-o { color: #dc2626; }
+    .btn-play-ox.btn-x { color: #2563eb; }
+    .btn-play-ox:active { transform: scale(0.96); background: #f1f5f9; }
+
+    /* 객관식 4지선다 풀이 영역 */
+    .play-choice-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+    .btn-play-choice {
+      padding: 16px 20px;
+      border: 2.5px solid #cbd5e1;
+      border-radius: 16px;
+      background: #fff;
+      font-size: 17px;
+      font-weight: 700;
+      color: #1e293b;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.15s;
+    }
+    .choice-num-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+    }
+    .btn-play-choice:active { transform: scale(0.98); background: #eff6ff; border-color: #3b82f6; }
+
+    /* 주관식 풀이 영역 */
+    .play-short-container {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+      justify-content: center;
+    }
+    .input-play-answer {
+      width: 100%;
+      padding: 18px;
+      font-size: 22px;
+      font-weight: 800;
+      border: 3px solid #cbd5e1;
+      border-radius: 16px;
+      text-align: center;
+      outline: none;
+    }
+    .input-play-answer:focus {
+      border-color: #2563eb;
+    }
+
+    /* 축하 완료 화면 */
+    .success-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex: 1;
+      padding: 30px 10px;
+      animation: popIn 0.4s ease-out;
+    }
+    .success-icon {
+      font-size: 72px;
+      margin-bottom: 16px;
+      animation: bounce 1s infinite alternate;
+    }
+    .success-title {
+      font-size: 26px;
+      font-weight: 900;
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+    .success-desc {
+      font-size: 16px;
+      color: #64748b;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+    .btn-reset-visitor {
+      background: #10b981;
+      color: #fff;
+      padding: 16px 32px;
+      border-radius: 16px;
+      font-size: 18px;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(16,185,129,0.3);
+      transition: all 0.2s;
+    }
+    .btn-reset-visitor:active { transform: scale(0.96); }
+
+    /* 피드백 모달 (정답/오답) */
+    .toast-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .toast-box {
+      background: #fff;
+      padding: 24px 36px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      animation: popIn 0.25s ease-out;
+    }
+    .toast-icon { font-size: 48px; margin-bottom: 8px; }
+    .toast-text { font-size: 19px; font-weight: 800; }
+    .correct { color: #16a34a; }
+    .wrong { color: #dc2626; }
+
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes bounce {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- 상단 헤더 -->
+  <div class="app-header">
+    <h1 id="headerTitle">🎪 2026 고유어 엑스포 퀴즈 부스</h1>
+    <button class="btn-mode-toggle" id="modeToggleBtn" onclick="toggleMode()">⚙️ 문제 출제/수정하기</button>
+  </div>
+
+  <div class="content-body">
+    <!-- ==============================================
+         1. 출제 모드 (선생님 & 모둠 학생들이 입력하는 화면)
+         ============================================== -->
+    <div id="editMode" class="edit-mode">
+      <div class="meta-inputs">
+        <select id="teamSelect">
+          <option value="1모둠">1모둠 부스</option>
+          <option value="2모둠">2모둠 부스</option>
+          <option value="3모둠">3모둠 부스</option>
+          <option value="4모둠">4모둠 부스</option>
+          <option value="5모둠">5모둠 부스</option>
+          <option value="6모둠">6모둠 부스</option>
+        </select>
+        <input type="text" id="topicInput" class="input-field" placeholder="우리 모둠 조사 영역 (예: 맛있는 우리 음식)">
+      </div>
+
+      <!-- 문제 1: O,X 퀴즈 -->
+      <div class="question-card">
+        <div class="q-badge badge-ox">1번 문제 (O / X 퀴즈)</div>
+        <input type="text" id="q1Text" class="input-field" placeholder="문제를 입력하세요 (예: '시루떡'은 우리말 고유어이다.)">
+        <div class="ox-selector">
+          <button type="button" class="ox-btn selected" id="oxBtnO" onclick="selectOX('O')">⭕ O (그렇다)</button>
+          <button type="button" class="ox-btn" id="oxBtnX" onclick="selectOX('X')">❌ X (아니다)</button>
+        </div>
+      </div>
+
+      <!-- 문제 2: 4지선다 객관식 -->
+      <div class="question-card">
+        <div class="q-badge badge-choice">2번 문제 (4지선다 객관식)</div>
+        <input type="text" id="q2Text" class="input-field" placeholder="문제를 입력하세요 (예: 다음 중 고유어 음식은 무엇일까요?)">
+        <div class="choice-group">
+          <div class="choice-row">
+            <input type="radio" name="correctChoice" value="1" class="choice-radio" checked>
+            <input type="text" id="c1" class="input-field" placeholder="보기 1번">
+          </div>
+          <div class="choice-row">
+            <input type="radio" name="correctChoice" value="2" class="choice-radio">
+            <input type="text" id="c2" class="input-field" placeholder="보기 2번">
+          </div>
+          <div class="choice-row">
+            <input type="radio" name="correctChoice" value="3" class="choice-radio">
+            <input type="text" id="c3" class="input-field" placeholder="보기 3번">
+          </div>
+          <div class="choice-row">
+            <input type="radio" name="correctChoice" value="4" class="choice-radio">
+            <input type="text" id="c4" class="input-field" placeholder="보기 4번">
+          </div>
+        </div>
+        <small style="color: #64748b; font-size: 12px;">※ 정답인 보기 앞의 동그라미 라디오 버튼을 선택해 주세요.</small>
+      </div>
+
+      <!-- 문제 3: 주관식/단답형 -->
+      <div class="question-card">
+        <div class="q-badge badge-short">3번 문제 (주관식 단답형)</div>
+        <input type="text" id="q3Text" class="input-field" placeholder="문제를 입력하세요 (예: 햇빛이나 달빛에 비치어 반짝이는 잔물결을 뜻하는 고유어는?)">
+        <input type="text" id="q3Answer" class="input-field" placeholder="정답 낱말을 입력하세요 (예: 윤슬)">
+      </div>
+
+      <button class="btn-main" onclick="saveAndStartQuiz()">🚀 퀴즈 등록하고 부스 오픈하기!</button>
+    </div>
+
+    <!-- ==============================================
+         2. 풀이 모드 (손님 관람객들이 터치하며 푸는 화면)
+         ============================================== -->
+    <div id="playMode" class="play-mode" style="display: none;">
+      <div>
+        <div class="play-header">
+          <div class="booth-tag" id="displayBoothTag">1모둠 부스 [음식]</div>
+          <div class="step-indicator" id="stepIndicator">문제 1 / 3</div>
+        </div>
+
+        <div class="quiz-question-box">
+          <div class="quiz-q-num" id="displayQType">1번 문제 : O / X 퀴즈</div>
+          <div class="quiz-q-text" id="displayQText">문제가 여기에 나타납니다.</div>
+        </div>
+      </div>
+
+      <!-- 문제 1 (OX 인터페이스) -->
+      <div id="playOX" class="play-ox-container" style="display: none;">
+        <button class="btn-play-ox btn-o" onclick="checkAnswer('O')">⭕<span style="font-size:18px; margin-top:6px;">O (맞다)</span></button>
+        <button class="btn-play-ox btn-x" onclick="checkAnswer('X')">❌<span style="font-size:18px; margin-top:6px;">X (아니다)</span></button>
+      </div>
+
+      <!-- 문제 2 (4지선다 인터페이스) -->
+      <div id="playChoice" class="play-choice-container" style="display: none;">
+        <button class="btn-play-choice" onclick="checkAnswer(1)"><span class="choice-num-badge">1</span><span id="choiceText1">보기 1</span></button>
+        <button class="btn-play-choice" onclick="checkAnswer(2)"><span class="choice-num-badge">2</span><span id="choiceText2">보기 2</span></button>
+        <button class="btn-play-choice" onclick="checkAnswer(3)"><span class="choice-num-badge">3</span><span id="choiceText3">보기 3</span></button>
+        <button class="btn-play-choice" onclick="checkAnswer(4)"><span class="choice-num-badge">4</span><span id="choiceText4">보기 4</span></button>
+      </div>
+
+      <!-- 문제 3 (주관식 인터페이스) -->
+      <div id="playShort" class="play-short-container" style="display: none;">
+        <input type="text" id="shortAnswerInput" class="input-play-answer" placeholder="정답을 입력하세요" onkeydown="if(event.key==='Enter') submitShortAnswer()">
+        <button class="btn-main" onclick="submitShortAnswer()">정답 제출하기</button>
+      </div>
+
+      <!-- 3문제 올클리어 축하 화면 -->
+      <div id="playSuccess" class="success-screen" style="display: none;">
+        <div class="success-icon">🎉</div>
+        <div class="success-title">축하합니다! 3문제 올클리어!</div>
+        <div class="success-desc">우리 모둠 부스의 고유어를 완벽히 마스터하셨습니다!<br>멋진 고유어를 내 사전 카드에 기록해 보세요.</div>
+        <button class="btn-reset-visitor" onclick="resetForNextVisitor()">👥 다음 손님 맞이하기 (첫 문제로)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 효과음(Web Audio API) 및 로직 스크립트 -->
+<script>
+  let currentStep = 1;
+  let oxAnswer = 'O';
+
+  // 기본 샘플 데이터 (초기 로드용)
+  let quizData = {
+    team: '1모둠',
+    topic: '맛있는 우리 음식',
+    q1: { text: "'너비아니'는 궁중 쇠고기구이를 뜻하는 순우리말 고유어이다.", answer: 'O' },
+    q2: { text: "다음 중 순우리말 고유어 음식은 무엇일까요?", choices: ["비빔밥", "라면", "짜장면", "피자"], answer: 1 },
+    q3: { text: "햇빛이나 달빛에 비치어 반짝이는 잔물결을 뜻하는 아름다운 고유어는?", answer: "윤슬" }
+  };
+
+  // 로컬 스토리지 불러오기
+  window.onload = function() {
+    const saved = localStorage.getItem('goyueo_expo_quiz');
+    if (saved) {
+      try {
+        quizData = JSON.parse(saved);
+        loadIntoInputs();
+      } catch (e) {}
+    } else {
+      loadIntoInputs();
+    }
+  };
+
+  function selectOX(val) {
+    oxAnswer = val;
+    document.getElementById('oxBtnO').className = 'ox-btn ' + (val === 'O' ? 'selected' : '');
+    document.getElementById('oxBtnX').className = 'ox-btn ' + (val === 'X' ? 'selected' : '');
+  }
+
+  function loadIntoInputs() {
+    document.getElementById('teamSelect').value = quizData.team || '1모둠';
+    document.getElementById('topicInput').value = quizData.topic || '';
+    document.getElementById('q1Text').value = quizData.q1.text || '';
+    selectOX(quizData.q1.answer || 'O');
+    
+    document.getElementById('q2Text').value = quizData.q2.text || '';
+    document.getElementById('c1').value = quizData.q2.choices[0] || '';
+    document.getElementById('c2').value = quizData.q2.choices[1] || '';
+    document.getElementById('c3').value = quizData.q2.choices[2] || '';
+    document.getElementById('c4').value = quizData.q2.choices[3] || '';
+    const radios = document.getElementsByName('correctChoice');
+    for (let r of radios) {
+      if (parseInt(r.value) === (quizData.q2.answer || 1)) r.checked = true;
+    }
+
+    document.getElementById('q3Text').value = quizData.q3.text || '';
+    document.getElementById('q3Answer').value = quizData.q3.answer || '';
+  }
+
+  function saveAndStartQuiz() {
+    const radios = document.getElementsByName('correctChoice');
+    let selChoice = 1;
+    for (let r of radios) { if (r.checked) selChoice = parseInt(r.value); }
+
+    quizData = {
+      team: document.getElementById('teamSelect').value,
+      topic: document.getElementById('topicInput').value,
+      q1: { text: document.getElementById('q1Text').value, answer: oxAnswer },
+      q2: {
+        text: document.getElementById('q2Text').value,
+        choices: [
+          document.getElementById('c1').value,
+          document.getElementById('c2').value,
+          document.getElementById('c3').value,
+          document.getElementById('c4').value
+        ],
+        answer: selChoice
+      },
+      q3: { text: document.getElementById('q3Text').value, answer: document.getElementById('q3Answer').value.trim() }
+    };
+
+    localStorage.setItem('goyueo_expo_quiz', JSON.stringify(quizData));
+    switchToPlayMode();
+  }
+
+  function switchToPlayMode() {
+    document.getElementById('editMode').style.display = 'none';
+    document.getElementById('playMode').style.display = 'flex';
+    document.getElementById('modeToggleBtn').innerText = '✏️ 문제 수정하기';
+    currentStep = 1;
+    renderStep();
+  }
+
+  function toggleMode() {
+    const isPlay = document.getElementById('playMode').style.display === 'flex';
+    if (isPlay) {
+      document.getElementById('playMode').style.display = 'none';
+      document.getElementById('editMode').style.display = 'flex';
+      document.getElementById('modeToggleBtn').innerText = '▶️ 퀴즈 시작하기';
+    } else {
+      switchToPlayMode();
+    }
+  }
+
+  function renderStep() {
+    document.getElementById('displayBoothTag').innerText = `${quizData.team} 부스 [${quizData.topic || '고유어'}]`;
+    document.getElementById('playOX').style.display = 'none';
+    document.getElementById('playChoice').style.display = 'none';
+    document.getElementById('playShort').style.display = 'none';
+    document.getElementById('playSuccess').style.display = 'none';
+
+    if (currentStep === 1) {
+      document.getElementById('stepIndicator').innerText = '문제 1 / 3';
+      document.getElementById('displayQType').innerText = '1번 문제 : O / X 퀴즈';
+      document.getElementById('displayQText').innerText = quizData.q1.text || '문제를 입력해 주세요.';
+      document.getElementById('playOX').style.display = 'grid';
+    } else if (currentStep === 2) {
+      document.getElementById('stepIndicator').innerText = '문제 2 / 3';
+      document.getElementById('displayQType').innerText = '2번 문제 : 객관식 4지선다';
+      document.getElementById('displayQText').innerText = quizData.q2.text || '문제를 입력해 주세요.';
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById(`choiceText${i}`).innerText = quizData.q2.choices[i-1] || `보기 ${i}`;
+      }
+      document.getElementById('playChoice').style.display = 'flex';
+    } else if (currentStep === 3) {
+      document.getElementById('stepIndicator').innerText = '문제 3 / 3';
+      document.getElementById('displayQType').innerText = '3번 문제 : 주관식 단답형';
+      document.getElementById('displayQText').innerText = quizData.q3.text || '문제를 입력해 주세요.';
+      document.getElementById('shortAnswerInput').value = '';
+      document.getElementById('playShort').style.display = 'flex';
+      setTimeout(() => document.getElementById('shortAnswerInput').focus(), 100);
+    } else {
+      // 완료
+      document.getElementById('stepIndicator').innerText = '완료!';
+      document.getElementById('displayQType').innerText = '미션 성공!';
+      document.getElementById('displayQText').innerText = '3문제를 모두 맞혔습니다!';
+      document.getElementById('playSuccess').style.display = 'flex';
+      playCheerSound();
+    }
+  }
+
+  function checkAnswer(userAns) {
+    let isCorrect = false;
+    if (currentStep === 1) {
+      isCorrect = (userAns === quizData.q1.answer);
+    } else if (currentStep === 2) {
+      isCorrect = (parseInt(userAns) === parseInt(quizData.q2.answer));
+    }
+
+    if (isCorrect) {
+      showToast(true);
+      playDingSound();
+      currentStep++;
+      setTimeout(renderStep, 900);
+    } else {
+      showToast(false);
+      playBuzzSound();
+    }
+  }
+
+  function submitShortAnswer() {
+    const input = document.getElementById('shortAnswerInput').value.trim().replace(/\s+/g, '');
+    const correct = (quizData.q3.answer || '').trim().replace(/\s+/g, '');
+    if (!input) return;
+
+    if (input.toLowerCase() === correct.toLowerCase()) {
+      showToast(true);
+      playDingSound();
+      currentStep++;
+      setTimeout(renderStep, 900);
+    } else {
+      showToast(false);
+      playBuzzSound();
+    }
+  }
+
+  function resetForNextVisitor() {
+    currentStep = 1;
+    renderStep();
+  }
+
+  // 팝업 토스트 알림
+  function showToast(isCorrect) {
+    const overlay = document.createElement('div');
+    overlay.className = 'toast-overlay';
+    overlay.innerHTML = `
+      <div class="toast-box">
+        <div class="toast-icon">${isCorrect ? '🎉' : '🤔'}</div>
+        <div class="toast-text ${isCorrect ? 'correct' : 'wrong'}">${isCorrect ? '정답입니다!' : '아쉬워요, 다시 생각해 보세요!'}</div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    setTimeout(() => overlay.remove(), 800);
+  }
+
+  // Audio Context 효과음 (외부 오디오 파일 없이 합성음 생성)
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  function playDingSound() {
+    try {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+      osc.frequency.setValueAtTime(880.00, audioCtx.currentTime + 0.1); // A5
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.4);
+    } catch(e) {}
+  }
+  function playBuzzSound() {
+    try {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sawtooth';
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.3);
+    } catch(e) {}
+  }
+  function playCheerSound() {
+    playDingSound();
+    setTimeout(playDingSound, 150);
+    setTimeout(playDingSound, 300);
+  }
+</script>
+
+</body>
+</html>
