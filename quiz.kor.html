@@ -1,0 +1,1997 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>고유어 마스터! 캔바 캘리그라피 퀴즈</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+    @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Gaegu:wght@400;700&display=swap');
+
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --primary-light: #eff6ff;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --danger: #ef4444;
+      --card-bg: #ffffff;
+      --bg-main: #f8fafc;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --border: #e2e8f0;
+      
+      /* 글자 크기 스케일 (기본값도 큼직하게 설정) */
+      --fs-scale: 1;
+      --fs-xs: calc(13px * var(--fs-scale));
+      --fs-sm: calc(15px * var(--fs-scale));
+      --fs-base: calc(17px * var(--fs-scale));
+      --fs-md: calc(20px * var(--fs-scale));
+      --fs-lg: calc(24px * var(--fs-scale));
+      --fs-xl: calc(28px * var(--fs-scale));
+      --fs-xxl: calc(34px * var(--fs-scale));
+    }
+
+    body.font-large { --fs-scale: 1.15; }
+    body.font-xlarge { --fs-scale: 1.3; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "맑은 고딕", sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 12px 30px;
+    }
+
+    /* 최상단 네비게이션 헤더 */
+    .app-header {
+      width: 100%;
+      max-width: 960px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      padding: 12px 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .header-logo-icon {
+      font-size: 26px;
+    }
+
+    .header-logo-text h1 {
+      font-size: var(--fs-md);
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
+    }
+
+    .header-logo-text p {
+      font-size: var(--fs-xs);
+      color: var(--text-sub);
+      font-weight: 600;
+    }
+
+    .header-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tool-btn {
+      padding: 7px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      font-size: var(--fs-xs);
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--text-sub);
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tool-btn:hover {
+      background: var(--primary-light);
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .font-size-group {
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    .font-btn {
+      border: none;
+      background: transparent;
+      padding: 6px 10px;
+      font-size: var(--fs-xs);
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--text-sub);
+    }
+
+    .font-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    /* 메인 컨테이너 */
+    .main-container {
+      width: 100%;
+      max-width: 960px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+      padding: 28px 24px;
+      min-height: 600px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .view {
+      display: none;
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+    }
+
+    .view.active {
+      display: flex;
+    }
+
+    /* ========================================================
+       1. 로비 (홈 화면)
+       ======================================================== */
+    .hero-banner {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: #ffffff;
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-banner h2 {
+      font-size: var(--fs-xl);
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .hero-banner p {
+      font-size: var(--fs-base);
+      opacity: 0.92;
+      line-height: 1.5;
+    }
+
+    .gacha-launch-card {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border: 2px dashed #f59e0b;
+      border-radius: 16px;
+      padding: 18px 22px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .gacha-launch-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(245, 158, 11, 0.25);
+    }
+
+    .gacha-text h3 {
+      font-size: var(--fs-md);
+      font-weight: 800;
+      color: #92400e;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gacha-text p {
+      font-size: var(--fs-sm);
+      color: #b45309;
+      font-weight: 600;
+    }
+
+    .gacha-badge {
+      background: #f59e0b;
+      color: #ffffff;
+      font-size: var(--fs-base);
+      font-weight: 800;
+      padding: 10px 18px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+    }
+
+    .modes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 4px;
+    }
+
+    .mode-card {
+      background: #ffffff;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .mode-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.12);
+    }
+
+    .mode-icon-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .mode-icon {
+      font-size: 32px;
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary-light);
+    }
+
+    .mode-title {
+      font-size: var(--fs-lg);
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .mode-desc {
+      font-size: var(--fs-base);
+      color: var(--text-sub);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .mode-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mode-tag {
+      font-size: var(--fs-xs);
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: #f1f5f9;
+      color: var(--text-sub);
+    }
+
+    .btn-start {
+      background: var(--primary);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: var(--fs-sm);
+      padding: 8px 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-start:hover {
+      background: var(--primary-dark);
+    }
+
+    /* ========================================================
+       2. 공통 게임 헤더
+       ======================================================== */
+    .game-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 14px;
+      margin-bottom: 20px;
+    }
+
+    .game-nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-back {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: var(--fs-sm);
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-back:hover { background: #e2e8f0; }
+
+    .game-title {
+      font-size: var(--fs-lg);
+      font-weight: 800;
+    }
+
+    .game-status-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: var(--fs-base);
+      font-weight: 800;
+    }
+
+    .timer-pill {
+      background: #fef2f2;
+      color: var(--danger);
+      padding: 6px 14px;
+      border-radius: 10px;
+      border: 1px solid #fecaca;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .score-pill {
+      background: #eff6ff;
+      color: var(--primary);
+      padding: 6px 14px;
+      border-radius: 10px;
+      border: 1px solid #bfdbfe;
+    }
+
+    /* ========================================================
+       모드 1: ⚡ 스피드 짝맞추기
+       ======================================================== */
+    .combo-banner {
+      text-align: center;
+      min-height: 36px;
+      font-size: var(--fs-lg);
+      font-weight: 900;
+      color: var(--accent);
+      margin-bottom: 12px;
+      transition: transform 0.1s;
+    }
+
+    .match-board {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      flex: 1;
+    }
+
+    .match-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .match-col-header {
+      font-size: var(--fs-base);
+      font-weight: 800;
+      color: var(--text-sub);
+      text-align: center;
+      padding: 6px;
+      background: #f8fafc;
+      border-radius: 8px;
+    }
+
+    .match-card {
+      background: #ffffff;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s ease;
+      font-weight: 700;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+
+    .match-card.word-card {
+      font-size: var(--fs-lg);
+      color: #0f172a;
+    }
+
+    .match-card.desc-card {
+      font-size: var(--fs-base);
+      color: #334155;
+      line-height: 1.4;
+      word-break: keep-all;
+    }
+
+    .match-card:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .match-card.selected {
+      border-color: var(--primary);
+      background: #dbeafe;
+      color: var(--primary-dark);
+      transform: scale(1.02);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+    }
+
+    .match-card.matched {
+      border-color: var(--success);
+      background: #d1fae5;
+      color: #065f46;
+      opacity: 0;
+      transform: scale(0.9);
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .match-card.wrong {
+      border-color: var(--danger);
+      background: #fee2e2;
+      color: #991b1b;
+      animation: shake 0.3s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    /* ========================================================
+       모드 2: 🎯 문장 속 고유어 저격
+       ======================================================== */
+    .sentence-card {
+      background: #fffbeb;
+      border: 2px solid #fde68a;
+      border-radius: 16px;
+      padding: 30px 24px;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08);
+    }
+
+    .sentence-text {
+      font-size: var(--fs-xl);
+      font-weight: 700;
+      line-height: 1.7;
+      color: #78350f;
+      word-break: keep-all;
+    }
+
+    .sentence-blank {
+      display: inline-block;
+      min-width: 120px;
+      border-bottom: 3.5px solid #d97706;
+      color: #d97706;
+      font-weight: 900;
+      padding: 0 10px;
+      background: rgba(254, 243, 199, 0.6);
+      border-radius: 4px 4px 0 0;
+    }
+
+    .hints-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .btn-hint {
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: var(--fs-base);
+      font-weight: 700;
+      cursor: pointer;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-hint:hover { background: #f8fafc; border-color: var(--primary); }
+
+    .hint-revealed {
+      font-size: var(--fs-base);
+      font-weight: 800;
+      color: var(--primary);
+      margin-left: 6px;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .btn-option {
+      background: #ffffff;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      font-size: var(--fs-lg);
+      font-weight: 800;
+      color: var(--text-main);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+
+    .btn-option:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .btn-option.correct {
+      background: #d1fae5 !important;
+      border-color: var(--success) !important;
+      color: #065f46 !important;
+    }
+
+    .btn-option.wrong {
+      background: #fee2e2 !important;
+      border-color: var(--danger) !important;
+      color: #991b1b !important;
+    }
+
+    .feedback-box {
+      display: none;
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 22px;
+      margin-top: 10px;
+    }
+
+    .feedback-title {
+      font-size: var(--fs-base);
+      font-weight: 800;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .feedback-desc {
+      font-size: var(--fs-base);
+      color: var(--text-sub);
+      line-height: 1.5;
+      margin-bottom: 6px;
+    }
+
+    .feedback-tip {
+      font-size: var(--fs-sm);
+      color: #b45309;
+      background: #fef3c7;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .btn-next {
+      width: 100%;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-size: var(--fs-lg);
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 14px;
+      display: none;
+    }
+    .btn-next:hover { background: var(--primary-dark); }
+
+    /* ========================================================
+       모드 3: 🔔 도전! 고유어 골든벨
+       ======================================================== */
+    .hearts-row {
+      display: flex;
+      gap: 6px;
+      font-size: 22px;
+    }
+
+    .bell-progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #e2e8f0;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .bell-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #f59e0b, #ef4444);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .bell-quiz-card {
+      background: #ffffff;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 22px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .bell-badge {
+      display: inline-block;
+      font-size: var(--fs-sm);
+      font-weight: 800;
+      color: #ffffff;
+      background: #475569;
+      padding: 4px 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .bell-question {
+      font-size: var(--fs-xl);
+      font-weight: 800;
+      line-height: 1.6;
+      color: var(--text-main);
+      word-break: keep-all;
+    }
+
+    .ox-row {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .btn-ox {
+      width: 140px;
+      height: 100px;
+      border-radius: 16px;
+      font-size: 42px;
+      font-weight: 900;
+      cursor: pointer;
+      border: 3px solid var(--border);
+      background: #ffffff;
+      transition: all 0.15s;
+    }
+
+    .btn-ox.btn-o { color: #10b981; }
+    .btn-ox.btn-o:hover { background: #d1fae5; border-color: #10b981; }
+    .btn-ox.btn-x { color: #ef4444; }
+    .btn-ox.btn-x:hover { background: #fee2e2; border-color: #ef4444; }
+
+    .toast-msg {
+      display: none;
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1.5px solid #f87171;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: var(--fs-base);
+      text-align: center;
+      margin-bottom: 14px;
+      animation: shake 0.3s ease;
+    }
+
+    /* ========================================================
+       모드 4: 📖 고유어 50선 도감
+       ======================================================== */
+    .dic-search-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .dic-search-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 12px 18px;
+      font-size: var(--fs-base);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+    }
+    .dic-search-input:focus { border-color: var(--primary); }
+
+    .dic-tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 14px;
+    }
+
+    .dic-tab {
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: var(--fs-sm);
+      font-weight: 700;
+      background: #f1f5f9;
+      color: var(--text-sub);
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .dic-tab.active {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .dic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+      overflow-y: auto;
+      max-height: 520px;
+      padding-right: 4px;
+    }
+
+    .dic-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .dic-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      transform: translateY(-2px);
+    }
+
+    .dic-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dic-word {
+      font-size: var(--fs-lg);
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+
+    .dic-chosung {
+      font-size: var(--fs-xs);
+      font-weight: 700;
+      color: #94a3b8;
+    }
+
+    .dic-desc {
+      font-size: var(--fs-base);
+      color: #334155;
+      line-height: 1.4;
+    }
+
+    .dic-sentence {
+      font-size: var(--fs-sm);
+      color: #64748b;
+      margin-top: 4px;
+      font-style: italic;
+    }
+
+    /* ========================================================
+       결과 모달 & 가챠 모달
+       ======================================================== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #ffffff;
+      border-radius: 20px;
+      max-width: 500px;
+      width: 100%;
+      padding: 30px 24px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      animation: popIn 0.25s ease;
+      position: relative;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.85); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-icon {
+      font-size: 54px;
+      margin-bottom: 10px;
+    }
+
+    .modal-title {
+      font-size: var(--fs-xl);
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .modal-score {
+      font-size: var(--fs-xxl);
+      font-weight: 900;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .modal-desc {
+      font-size: var(--fs-base);
+      color: var(--text-sub);
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .modal-btn-group {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .btn-modal {
+      flex: 1;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: var(--fs-base);
+      font-weight: 800;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-modal-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-modal-secondary {
+      background: #f1f5f9;
+      color: var(--text-sub);
+    }
+
+    /* 캔바 뽑기 카드 스타일 */
+    .gacha-card {
+      background: #fffdf5;
+      border: 3px solid #f59e0b;
+      border-radius: 16px;
+      padding: 24px 20px;
+      margin: 16px 0 20px;
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.15);
+    }
+
+    .gacha-card-word {
+      font-size: calc(36px * var(--fs-scale));
+      font-weight: 900;
+      color: #b45309;
+      font-family: 'Nanum Pen Script', cursive;
+      margin-bottom: 8px;
+    }
+
+    .gacha-card-desc {
+      font-size: var(--fs-base);
+      font-weight: 700;
+      color: #78350f;
+      margin-bottom: 12px;
+    }
+
+    .gacha-card-sent {
+      background: #ffffff;
+      border: 1px dashed #f59e0b;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: var(--fs-base);
+      color: #451a03;
+      font-weight: 600;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .gacha-card-tip {
+      font-size: var(--fs-sm);
+      color: #92400e;
+      background: #fef3c7;
+      padding: 8px 12px;
+      border-radius: 8px;
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    #confettiCanvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 최상단 헤더 -->
+  <header class="app-header">
+    <div class="header-logo" onclick="showView('viewLobby')">
+      <span class="header-logo-icon">🌿</span>
+      <div class="header-logo-text">
+        <h1>고유어 마스터!</h1>
+        <p>캔바 캘리그라피 퀴즈 웹앱</p>
+      </div>
+    </div>
+    <div class="header-tools">
+      <div class="font-size-group">
+        <button class="font-btn active" id="fBtn1" onclick="setFontSize(1, 'fBtn1')">보통</button>
+        <button class="font-btn" id="fBtn2" onclick="setFontSize(1.15, 'fBtn2')">크게</button>
+        <button class="font-btn" id="fBtn3" onclick="setFontSize(1.3, 'fBtn3')">아주크게</button>
+      </div>
+      <button class="tool-btn" id="soundBtn" onclick="toggleSound()">
+        <span id="soundIcon">🔊</span>
+      </button>
+      <button class="tool-btn" onclick="showView('viewLobby')">🏠 홈</button>
+    </div>
+  </header>
+
+  <!-- 메인 컨테이너 -->
+  <main class="main-container">
+
+    <!-- ========================================================
+         VIEW 0: 로비 (홈 화면)
+         ======================================================== -->
+    <section class="view active" id="viewLobby">
+      <div class="hero-banner">
+        <h2>캔바 캘리그라피 고유어 탐험 🎨</h2>
+        <p>우리말의 아름다운 50개 고유어를 신나는 퀴즈로 배우고, 캔바 엽서에 쓸 멋진 문장을 골라보세요!</p>
+      </div>
+
+      <!-- 🎲 오늘의 캔바 단어 뽑기 카드 -->
+      <div class="gacha-launch-card" onclick="openGachaModal()">
+        <div class="gacha-text">
+          <h3><span>🎲</span> 오늘의 캔바 단어 추천 뽑기!</h3>
+          <p>어떤 단어로 엽서를 만들지 고민된다면? 행운의 추천 단어를 뽑아보세요!</p>
+        </div>
+        <div class="gacha-badge">뽑기 도전!</div>
+      </div>
+
+      <!-- 4가지 모드 카드 그리드 -->
+      <div class="modes-grid">
+        <div class="mode-card" onclick="startMatchMode()">
+          <div>
+            <div class="mode-icon-title">
+              <div class="mode-icon">⚡</div>
+              <div class="mode-title">스피드 짝맞추기</div>
+            </div>
+            <p class="mode-desc">60초 동안 낱말과 뜻을 탭하여 짝을 맞추는 스피드 콤보 게임입니다.</p>
+          </div>
+          <div class="mode-footer">
+            <span class="mode-tag">타임어택</span>
+            <button class="btn-start">시작하기</button>
+          </div>
+        </div>
+
+        <div class="mode-card" onclick="startSentenceMode()">
+          <div>
+            <div class="mode-icon-title">
+              <div class="mode-icon">🎯</div>
+              <div class="mode-title">문장 속 고유어 저격</div>
+            </div>
+            <p class="mode-desc">감성 문맥의 빈칸에 알맞은 고유어를 찾는 4지선다 퀴즈입니다. (힌트 지원)</p>
+          </div>
+          <div class="mode-footer">
+            <span class="mode-tag">10문제 퀴즈</span>
+            <button class="btn-start">시작하기</button>
+          </div>
+        </div>
+
+        <div class="mode-card" onclick="startGoldenBellMode()">
+          <div>
+            <div class="mode-icon-title">
+              <div class="mode-icon">🔔</div>
+              <div class="mode-title">도전! 고유어 골든벨</div>
+            </div>
+            <p class="mode-desc">하트 3개로 OX ➔ 4지선다 ➔ 문장완성 ➔ 초성 퀴즈를 돌파하는 서바이벌 모드!</p>
+          </div>
+          <div class="mode-footer">
+            <span class="mode-tag">서바이벌</span>
+            <button class="btn-start">도전하기</button>
+          </div>
+        </div>
+
+        <div class="mode-card" onclick="startDictionaryMode()">
+          <div>
+            <div class="mode-icon-title">
+              <div class="mode-icon">📖</div>
+              <div class="mode-title">고유어 50선 도감</div>
+            </div>
+            <p class="mode-desc">50개 고유어의 사전적 의미와 감성 예문, 캔바 디자인 꿀팁을 한눈에 살펴보세요.</p>
+          </div>
+          <div class="mode-footer">
+            <span class="mode-tag">단어 사전</span>
+            <button class="btn-start">도감 보기</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 1: 스피드 짝맞추기 게임
+         ======================================================== -->
+    <section class="view" id="viewMatch">
+      <div class="game-nav">
+        <div class="game-nav-left">
+          <button class="btn-back" onclick="stopMatchGame(); showView('viewLobby');">◀ 나가기</button>
+          <div class="game-title">⚡ 스피드 짝맞추기</div>
+        </div>
+        <div class="game-status-right">
+          <div class="timer-pill">⏱ <span id="matchTimer">60</span>초</div>
+          <div class="score-pill">점수: <span id="matchScore">0</span></div>
+        </div>
+      </div>
+
+      <div class="combo-banner" id="matchComboBanner"></div>
+
+      <div class="match-board">
+        <div class="match-col">
+          <div class="match-col-header">고유어 (낱말)</div>
+          <div id="matchWordsContainer" style="display:flex; flex-direction:column; gap:10px;"></div>
+        </div>
+        <div class="match-col">
+          <div class="match-col-header">뜻 (설명)</div>
+          <div id="matchDescsContainer" style="display:flex; flex-direction:column; gap:10px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 2: 문장 속 고유어 저격 (4지선다)
+         ======================================================== -->
+    <section class="view" id="viewSentence">
+      <div class="game-nav">
+        <div class="game-nav-left">
+          <button class="btn-back" onclick="showView('viewLobby')">◀ 나가기</button>
+          <div class="game-title">🎯 문장 속 고유어 저격 (<span id="sentCurQ">1</span>/10)</div>
+        </div>
+        <div class="game-status-right">
+          <div class="score-pill">맞힌 개수: <span id="sentCorrectCount">0</span></div>
+        </div>
+      </div>
+
+      <!-- 문제 문장 카드 -->
+      <div class="sentence-card">
+        <div class="sentence-text" id="sentProblemText">
+          문장 내용이 여기에 로딩됩니다.
+        </div>
+      </div>
+
+      <!-- 힌트 버튼 -->
+      <div class="hints-row">
+        <button class="btn-hint" id="btnHintChosung" onclick="useHintChosung()">
+          💡 초성 힌트 <span class="hint-revealed" id="hintChosungText"></span>
+        </button>
+        <button class="btn-hint" id="btnHintDesc" onclick="useHintDesc()">
+          📖 뜻 힌트 <span class="hint-revealed" id="hintDescText"></span>
+        </button>
+      </div>
+
+      <!-- 4지선다 보기 -->
+      <div class="options-grid" id="sentOptionsGrid"></div>
+
+      <!-- 정답 해설 박스 -->
+      <div class="feedback-box" id="sentFeedbackBox">
+        <div class="feedback-title" id="sentFeedbackTitle"></div>
+        <div class="feedback-desc" id="sentFeedbackDesc"></div>
+        <div class="feedback-tip" id="sentFeedbackTip"></div>
+        <button class="btn-next" id="sentBtnNext" onclick="nextSentenceQuestion()">다음 문제 ▶</button>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 3: 도전! 고유어 골든벨 (서바이벌)
+         ======================================================== -->
+    <section class="view" id="viewGoldenBell">
+      <div class="game-nav">
+        <div class="game-nav-left">
+          <button class="btn-back" onclick="showView('viewLobby')">◀ 나가기</button>
+          <div class="game-title">🔔 고유어 골든벨 (<span id="gbCurStage">1</span>/15)</div>
+        </div>
+        <div class="game-status-right">
+          <div class="hearts-row" id="gbHeartsContainer">❤️❤️❤️</div>
+        </div>
+      </div>
+
+      <div class="bell-progress-bar">
+        <div class="bell-progress-fill" id="gbProgressFill"></div>
+      </div>
+
+      <div class="toast-msg" id="gbToast"></div>
+
+      <!-- 골든벨 퀴즈 카드 -->
+      <div class="bell-quiz-card">
+        <div class="bell-badge" id="gbStageBadge">1단계: OX 퀴즈</div>
+        <div class="bell-question" id="gbQuestionText">문제 내용이 여기에 표시됩니다.</div>
+      </div>
+
+      <!-- 퀴즈 선택지 영역 -->
+      <div id="gbAnswerArea"></div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 4: 고유어 50선 도감
+         ======================================================== -->
+    <section class="view" id="viewDictionary">
+      <div class="game-nav">
+        <div class="game-nav-left">
+          <button class="btn-back" onclick="showView('viewLobby')">◀ 나가기</button>
+          <div class="game-title">📖 고유어 50선 도감</div>
+        </div>
+        <div class="game-status-right">
+          <span style="font-size: var(--fs-sm); color: var(--text-sub);">총 50개 낱말</span>
+        </div>
+      </div>
+
+      <!-- 검색 & 카테고리 탭 -->
+      <div class="dic-search-row">
+        <input type="text" class="dic-search-input" id="dicSearchInput" placeholder="단어, 뜻, 초성, 예문 검색 (예: 윤슬, 곰살가운, 반짝이는, ㅇㅅ)..." oninput="filterDictionary()">
+      </div>
+
+      <div class="dic-tabs" id="dicTabsContainer">
+        <button class="dic-tab active" onclick="setDicCategory('all', this)">전체 (50)</button>
+        <button class="dic-tab" onclick="setDicCategory('빛·물결·하늘', this)">빛·물결·하늘 (10)</button>
+        <button class="dic-tab" onclick="setDicCategory('시간·성장', this)">시간·성장 (10)</button>
+        <button class="dic-tab" onclick="setDicCategory('마음·온기', this)">마음·온기 (10)</button>
+        <button class="dic-tab" onclick="setDicCategory('모양·소리', this)">모양·소리 (10)</button>
+        <button class="dic-tab" onclick="setDicCategory('계절·자연', this)">계절·자연 (10)</button>
+      </div>
+
+      <div class="dic-grid" id="dicGridContainer"></div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================
+       결과 모달 (게임 종료용)
+       ======================================================== -->
+  <div class="modal-overlay" id="resultModal">
+    <div class="modal-box">
+      <div class="modal-icon" id="resModalIcon">🎉</div>
+      <div class="modal-title" id="resModalTitle">게임 완료!</div>
+      <div class="modal-score" id="resModalScore">1,200점</div>
+      <div class="modal-desc" id="resModalDesc">멋져요! 고유어 마스터에 한 걸음 더 가까워졌습니다.</div>
+      <div class="modal-btn-group">
+        <button class="btn-modal btn-modal-secondary" onclick="closeResultModal(); showView('viewLobby');">홈으로</button>
+        <button class="btn-modal btn-modal-primary" id="resModalRetryBtn">다시 하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       가챠 모달 (오늘의 캔바 단어 뽑기)
+       ======================================================== -->
+  <div class="modal-overlay" id="gachaModal">
+    <div class="modal-box">
+      <div class="modal-icon">✨</div>
+      <div class="modal-title">오늘의 캔바 추천 단어</div>
+      <div class="modal-desc">오늘 너의 캘리그라피 엽서를 빛내줄 운명의 고유어는?</div>
+
+      <div class="gacha-card" id="gachaCard">
+        <div class="gacha-card-word" id="gachaWord">윤슬</div>
+        <div class="gacha-card-desc" id="gachaDesc">햇빛이나 달빛에 비치어 반짝이는 잔물결</div>
+        <div class="gacha-card-sent" id="gachaSent">"눈부신 오후, 호수 위로 윤슬이 보석처럼 부서진다."</div>
+        <div class="gacha-card-tip" id="gachaTip">💡 캔바 팁: 잔잔한 호수나 바다 사진 배경에 어울립니다!</div>
+      </div>
+
+      <div class="modal-btn-group">
+        <button class="btn-modal btn-modal-secondary" onclick="drawGachaWord()">🎲 다시 뽑기</button>
+        <button class="btn-modal btn-modal-primary" onclick="copyGachaSentence()">📋 문구 복사</button>
+        <button class="btn-modal btn-modal-secondary" onclick="closeGachaModal()">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <canvas id="confettiCanvas"></canvas>
+
+  <script>
+    // 50개 고유어 전체 데이터 (in_sentence 활용 완벽 매칭)
+    const ALL_WORDS = [{"id": 1, "word": "윤슬", "desc": "햇빛이나 달빛에 비치어 반짝이는 잔물결", "theme": "빛·물결·하늘", "sentence": "눈부신 오후, 호수 위로 윤슬이 보석처럼 부서진다.", "chosung": "ㅇㅅ", "tip": "잔잔한 호수나 바다, 노을 사진 배경에 은은하고 반짝이는 느낌으로 글씨를 배치해 보세요.", "in_sentence": "윤슬"}, {"id": 2, "word": "미리내", "desc": "은하수를 이르는 아름다운 우리말", "theme": "빛·물결·하늘", "sentence": "캄캄한 밤하늘을 건너는 미리내처럼 나의 꿈도 흐른다.", "chosung": "ㅁㄹㄴ", "tip": "어두운 밤하늘이나 우주, 별빛 배경에 흰색 또는 금빛 붓글씨로 쓰면 신비로워요.", "in_sentence": "미리내"}, {"id": 3, "word": "너울", "desc": "바다에 이는 크고 굽이치는 물결", "theme": "빛·물결·하늘", "sentence": "푸른 바다의 너울을 넘어 더 넓은 세상으로 나아가자.", "chosung": "ㄴㅇ", "tip": "시원한 파도나 푸른 바다 일러스트와 함께 힘차고 역동적인 굵은 폰트를 추천해요.", "in_sentence": "너울"}, {"id": 4, "word": "산들바람", "desc": "시원하고 부드럽게 부는 바람", "theme": "빛·물결·하늘", "sentence": "봄날의 산들바람처럼 너의 미소가 내 마음에 살랑인다.", "chosung": "ㅅㄷㅂㄹ", "tip": "연둣빛 풀밭이나 꽃잎이 흩날리는 따뜻한 봄 풍경에 부드러운 손글씨가 잘 어울립니다.", "in_sentence": "산들바람"}, {"id": 5, "word": "하늬바람", "desc": "서쪽에서 불어오는 시원한 가을바람", "theme": "빛·물결·하늘", "sentence": "높은 하늘 아래 서늘한 하늬바람이 계절을 데려온다.", "chosung": "ㅎㄴㅂㄹ", "tip": "파란 가을 하늘과 코스모스, 억새풀 배경에 단정한 캘리그라피로 표현해 보세요.", "in_sentence": "하늬바람"}, {"id": 6, "word": "물비늘", "desc": "물결이 햇살을 받아 비늘처럼 반짝이는 모양", "theme": "빛·물결·하늘", "sentence": "강물 위로 잔잔히 번지는 물비늘처럼 오늘 하루도 빛나길.", "chosung": "ㅁㅂㄴ", "tip": "햇살이 쏟아지는 강가나 잔잔한 물결 텍스처 배경과 환상의 조화를 이룹니다.", "in_sentence": "물비늘"}, {"id": 7, "word": "비나리", "desc": "앞길의 행복과 안녕을 비는 말 (축원)", "theme": "빛·물결·하늘", "sentence": "환하게 피어날 너의 앞날을 향해 다정한 비나리를 보낸다.", "chosung": "ㅂㄴㄹ", "tip": "응원 엽서나 편지 형태의 템플릿에 선물 상자, 꽃다발 스티커와 함께 매치하세요.", "in_sentence": "비나리"}, {"id": 8, "word": "여우비", "desc": "볕이 쨍쨍한 날 잠깐 내리는 비", "theme": "빛·물결·하늘", "sentence": "햇살 사이로 쏟아진 여우비가 하늘에 고운 무지개를 놓았다.", "chosung": "ㅇㅇㅂ", "tip": "햇빛과 빗방울, 무지개가 함께 어우러진 동화 같은 일러스트 배경에 딱 맞아요.", "in_sentence": "여우비"}, {"id": 9, "word": "가랑비", "desc": "가늘고 조용하게 내리는 비", "theme": "빛·물결·하늘", "sentence": "메마른 대지를 가만히 적시는 가랑비의 조용한 노랫소리.", "chosung": "ㄱㄹㅂ", "tip": "차분한 회색빛이나 초록 풀잎에 맺힌 물방울 배경에 감성적인 얇은 펜 글씨로 써보세요.", "in_sentence": "가랑비"}, {"id": 10, "word": "돋을볕", "desc": "아침에 해가 처음 솟아오를 때 비치는 햇볕", "theme": "빛·물결·하늘", "sentence": "어둠을 걷어내고 세상을 깨우는 따스한 돋을볕을 맞이한다.", "chosung": "ㄷㅇㅂ", "tip": "일출이나 아침 햇살이 창가로 비치는 사진에 희망찬 노란색/주황색 텍스트가 좋아요.", "in_sentence": "돋을볕"}, {"id": 11, "word": "시나브로", "desc": "모르는 사이에 조금씩 조금씩", "theme": "시간·성장", "sentence": "바람은 불지 않았으나 낙엽이 시나브로 날려 발밑에 쌓인다.", "chosung": "ㅅㄴㅂㄹ", "tip": "단풍잎이나 낙엽이 흩날리는 한지 배경에 '시나브로' 글자를 가장 크고 굵게 강조해 보세요.", "in_sentence": "시나브로"}, {"id": 12, "word": "이내", "desc": "얼마 지나지 않아 곧", "theme": "시간·성장", "sentence": "추운 겨울을 견뎌내면 이내 따스한 꽃향기가 번져올 거야.", "chosung": "ㅇㄴ", "tip": "겨울 눈밭에서 피어나는 작은 새싹 이미지에 따뜻한 위로의 문구로 디자인하세요.", "in_sentence": "이내"}, {"id": 13, "word": "어느덧", "desc": "알지 못하는 사이에 벌써", "theme": "시간·성장", "sentence": "하루를 열심히 달리고 나니 어느덧 붉은 노을이 내려앉았다.", "chosung": "ㅇㄴㄷ", "tip": "붉게 물든 저녁 노을이나 해질녘 하늘 사진에 잔잔한 감성을 담아보세요.", "in_sentence": "어느덧"}, {"id": 14, "word": "갓밝이", "desc": "날이 막 밝아 오기 시작할 무렵 (새벽녘)", "theme": "시간·성장", "sentence": "푸른 기운 감도는 갓밝이의 공기를 마시며 힘찬 첫걸음을 뗀다.", "chosung": "ㄱㅂㅇ", "tip": "새벽의 푸르스름한 그라데이션 하늘에 새로운 시작과 다짐을 담아 디자인하세요.", "in_sentence": "갓밝이"}, {"id": 15, "word": "해거름", "desc": "해가 서쪽으로 뉘엿뉘엿 넘어갈 무렵", "theme": "시간·성장", "sentence": "주홍빛으로 물든 해거름의 언덕에 서서 고마운 사람을 떠올린다.", "chosung": "ㅎㄱㄹ", "tip": "따스한 실루엣과 언덕 풍경에 주홍빛 캘리그라피를 얹으면 뭉클한 감동을 줍니다.", "in_sentence": "해거름"}, {"id": 16, "word": "달포", "desc": "한 달 남짓한 동안", "theme": "시간·성장", "sentence": "정성을 다해 돌본 달포의 시간 끝에 마침내 싹이 트였다.", "chosung": "ㄷㅍ", "tip": "정성 어린 식물 화분이나 달력 모티브 일러스트에 성실함을 담아 꾸며보세요.", "in_sentence": "달포"}, {"id": 17, "word": "풋풋하다", "desc": "싱그럽고 풋내가 나며 신선하다", "theme": "시간·성장", "sentence": "초여름 풀잎의 싱그러움처럼 언제나 풋풋한 마음이기를.", "chosung": "ㅍㅍㅎㄷ", "tip": "청량한 청사과나 초록 나뭇잎 그래픽에 발랄하고 귀여운 손글씨 폰트를 추천해요.", "in_sentence": "풋풋한"}, {"id": 18, "word": "나달", "desc": "나날이 지나는 시간이나 세월", "theme": "시간·성장", "sentence": "함께 웃고 울며 보낸 나달들이 모여 보물 같은 추억이 되었다.", "chosung": "ㄴㄷ", "tip": "친구들과의 소중한 사진 콜라주나 빈티지 필름 프레임 템플릿에 잘 어울립니다.", "in_sentence": "나달"}, {"id": 19, "word": "자란자란", "desc": "물 등이 넘칠 듯 가득 차 있는 모양", "theme": "시간·성장", "sentence": "작은 꽃병 속에 봄 햇살과 행복이 자란자란 넘쳐흐른다.", "chosung": "ㅈㄹㅈㄹ", "tip": "유리병, 찻잔, 풍성한 꽃다발 그래픽에 사랑스러운 둥근 글씨체를 써보세요.", "in_sentence": "자란자란"}, {"id": 20, "word": "그루잠", "desc": "잠깐 깨었다가 다시 곤히 드는 잠", "theme": "시간·성장", "sentence": "포근한 이불 속 달콤한 그루잠처럼 평화로운 휴식.", "chosung": "ㄱㄹㅈ", "tip": "포근한 침대, 구름, 베개 일러스트에 힐링과 휴식을 전하는 파스텔톤으로 표현하세요.", "in_sentence": "그루잠"}, {"id": 21, "word": "온새미로", "desc": "가르거나 쪼개지 않고 언제나 자연 그대로, 한결같이", "theme": "마음·온기", "sentence": "어떤 계절이 찾아와도 우리의 우정은 온새미로 푸르르기를.", "chosung": "ㅇㅅㅁㄹ", "tip": "푸른 숲이나 영원한 자연 풍경에 우정과 신뢰를 담은 굵직한 붓글씨로 쓰면 멋져요.", "in_sentence": "온새미로"}, {"id": 22, "word": "다소니", "desc": "사랑하는 사람을 뜻하는 옛 순우리말", "theme": "마음·온기", "sentence": "어둠 속에서도 묵묵히 곁을 지켜주는 나의 소중한 다소니.", "chosung": "ㄷㅅㄴ", "tip": "가족이나 친구, 소중한 사람에게 주는 선물 카드에 촛불이나 하트 아이콘과 매치하세요.", "in_sentence": "다소니"}, {"id": 23, "word": "예그리나", "desc": "서로 사랑하는 우리 사이", "theme": "마음·온기", "sentence": "함께 걷는 이 길이 아름다운 건 우리가 예그리나이기 때문이야.", "chosung": "ㅇㄱㄹㄴ", "tip": "두 사람이 나란히 걷는 길 풍경이나 손을 맞잡은 일러스트에 따뜻한 느낌으로 써보세요.", "in_sentence": "예그리나"}, {"id": 24, "word": "한결", "desc": "처음부터 끝까지 변함없는 모습", "theme": "마음·온기", "sentence": "눈보라 속에서도 꿋꿋한 소나무처럼 한결같은 마음으로.", "chosung": "ㅎㄱ", "tip": "사계절 늘 푸른 소나무나 듬직한 바위 그래픽에 굳건하고 단정한 서체를 추천합니다.", "in_sentence": "한결"}, {"id": 25, "word": "도담도담", "desc": "어린아이가 탈 없이 건강하게 잘 자라는 모양", "theme": "마음·온기", "sentence": "따스한 사랑을 듬뿍 먹고 도담도담 자라나는 우리들의 꿈.", "chosung": "ㄷㄷㄷㄷ", "tip": "동글동글하고 귀여운 손글씨 폰트에 아기자기한 캐릭터나 새싹 일러스트를 더해보세요.", "in_sentence": "도담도담"}, {"id": 26, "word": "너나들이", "desc": "서로 허물없이 너, 나 부르며 편하게 지내는 사이", "theme": "마음·온기", "sentence": "눈빛만 보아도 마음이 통하는 다정한 너나들이 벗.", "chosung": "ㄴㄴㄷㄹ", "tip": "단짝 친구와의 우정 엽서에 장난기 넘치고 자유로운 캘리그라피로 표현해 보세요.", "in_sentence": "너나들이"}, {"id": 27, "word": "라온", "desc": "즐거운을 뜻하는 순우리말", "theme": "마음·온기", "sentence": "네가 머무는 모든 시간과 공간이 라온 빛으로 물들기를.", "chosung": "ㄹㅇ", "tip": "밝고 통통 튀는 무지개나 파티 폭죽 그래픽에 생동감 있는 글씨를 배치하세요.", "in_sentence": "라온"}, {"id": 28, "word": "안다미로", "desc": "담은 것이 그릇에 넘치도록 풍성하게", "theme": "마음·온기", "sentence": "오늘 너의 가슴속에 기쁨과 희망이 안다미로 넘쳐나길 바라.", "chosung": "ㅇㄷㅁㄹ", "tip": "풍성한 선물 바구니나 탐스러운 열매 배경에 마음을 듬뿍 담은 굵은 글씨가 어울립니다.", "in_sentence": "안다미로"}, {"id": 29, "word": "다솜", "desc": "사랑을 뜻하는 옛 순우리말", "theme": "마음·온기", "sentence": "아낌없이 건네는 다솜의 손길이 차가운 세상을 포근히 감싼다.", "chosung": "ㄷㅅ", "tip": "포근한 털실 목도리나 따뜻한 손 일러스트에 분홍빛 캘리그라피를 써보세요.", "in_sentence": "다솜"}, {"id": 30, "word": "보람", "desc": "어떤 일을 한 뒤 마음에 남는 뿌듯함", "theme": "마음·온기", "sentence": "땀방울을 흘린 뒤에 마주하는 눈부신 보람의 열매.", "chosung": "ㅂㄹ", "tip": "완성된 작품이나 메달, 트로피 그래픽과 함께 뿌듯하고 당당한 글씨체로 적어보세요.", "in_sentence": "보람"}, {"id": 31, "word": "꽃가람", "desc": "꽃이 핀 강 (꽃 + 가람)", "theme": "모양·소리", "sentence": "봄바람을 안고 살랑살랑 흘러가는 꽃가람을 따라 걷는다.", "chosung": "ㄲㄱㄹ", "tip": "꽃잎이 둥둥 떠내려가는 맑은 시냇물 배경에 화사한 파스텔톤 붓글씨가 제격입니다.", "in_sentence": "꽃가람"}, {"id": 32, "word": "새라", "desc": "새롭고 참신함을 이르는 말", "theme": "모양·소리", "sentence": "어제보다 한 뼘 더 자란 새라 빛나는 내일이 기다린다.", "chosung": "ㅅㄹ", "tip": "알록달록한 미래지향적 기하학 그래픽이나 반짝이 스티커와 함께 신선하게 꾸며보세요.", "in_sentence": "새라"}, {"id": 33, "word": "곰살갑다", "desc": "성질이 다정하고 싹싹하다", "theme": "모양·소리", "sentence": "얼어붙은 마음을 사르르 녹여주는 너의 곰살가운 말 한마디.", "chosung": "ㄱㅅㄱㄷ", "tip": "다정하고 부드러운 필기체로 따스한 위로의 편지 템플릿을 만들어보세요.", "in_sentence": "곰살가운"}, {"id": 34, "word": "소담하다", "desc": "생김새가 탐스럽고 복스럽다", "theme": "모양·소리", "sentence": "소복하게 눈이 내리듯 탐스럽게 피어난 소담한 백합꽃.", "chosung": "ㅅㄷㅎㄷ", "tip": "새하얀 목련이나 함박눈 사진 배경에 여백의 미를 살린 고급스러운 붓글씨를 추천해요.", "in_sentence": "소담한"}, {"id": 35, "word": "아람", "desc": "밤이나 도토리 따위가 꽉 차서 저절로 벌어진 상태", "theme": "모양·소리", "sentence": "가을 햇살에 탐스럽게 입을 벌린 아람처럼 무르익은 결실.", "chosung": "ㅇㄹ", "tip": "도토리나 밤송이, 갈색톤 나뭇가지 그래픽에 알찬 느낌의 둥글넓적한 글씨를 써보세요.", "in_sentence": "아람"}, {"id": 36, "word": "슬기", "desc": "사리를 바르게 판단하고 현명하게 헤쳐나가는 지혜", "theme": "모양·소리", "sentence": "깊은 생각과 맑은 슬기로 세상을 밝히는 별이 되자.", "chosung": "ㅅㄱ", "tip": "반짝이는 등대나 은은한 등불 일러스트에 총명하고 또렷한 서체를 적용해 보세요.", "in_sentence": "슬기"}, {"id": 37, "word": "너울가지", "desc": "남과 잘 어울리고 포용하는 싹싹한 성품", "theme": "모양·소리", "sentence": "부드러운 미소와 따뜻한 너울가지로 사람들의 마음을 잇는다.", "chosung": "ㄴㅇㄱㅈ", "tip": "여러 갈래로 뻗어나가는 꽃가지나 이어지는 물결 그래픽에 온화한 폰트로 꾸며보세요.", "in_sentence": "너울가지"}, {"id": 38, "word": "물맴", "desc": "물이 동그랗게 맴돌며 흐르는 곳, 혹은 마음의 여운", "theme": "모양·소리", "sentence": "귓가에 맴도는 노랫소리처럼 마음에 잔잔한 물맴이 번진다.", "chosung": "ㅁㅁ", "tip": "물방울 파문(동심원)이나 음악 악보 그래픽에 리듬감 넘치는 흘림체를 써보세요.", "in_sentence": "물맴"}, {"id": 39, "word": "마루", "desc": "꼭대기, 으뜸, 가장 높은 곳", "theme": "모양·소리", "sentence": "거친 바람을 이겨내고 가장 높은 희망의 마루에 서리라.", "chosung": "ㅁㄹ", "tip": "웅장한 산봉우리나 정상에서 내려다보는 풍경에 크고 웅장한 붓글씨를 배치하세요.", "in_sentence": "마루"}, {"id": 40, "word": "늘찬", "desc": "언제나 옹골차고 당당한", "theme": "모양·소리", "sentence": "세상의 비바람 앞에서도 주눅 들지 않는 늘찬 발걸음으로.", "chosung": "ㄴㅊ", "tip": "힘차게 뻗은 화살표나 힘 있는 먹물 붓터치 배경에 강렬한 서체로 표현해 보세요.", "in_sentence": "늘찬"}, {"id": 41, "word": "꽃샘바람", "desc": "봄철 꽃이 필 무렵에 부는 매서운 바람", "theme": "계절·자연", "sentence": "차가운 꽃샘바람을 이겨내고 가장 먼저 피어난 꽃처럼.", "chosung": "ㄲㅅㅂㄹ", "tip": "얼음 사이로 삐져나온 복수초나 매화꽃 사진에 강인함과 아름다움을 함께 담아보세요.", "in_sentence": "꽃샘바람"}, {"id": 42, "word": "솔바람", "desc": "소나무 사이를 스쳐 불어오는 맑고 솔향기 나는 바람", "theme": "계절·자연", "sentence": "솔바람 소리에 귀 기울이며 번잡했던 마음을 차분히 내려놓는다.", "chosung": "ㅅㅂㄹ", "tip": "솔방울이나 솔잎 가지 일러스트에 초록빛 계열의 싱그럽고 맑은 캘리그라피를 추천해요.", "in_sentence": "솔바람"}, {"id": 43, "word": "먼지잼", "desc": "비가 겨우 먼지나 날리지 않을 정도로 조금 내리는 비", "theme": "계절·자연", "sentence": "마른 흙내음을 조용히 피워 올리는 수줍은 먼지잼 한 줄기.", "chosung": "ㅁㅈㅈ", "tip": "비 온 뒤 흙내음 나는 시골길이나 촉촉한 조약돌 배경에 아기자기하게 써보세요.", "in_sentence": "먼지잼"}, {"id": 44, "word": "꼬리별", "desc": "혜성을 이르는 순우리말", "theme": "계절·자연", "sentence": "칠흑 같은 밤하늘을 가르며 환한 빛을 남기는 찬란한 꼬리별.", "chosung": "ㄲㄹㅂ", "tip": "길게 꼬리를 끌며 떨어지는 별똥별 그래픽에 날렵하고 환상적인 빛 글씨로 꾸며보세요.", "in_sentence": "꼬리별"}, {"id": 45, "word": "해지게", "desc": "해 질 무렵 서쪽 하늘의 풍경이나 노을", "theme": "계절·자연", "sentence": "온 세상을 따스한 주홍빛으로 물들이는 아름다운 해지게의 순간.", "chosung": "ㅎㅈㄱ", "tip": "붉은빛과 보랏빛이 섞인 환상적인 노을 풍경에 굵은 흰색 캘리그라피를 얹으면 최고입니다.", "in_sentence": "해지게"}, {"id": 46, "word": "꽃구름", "desc": "여러 가지 고운 빛깔을 띤 아름다운 구름 (채운)", "theme": "계절·자연", "sentence": "푸른 하늘 한가운데 둥실 떠오른 분홍빛 꽃구름을 바라본다.", "chosung": "ㄲㄱㄹ", "tip": "솜사탕처럼 몽실몽실한 분홍·보라빛 구름 사진에 몽환적이고 예쁜 글씨체를 매치하세요.", "in_sentence": "꽃구름"}, {"id": 47, "word": "실바람", "desc": "부드럽고 가볍게 솔솔 부는 엷은 바람", "theme": "계절·자연", "sentence": "나뭇잎을 간지럽히는 다정한 실바람에 기분 좋은 미소가 번진다.", "chosung": "ㅅㅂㄹ", "tip": "바람에 흔들리는 커튼이나 잔디밭 이미지에 가볍고 하늘하늘한 서체로 써보세요.", "in_sentence": "실바람"}, {"id": 48, "word": "단비", "desc": "꼭 필요할 때 알맞게 내리는 반가운 비", "theme": "계절·자연", "sentence": "지친 마음에 위로를 건네며 스며드는 고마운 단비처럼.", "chosung": "ㄷㅂ", "tip": "촉촉하게 젖은 꽃잎이나 청량한 하늘색 배경에 감사를 전하는 따뜻한 글씨가 좋습니다.", "in_sentence": "단비"}, {"id": 49, "word": "소소리바람", "desc": "이른 봄 살 속으로 스며드는 차고 매서운 바람", "theme": "계절·자연", "sentence": "매서운 소소리바람 끝자락마다 새봄의 숨결이 움트고 있다.", "chosung": "ㅅㅅㄹㅂㄹ", "tip": "스산한 겨울 끝자락과 봄의 경계에 있는 풍경에 단단하고 기품 있는 글씨로 디자인하세요.", "in_sentence": "소소리바람"}, {"id": 50, "word": "벼리", "desc": "일이나 글의 뼈대가 되는 줄거리 (그물의 코를 꿴 굵은 줄)", "theme": "계절·자연", "sentence": "내 꿈의 단단한 벼리를 세워 흔들림 없이 미래를 향해 걷는다.", "chosung": "ㅂㄹ", "tip": "나침반, 지도, 바른 길을 가리키는 상징물 그래픽에 굳건하고 당당한 글씨로 표현하세요.", "in_sentence": "벼리"}];
+
+    // ========================================================
+    // 오디오 합성 시스템 (Web Audio API)
+    // ========================================================
+    let audioCtx = null;
+    let soundEnabled = true;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playSound(type) {
+      if (!soundEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
+
+        if (type === 'correct') {
+          const freqs = [523.25, 659.25, 783.99, 1046.50];
+          freqs.forEach((f, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.frequency.setValueAtTime(f, now + i * 0.08);
+            gain.gain.setValueAtTime(0.12, now + i * 0.08);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.3);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + i * 0.08);
+            osc.stop(now + i * 0.08 + 0.3);
+          });
+        } else if (type === 'wrong') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(180, now);
+          osc.frequency.linearRampToValueAtTime(130, now + 0.25);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.25);
+        } else if (type === 'click') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.frequency.setValueAtTime(600, now);
+          gain.gain.setValueAtTime(0.05, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.05);
+        } else if (type === 'fanfare') {
+          const notes = [523.25, 659.25, 783.99, 1046.50, 783.99, 1046.50];
+          notes.forEach((f, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.frequency.setValueAtTime(f, now + i * 0.12);
+            gain.gain.setValueAtTime(0.15, now + i * 0.12);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.12 + 0.4);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + i * 0.12);
+            osc.stop(now + i * 0.12 + 0.4);
+          });
+        }
+      } catch (e) {}
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('soundIcon').textContent = soundEnabled ? '🔊' : '🔇';
+    }
+
+    // ========================================================
+    // 글씨 크기 조절
+    // ========================================================
+    function setFontSize(scale, btnId) {
+      document.body.classList.remove('font-large', 'font-xlarge');
+      document.querySelectorAll('.font-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(btnId).classList.add('active');
+
+      if (scale === 1.15) document.body.classList.add('font-large');
+      else if (scale === 1.3) document.body.classList.add('font-xlarge');
+    }
+
+    // ========================================================
+    // 뷰 전환
+    // ========================================================
+    function showView(viewId) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById(viewId).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    // ========================================================
+    // 1. 스피드 짝맞추기 모드 로직
+    // ========================================================
+    let matchTimerId = null;
+    let matchTimeLeft = 60;
+    let matchScore = 0;
+    let matchCombo = 0;
+    let matchSelectedWord = null;
+    let matchSelectedDesc = null;
+    let matchPool = [];
+    let matchCurrentBatch = [];
+
+    function startMatchMode() {
+      showView('viewMatch');
+      matchTimeLeft = 60;
+      matchScore = 0;
+      matchCombo = 0;
+      matchSelectedWord = null;
+      matchSelectedDesc = null;
+      updateMatchHeader();
+
+      matchPool = [...ALL_WORDS].sort(() => 0.5 - Math.random());
+      loadNextMatchBatch();
+
+      clearInterval(matchTimerId);
+      matchTimerId = setInterval(() => {
+        matchTimeLeft--;
+        updateMatchHeader();
+        if (matchTimeLeft <= 0) {
+          stopMatchGame();
+          showResultModal('⚡ 스피드 짝맞추기 종료!', `${matchScore}점`, `60초 동안 총 ${Math.floor(matchScore / 100)}쌍 이상의 고유어를 맞췄습니다!`, () => startMatchMode());
+        }
+      }, 1000);
+    }
+
+    function stopMatchGame() {
+      clearInterval(matchTimerId);
+    }
+
+    function updateMatchHeader() {
+      document.getElementById('matchTimer').textContent = matchTimeLeft;
+      document.getElementById('matchScore').textContent = matchScore;
+      const comboBanner = document.getElementById('matchComboBanner');
+      if (matchCombo >= 2) {
+        comboBanner.textContent = `🔥 ${matchCombo}연속 콤보! (+${matchCombo * 20}점 보너스)`;
+      } else {
+        comboBanner.textContent = '';
+      }
+    }
+
+    function loadNextMatchBatch() {
+      if (matchPool.length < 4) {
+        matchPool = [...ALL_WORDS].sort(() => 0.5 - Math.random());
+      }
+      matchCurrentBatch = matchPool.splice(0, 4);
+
+      const wordsCol = document.getElementById('matchWordsContainer');
+      const descsCol = document.getElementById('matchDescsContainer');
+      wordsCol.innerHTML = '';
+      descsCol.innerHTML = '';
+
+      const shuffledWords = [...matchCurrentBatch].sort(() => 0.5 - Math.random());
+      const shuffledDescs = [...matchCurrentBatch].sort(() => 0.5 - Math.random());
+
+      shuffledWords.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'match-card word-card';
+        card.textContent = item.word;
+        card.dataset.id = item.id;
+        card.onclick = () => selectMatchWord(card, item.id);
+        wordsCol.appendChild(card);
+      });
+
+      shuffledDescs.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'match-card desc-card';
+        card.textContent = item.desc;
+        card.dataset.id = item.id;
+        card.onclick = () => selectMatchDesc(card, item.id);
+        descsCol.appendChild(card);
+      });
+    }
+
+    function selectMatchWord(card, id) {
+      playSound('click');
+      document.querySelectorAll('#matchWordsContainer .match-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      matchSelectedWord = { card, id };
+      checkMatchPair();
+    }
+
+    function selectMatchDesc(card, id) {
+      playSound('click');
+      document.querySelectorAll('#matchDescsContainer .match-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      matchSelectedDesc = { card, id };
+      checkMatchPair();
+    }
+
+    function checkMatchPair() {
+      if (!matchSelectedWord || !matchSelectedDesc) return;
+
+      const w = matchSelectedWord;
+      const d = matchSelectedDesc;
+
+      if (w.id === d.id) {
+        playSound('correct');
+        matchCombo++;
+        matchScore += 100 + (matchCombo * 20);
+        updateMatchHeader();
+
+        w.card.classList.remove('selected');
+        d.card.classList.remove('selected');
+        w.card.classList.add('matched');
+        d.card.classList.add('matched');
+
+        matchSelectedWord = null;
+        matchSelectedDesc = null;
+
+        setTimeout(() => {
+          const remaining = document.querySelectorAll('#matchWordsContainer .match-card:not(.matched)');
+          if (remaining.length === 0) {
+            loadNextMatchBatch();
+          }
+        }, 350);
+
+      } else {
+        playSound('wrong');
+        matchCombo = 0;
+        updateMatchHeader();
+
+        w.card.classList.add('wrong');
+        d.card.classList.add('wrong');
+
+        setTimeout(() => {
+          w.card.classList.remove('selected', 'wrong');
+          d.card.classList.remove('selected', 'wrong');
+          matchSelectedWord = null;
+          matchSelectedDesc = null;
+        }, 400);
+      }
+    }
+
+    // ========================================================
+    // 2. 문장 속 고유어 저격 모드 (10문제 퀴즈 - 버그 완전 수정)
+    // ========================================================
+    let sentQuizList = [];
+    let sentCurrentIdx = 0;
+    let sentScore = 0;
+    let sentAnswered = false;
+
+    function startSentenceMode() {
+      showView('viewSentence');
+      sentQuizList = [...ALL_WORDS].sort(() => 0.5 - Math.random()).slice(0, 10);
+      sentCurrentIdx = 0;
+      sentScore = 0;
+      document.getElementById('sentCorrectCount').textContent = '0';
+      loadSentenceQuestion();
+    }
+
+    function loadSentenceQuestion() {
+      sentAnswered = false;
+      const q = sentQuizList[sentCurrentIdx];
+      document.getElementById('sentCurQ').textContent = sentCurrentIdx + 1;
+
+      // ★ 핵심 수정: 문장 속 실제 형태(in_sentence)를 찾아 [ ? ] 빈칸으로 정확히 치환!
+      const targetInSent = q.in_sentence || q.word;
+      let blankSent = q.sentence.replace(targetInSent, '<span class="sentence-blank">[ ? ]</span>');
+      document.getElementById('sentProblemText').innerHTML = blankSent;
+
+      // 힌트 초기화
+      document.getElementById('hintChosungText').textContent = '';
+      document.getElementById('hintDescText').textContent = '';
+      document.getElementById('btnHintChosung').style.pointerEvents = 'auto';
+      document.getElementById('btnHintDesc').style.pointerEvents = 'auto';
+
+      // 보기 생성 (정답 1개 + 오답 3개)
+      const wrongPool = ALL_WORDS.filter(w => w.id !== q.id).sort(() => 0.5 - Math.random()).slice(0, 3);
+      const options = [q, ...wrongPool].sort(() => 0.5 - Math.random());
+
+      const grid = document.getElementById('sentOptionsGrid');
+      grid.innerHTML = '';
+      options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'btn-option';
+        btn.textContent = opt.word;
+        btn.onclick = () => chooseSentenceOption(btn, opt.id === q.id, q);
+        grid.appendChild(btn);
+      });
+
+      // 해설 박스 숨기기
+      document.getElementById('sentFeedbackBox').style.display = 'none';
+      document.getElementById('sentBtnNext').style.display = 'none';
+    }
+
+    function useHintChosung() {
+      playSound('click');
+      const q = sentQuizList[sentCurrentIdx];
+      document.getElementById('hintChosungText').textContent = `: ${q.chosung}`;
+      document.getElementById('btnHintChosung').style.pointerEvents = 'none';
+    }
+
+    function useHintDesc() {
+      playSound('click');
+      const q = sentQuizList[sentCurrentIdx];
+      document.getElementById('hintDescText').textContent = `: ${q.desc}`;
+      document.getElementById('btnHintDesc').style.pointerEvents = 'none';
+    }
+
+    function chooseSentenceOption(btn, isCorrect, targetWord) {
+      if (sentAnswered) return;
+      sentAnswered = true;
+
+      // 보기 비활성화
+      document.querySelectorAll('#sentOptionsGrid .btn-option').forEach(b => {
+        b.style.pointerEvents = 'none';
+        if (b.textContent === targetWord.word) b.classList.add('correct');
+      });
+
+      const fbBox = document.getElementById('sentFeedbackBox');
+      const fbTitle = document.getElementById('sentFeedbackTitle');
+      const fbDesc = document.getElementById('sentFeedbackDesc');
+      const fbTip = document.getElementById('sentFeedbackTip');
+
+      if (isCorrect) {
+        playSound('correct');
+        sentScore++;
+        document.getElementById('sentCorrectCount').textContent = sentScore;
+        fbTitle.innerHTML = '🎉 <strong>정답입니다!</strong>';
+        fbTitle.style.color = 'var(--success)';
+      } else {
+        playSound('wrong');
+        btn.classList.add('wrong');
+        fbTitle.innerHTML = `❌ <strong>아쉬워요! 정답은 [${targetWord.word}]입니다.</strong>`;
+        fbTitle.style.color = 'var(--danger)';
+      }
+
+      // ★ 문장 속 단어 강조 채우기
+      const targetInSent = targetWord.in_sentence || targetWord.word;
+      let revealedPhrase = targetInSent;
+      if (targetWord.in_sentence && targetWord.in_sentence !== targetWord.word) {
+        revealedPhrase = `${targetInSent} <span style="font-size:0.8em; opacity:0.85;">(${targetWord.word})</span>`;
+      }
+
+      document.getElementById('sentProblemText').innerHTML = targetWord.sentence.replace(
+        targetInSent,
+        `<span style="color:var(--primary); font-weight:900; text-decoration:underline;">${revealedPhrase}</span>`
+      );
+
+      let formNote = '';
+      if (targetWord.in_sentence && targetWord.in_sentence !== targetWord.word) {
+        formNote = ` <span style="color:#2563eb;">(문장 속 쓰임: '${targetWord.in_sentence}')</span>`;
+      }
+
+      fbDesc.innerHTML = `<strong>📖 ${targetWord.word}</strong>${formNote}: ${targetWord.desc}`;
+      fbTip.innerHTML = `🎨 <strong>캔바 팁</strong>: ${targetWord.tip}`;
+
+      fbBox.style.display = 'block';
+      document.getElementById('sentBtnNext').style.display = 'block';
+    }
+
+    function nextSentenceQuestion() {
+      sentCurrentIdx++;
+      if (sentCurrentIdx >= sentQuizList.length) {
+        triggerConfetti();
+        playSound('fanfare');
+        showResultModal('🎯 문장 저격 완료!', `${sentScore} / 10개 정답!`, `캔바 캘리그라피 엽서에 어울리는 멋진 고유어들을 완벽히 익히셨습니다!`, () => startSentenceMode());
+      } else {
+        loadSentenceQuestion();
+      }
+    }
+
+    // ========================================================
+    // 3. 도전! 고유어 골든벨 모드 (서바이벌 15단계)
+    // ========================================================
+    let gbStage = 1;
+    let gbHearts = 3;
+    let gbPool = [];
+    let gbCurrentWord = null;
+
+    function startGoldenBellMode() {
+      showView('viewGoldenBell');
+      gbStage = 1;
+      gbHearts = 3;
+      gbPool = [...ALL_WORDS].sort(() => 0.5 - Math.random());
+      loadGoldenBellStage();
+    }
+
+    function updateGbHeader() {
+      document.getElementById('gbCurStage').textContent = gbStage;
+      let heartsStr = '';
+      for (let i = 0; i < 3; i++) {
+        heartsStr += i < gbHearts ? '❤️' : '🤍';
+      }
+      document.getElementById('gbHeartsContainer').textContent = heartsStr;
+      const progress = ((gbStage - 1) / 15) * 100;
+      document.getElementById('gbProgressFill').style.width = `${progress}%`;
+    }
+
+    function showGbToast(msg) {
+      const t = document.getElementById('gbToast');
+      t.textContent = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 2500);
+    }
+
+    function loadGoldenBellStage() {
+      updateGbHeader();
+      gbCurrentWord = gbPool[gbStage - 1];
+      const badge = document.getElementById('gbStageBadge');
+      const qText = document.getElementById('gbQuestionText');
+      const area = document.getElementById('gbAnswerArea');
+      area.innerHTML = '';
+
+      if (gbStage <= 5) {
+        // 1단계: OX 퀴즈 (5문제)
+        badge.textContent = `1단계: OX 퀴즈 (${gbStage}/5)`;
+        const isTrue = Math.random() > 0.5;
+        let displayedDesc = gbCurrentWord.desc;
+        if (!isTrue) {
+          const fake = ALL_WORDS.filter(w => w.id !== gbCurrentWord.id).sort(() => 0.5 - Math.random())[0];
+          displayedDesc = fake.desc;
+        }
+
+        qText.innerHTML = `<strong>'${gbCurrentWord.word}'</strong>(은)는 <br><strong>"${displayedDesc}"</strong>을(를) 뜻한다?`;
+
+        const oxDiv = document.createElement('div');
+        oxDiv.className = 'ox-row';
+        oxDiv.innerHTML = `
+          <button class="btn-ox btn-o" onclick="answerGoldenBellOX(true, ${isTrue})">O</button>
+          <button class="btn-ox btn-x" onclick="answerGoldenBellOX(false, ${isTrue})">X</button>
+        `;
+        area.appendChild(oxDiv);
+
+      } else if (gbStage <= 10) {
+        // 2단계: 4지선다 퀴즈 (5문제)
+        badge.textContent = `2단계: 4지선다 퀴즈 (${gbStage}/15)`;
+        qText.innerHTML = `다음 뜻을 가진 고유어는 무엇일까요?<br><br><strong>"${gbCurrentWord.desc}"</strong>`;
+
+        const wrongPool = ALL_WORDS.filter(w => w.id !== gbCurrentWord.id).sort(() => 0.5 - Math.random()).slice(0, 3);
+        const options = [gbCurrentWord, ...wrongPool].sort(() => 0.5 - Math.random());
+
+        const grid = document.createElement('div');
+        grid.className = 'options-grid';
+        options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'btn-option';
+          btn.textContent = opt.word;
+          btn.onclick = () => answerGoldenBellChoice(btn, opt.id === gbCurrentWord.id);
+          grid.appendChild(btn);
+        });
+        area.appendChild(grid);
+
+      } else if (gbStage <= 13) {
+        // 3단계: 문장 완성 퀴즈 (3문제 - 버그 완벽 수정!)
+        badge.textContent = `3단계: 감성 문장 완성 (${gbStage}/15)`;
+        const targetInSent = gbCurrentWord.in_sentence || gbCurrentWord.word;
+        let blankSent = gbCurrentWord.sentence.replace(targetInSent, '<span class="sentence-blank">[ ? ]</span>');
+        qText.innerHTML = `문맥에 어울리는 고유어를 골라주세요:<br><br><strong>"${blankSent}"</strong>`;
+
+        const wrongPool = ALL_WORDS.filter(w => w.id !== gbCurrentWord.id).sort(() => 0.5 - Math.random()).slice(0, 3);
+        const options = [gbCurrentWord, ...wrongPool].sort(() => 0.5 - Math.random());
+
+        const grid = document.createElement('div');
+        grid.className = 'options-grid';
+        options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'btn-option';
+          btn.textContent = opt.word;
+          btn.onclick = () => answerGoldenBellChoice(btn, opt.id === gbCurrentWord.id);
+          grid.appendChild(btn);
+        });
+        area.appendChild(grid);
+
+      } else {
+        // 4단계: 파이널 초성 퀴즈 (2문제)
+        badge.textContent = `4단계: 파이널 초성 퀴즈 (${gbStage}/15)`;
+        qText.innerHTML = `초성 힌트를 보고 정답 낱말을 맞춰보세요!<br><br>
+          <span style="font-size:calc(36px * var(--fs-scale)); font-weight:900; color:var(--primary);">${gbCurrentWord.chosung}</span><br>
+          <span style="font-size:var(--fs-base); color:var(--text-sub);">뜻: ${gbCurrentWord.desc}</span>`;
+
+        const formDiv = document.createElement('div');
+        formDiv.style.display = 'flex';
+        formDiv.style.justifyContent = 'center';
+        formDiv.style.gap = '10px';
+        formDiv.style.marginTop = '20px';
+        formDiv.innerHTML = `
+          <input type="text" id="gbInputWord" class="dic-search-input" style="max-width:240px; text-align:center; font-size:var(--fs-lg); font-weight:800;" placeholder="정답 입력" autocomplete="off">
+          <button class="btn-start" style="font-size:var(--fs-base); padding:0 24px;" onclick="answerGoldenBellInput()">확인</button>
+        `;
+        area.appendChild(formDiv);
+
+        setTimeout(() => {
+          const inp = document.getElementById('gbInputWord');
+          if (inp) {
+            inp.focus();
+            inp.addEventListener('keypress', (e) => {
+              if (e.key === 'Enter') answerGoldenBellInput();
+            });
+          }
+        }, 100);
+      }
+    }
+
+    function answerGoldenBellOX(userChoice, actualTruth) {
+      handleGoldenBellResult(userChoice === actualTruth);
+    }
+
+    function answerGoldenBellChoice(btn, isCorrect) {
+      document.querySelectorAll('#gbAnswerArea .btn-option').forEach(b => b.style.pointerEvents = 'none');
+      if (isCorrect) btn.classList.add('correct');
+      else btn.classList.add('wrong');
+      setTimeout(() => handleGoldenBellResult(isCorrect), 400);
+    }
+
+    function answerGoldenBellInput() {
+      const input = document.getElementById('gbInputWord');
+      if (!input) return;
+      const userVal = input.value.trim().replace(/\s+/g, '');
+      const targetVal = gbCurrentWord.word.replace(/\s+/g, '');
+      const altVal = (gbCurrentWord.in_sentence || '').replace(/\s+/g, '');
+      
+      // 기본형과 문장 속 형태 둘 다 정답 인정!
+      const isCorrect = (userVal === targetVal) || (altVal && userVal === altVal);
+      handleGoldenBellResult(isCorrect);
+    }
+
+    function handleGoldenBellResult(isCorrect) {
+      if (isCorrect) {
+        playSound('correct');
+        gbStage++;
+        if (gbStage > 15) {
+          triggerConfetti();
+          playSound('fanfare');
+          showResultModal('🔔 골든벨을 울렸습니다!', '15단계 전원 돌파!', '축하합니다! 50개 고유어의 진정한 마스터가 되었습니다. 이제 캔바에서 멋진 엽서를 만들어 보세요!', () => startGoldenBellMode());
+        } else {
+          loadGoldenBellStage();
+        }
+      } else {
+        playSound('wrong');
+        gbHearts--;
+        updateGbHeader();
+        if (gbHearts <= 0) {
+          showResultModal('💔 골든벨 도전 실패', `${gbStage - 1}단계까지 생존!`, `아쉽게 하트가 모두 소진되었습니다. 다시 도전해 볼까요?`, () => startGoldenBellMode());
+        } else {
+          showGbToast(`⚠️ 오답입니다! 하트가 1개 줄었습니다. (남은 하트: ${gbHearts}개)`);
+          loadGoldenBellStage();
+        }
+      }
+    }
+
+    // ========================================================
+    // 4. 고유어 50선 도감 로직
+    // ========================================================
+    let currentDicCat = 'all';
+
+    function startDictionaryMode() {
+      showView('viewDictionary');
+      renderDictionary();
+    }
+
+    function setDicCategory(cat, tabBtn) {
+      playSound('click');
+      currentDicCat = cat;
+      document.querySelectorAll('.dic-tab').forEach(t => t.classList.remove('active'));
+      tabBtn.classList.add('active');
+      renderDictionary();
+    }
+
+    function filterDictionary() {
+      renderDictionary();
+    }
+
+    function renderDictionary() {
+      const query = document.getElementById('dicSearchInput').value.trim().toLowerCase();
+      const grid = document.getElementById('dicGridContainer');
+      grid.innerHTML = '';
+
+      const filtered = ALL_WORDS.filter(w => {
+        const matchCat = currentDicCat === 'all' || w.theme === currentDicCat;
+        const matchQ = !query || 
+          w.word.toLowerCase().includes(query) || 
+          w.desc.toLowerCase().includes(query) || 
+          w.chosung.toLowerCase().includes(query) ||
+          w.sentence.toLowerCase().includes(query) ||
+          (w.in_sentence && w.in_sentence.toLowerCase().includes(query));
+        return matchCat && matchQ;
+      });
+
+      filtered.forEach(w => {
+        const card = document.createElement('div');
+        card.className = 'dic-card';
+        card.innerHTML = `
+          <div class="dic-card-header">
+            <span class="dic-word">${w.word}</span>
+            <span class="dic-chosung">${w.chosung} · ${w.theme}</span>
+          </div>
+          <div class="dic-desc">${w.desc}</div>
+          <div class="dic-sentence">"${w.sentence}"</div>
+        `;
+        card.onclick = () => openWordDetailModal(w);
+        grid.appendChild(card);
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:30px; color:#64748b;">검색 결과가 없습니다.</div>';
+      }
+    }
+
+    function openWordDetailModal(w) {
+      playSound('click');
+      document.getElementById('gachaWord').textContent = w.word;
+      document.getElementById('gachaDesc').textContent = w.desc;
+      document.getElementById('gachaSent').textContent = `"${w.sentence}"`;
+      document.getElementById('gachaTip').innerHTML = `💡 <strong>캔바 디자인 팁</strong>: ${w.tip}`;
+      document.getElementById('gachaModal').classList.add('active');
+    }
+
+    // ========================================================
+    // 🎲 가챠 모달 (오늘의 캔바 단어 뽑기)
+    // ========================================================
+    function openGachaModal() {
+      playSound('click');
+      drawGachaWord();
+      document.getElementById('gachaModal').classList.add('active');
+    }
+
+    function closeGachaModal() {
+      document.getElementById('gachaModal').classList.remove('active');
+    }
+
+    function drawGachaWord() {
+      playSound('fanfare');
+      triggerConfetti();
+      const luckyWord = ALL_WORDS[Math.floor(Math.random() * ALL_WORDS.length)];
+      document.getElementById('gachaWord').textContent = luckyWord.word;
+      document.getElementById('gachaDesc').textContent = luckyWord.desc;
+      document.getElementById('gachaSent').textContent = `"${luckyWord.sentence}"`;
+      document.getElementById('gachaTip').innerHTML = `💡 <strong>캔바 팁</strong>: ${luckyWord.tip}`;
+    }
+
+    function copyGachaSentence() {
+      const text = document.getElementById('gachaSent').textContent.replace(/"/g, '');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          alert('추천 문구가 클립보드에 복사되었습니다! 캔바에서 Ctrl+V로 붙여넣으세요.');
+        }).catch(() => {
+          fallbackCopy(text);
+        });
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      alert('추천 문구가 복사되었습니다! 캔바에서 Ctrl+V로 붙여넣으세요.');
+    }
+
+    // ========================================================
+    // 공통 결과 모달
+    // ========================================================
+    function showResultModal(title, score, desc, retryCallback) {
+      document.getElementById('resModalTitle').textContent = title;
+      document.getElementById('resModalScore').textContent = score;
+      document.getElementById('resModalDesc').textContent = desc;
+
+      const retryBtn = document.getElementById('resModalRetryBtn');
+      retryBtn.onclick = () => {
+        closeResultModal();
+        retryCallback();
+      };
+
+      document.getElementById('resultModal').classList.add('active');
+    }
+
+    function closeResultModal() {
+      document.getElementById('resultModal').classList.remove('active');
+    }
+
+    // ========================================================
+    // 파티클 폭죽 효과 (Canvas Confetti)
+    // ========================================================
+    function triggerConfetti() {
+      const canvas = document.getElementById('confettiCanvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const pieces = [];
+      const colors = ['#f59e0b', '#3b82f6', '#10b981', '#ec4899', '#8b5cf6'];
+      for (let i = 0; i < 90; i++) {
+        pieces.push({
+          x: canvas.width / 2,
+          y: canvas.height / 2,
+          vx: (Math.random() - 0.5) * 16,
+          vy: (Math.random() - 0.7) * 16,
+          size: Math.random() * 8 + 5,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          gravity: 0.35,
+          rotation: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 8
+        });
+      }
+
+      let animId;
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let alive = false;
+        pieces.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += p.gravity;
+          p.rotation += p.rotSpeed;
+
+          if (p.y < canvas.height) alive = true;
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+          ctx.restore();
+        });
+
+        if (alive) animId = requestAnimationFrame(animate);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      animate();
+    }
+  </script>
+</body>
+</html>
